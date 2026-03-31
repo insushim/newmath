@@ -26,7 +26,6 @@ export default function RegisterPage() {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [grade, setGrade] = useState(3);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -42,7 +41,6 @@ export default function RegisterPage() {
           password,
           displayName,
           role,
-          grade: role === 'student' ? grade : null,
         }),
       });
       const data = await res.json();
@@ -128,24 +126,9 @@ export default function RegisterPage() {
                 />
               </div>
               {role === 'student' && (
-                <div className="space-y-2">
-                  <Label htmlFor="grade">학년</Label>
-                  <div className="grid grid-cols-6 gap-2">
-                    {[1, 2, 3, 4, 5, 6].map((g) => (
-                      <button
-                        key={g}
-                        type="button"
-                        onClick={() => setGrade(g)}
-                        className={cn(
-                          'rounded-lg border py-2 text-sm font-medium transition-colors',
-                          grade === g ? 'border-primary bg-primary text-primary-foreground' : 'border-border hover:bg-muted'
-                        )}
-                      >
-                        {g}학년
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <p className="text-sm text-muted-foreground rounded-lg bg-muted/50 p-3">
+                  가입 후 짧은 진단 테스트로 학년을 자동 배정합니다.
+                </p>
               )}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? '가입 중...' : '회원가입'}

@@ -1,6 +1,12 @@
-// D1 database client utility
-// In Cloudflare Workers runtime, this uses D1 bindings
-// In development/build, returns a mock DB
+// D1 database client utility using OpenNext Cloudflare context
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface CloudflareEnv {
+    DB: unknown;
+  }
+}
 
 export interface D1Database {
   prepare(query: string): D1PreparedStatement;
@@ -27,14 +33,13 @@ export interface D1ExecResult {
 }
 
 export function getDB(): D1Database {
-  // Try to get D1 binding from Cloudflare runtime
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const env = (globalThis as any).__env__ ?? (process as any).env;
-  const db = env?.DB;
+  try {
+    const { env } = getCloudflareContext();
+    if (env?.DB) return env.DB as unknown as D1Database;
+  } catch {
+    // Cloudflare context not available (build/dev without wrangler)
+  }
 
-  if (db) return db as D1Database;
-
-  // Return mock for build/dev without Cloudflare runtime
   return createMockDB();
 }
 

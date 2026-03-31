@@ -7,6 +7,7 @@ const PROTECTED_PATHS = [
   '/profile',
   '/achievements',
   '/leaderboard',
+  '/diagnostic',
   '/teacher-dashboard',
   '/teacher-classrooms',
   '/parent-dashboard',

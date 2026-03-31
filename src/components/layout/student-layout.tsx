@@ -24,8 +24,12 @@ export function StudentLayout({ children }: { children: ReactNode }) {
       {/* Desktop sidebar */}
       <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 border-r border-border bg-card">
         <div className="flex h-16 items-center gap-2 px-6 border-b border-border">
-          <span className="text-xl font-bold text-primary">🧮</span>
-          <span className="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">매쓰버스</span>
+          <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
+            <svg viewBox="0 0 512 512" className="h-4 w-4">
+              <path d="M 100 380 L 100 160 L 190 290 L 256 190 L 322 290 L 412 160 L 412 380" fill="none" stroke="white" strokeWidth="48" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <span className="text-lg font-bold tracking-tight">매쓰버스</span>
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-4">

@@ -9,7 +9,7 @@ export function StudentHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur md:hidden">
       <div className="flex h-14 items-center justify-between px-4">
-        <span className="text-lg font-bold text-primary">🧮 매쓰버스</span>
+        <span className="text-lg font-bold tracking-tight">매쓰버스</span>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 text-sm">
             <Flame className="h-4 w-4 text-orange-500" />

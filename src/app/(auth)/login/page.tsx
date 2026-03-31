@@ -36,7 +36,9 @@ export default function LoginPage() {
 
       useAuthStore.getState().setProfile(data.profile);
       toast.success('로그인 성공!');
-      router.push('/home');
+      const role = data.profile?.role;
+      const dest = role === 'teacher' ? '/teacher-dashboard' : role === 'parent' ? '/parent-dashboard' : '/home';
+      router.push(dest);
       router.refresh();
     } catch {
       toast.error('로그인 중 오류가 발생했습니다.');

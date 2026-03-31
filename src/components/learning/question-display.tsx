@@ -80,7 +80,22 @@ export function QuestionDisplay({
           {content.questionText}
         </p>
         {content.questionLatex && (
-          <p className="mt-2 text-2xl font-mono text-primary">{content.questionLatex}</p>
+          <div
+            className="mt-2 text-2xl text-primary"
+            dangerouslySetInnerHTML={{
+              __html: (() => {
+                try {
+                  const katex = require('katex');
+                  const tex = content.questionLatex!
+                    .replace(/\\square/g, '\\Box')
+                    .replace(/\\boxed\{\\}/g, '\\Box');
+                  return katex.renderToString(tex, { throwOnError: false, displayMode: true });
+                } catch {
+                  return content.questionLatex!.replace(/\\square/g, '□');
+                }
+              })(),
+            }}
+          />
         )}
       </div>
 

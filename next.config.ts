@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
 
 // Enable OpenNext Cloudflare dev mode when running locally
 if (process.env.NODE_ENV === "development") {
-  // @ts-expect-error -- optional cloudflare dev integration
   import("@opennextjs/cloudflare").then((m: { initOpenNextCloudflareForDev: () => void }) => m.initOpenNextCloudflareForDev()).catch(() => {});
 }
 
