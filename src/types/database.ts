@@ -31,6 +31,7 @@ export type FeedbackType = 'praise' | 'encourage' | 'hint_more' | 'review_sugges
 export interface Profile {
   id: string;
   email: string;
+  password_hash?: string;
   display_name: string;
   avatar_url: string | null;
   role: UserRole;
@@ -394,91 +395,11 @@ export interface ParentStudentLink {
   created_at: string;
 }
 
-// ─── Supabase Database Schema Helper ──────────────────────────
+// ─── Session (자체 인증용) ────────────────────────────────────
 
-export interface Database {
-  public: {
-    Tables: {
-      profiles: {
-        Row: Profile;
-        Insert: Omit<Profile, 'created_at' | 'updated_at'>;
-        Update: Partial<Omit<Profile, 'id' | 'created_at'>>;
-      };
-      classrooms: {
-        Row: Classroom;
-        Insert: Omit<Classroom, 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Omit<Classroom, 'id' | 'created_at'>>;
-      };
-      classroom_members: {
-        Row: ClassroomMember;
-        Insert: Omit<ClassroomMember, 'id' | 'joined_at'>;
-        Update: Partial<Omit<ClassroomMember, 'id'>>;
-      };
-      curriculum_domains: {
-        Row: CurriculumDomain;
-        Insert: Omit<CurriculumDomain, 'id'>;
-        Update: Partial<Omit<CurriculumDomain, 'id'>>;
-      };
-      curriculum_units: {
-        Row: CurriculumUnit;
-        Insert: Omit<CurriculumUnit, 'id'>;
-        Update: Partial<Omit<CurriculumUnit, 'id'>>;
-      };
-      skills: {
-        Row: Skill;
-        Insert: Omit<Skill, 'id'>;
-        Update: Partial<Omit<Skill, 'id'>>;
-      };
-      questions: {
-        Row: Question;
-        Insert: Omit<Question, 'id' | 'created_at' | 'updated_at' | 'usage_count' | 'correct_rate' | 'avg_time_seconds'>;
-        Update: Partial<Omit<Question, 'id' | 'created_at'>>;
-      };
-      student_abilities: {
-        Row: StudentAbility;
-        Insert: Omit<StudentAbility, 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Omit<StudentAbility, 'id' | 'created_at'>>;
-      };
-      learning_sessions: {
-        Row: LearningSession;
-        Insert: Omit<LearningSession, 'id'>;
-        Update: Partial<Omit<LearningSession, 'id'>>;
-      };
-      question_responses: {
-        Row: QuestionResponse;
-        Insert: Omit<QuestionResponse, 'id' | 'created_at'>;
-        Update: Partial<Omit<QuestionResponse, 'id' | 'created_at'>>;
-      };
-      badges: {
-        Row: Badge;
-        Insert: Omit<Badge, 'id'>;
-        Update: Partial<Omit<Badge, 'id'>>;
-      };
-      student_badges: {
-        Row: StudentBadge;
-        Insert: Omit<StudentBadge, 'id' | 'earned_at'>;
-        Update: Partial<Omit<StudentBadge, 'id'>>;
-      };
-      daily_activities: {
-        Row: DailyActivity;
-        Insert: Omit<DailyActivity, 'id'>;
-        Update: Partial<Omit<DailyActivity, 'id'>>;
-      };
-      leaderboard_entries: {
-        Row: LeaderboardEntry;
-        Insert: Omit<LeaderboardEntry, 'id'>;
-        Update: Partial<Omit<LeaderboardEntry, 'id'>>;
-      };
-      notifications: {
-        Row: Notification;
-        Insert: Omit<Notification, 'id' | 'created_at'>;
-        Update: Partial<Omit<Notification, 'id' | 'created_at'>>;
-      };
-      parent_student_links: {
-        Row: ParentStudentLink;
-        Insert: Omit<ParentStudentLink, 'id' | 'created_at'>;
-        Update: Partial<Omit<ParentStudentLink, 'id' | 'created_at'>>;
-      };
-    };
-  };
+export interface Session {
+  id: string;
+  user_id: string;
+  expires_at: string;
+  created_at: string;
 }

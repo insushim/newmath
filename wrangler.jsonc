@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mathverse",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mathverse-db",
+      "database_id": "placeholder-will-be-set-after-d1-create",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "AUTH_SECRET": "change-this-to-a-secure-random-string-at-least-32-chars"
+  }
+}

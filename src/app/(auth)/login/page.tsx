@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AuthLayout } from '@/components/layout/auth-layout';
-import { createClient } from '@/lib/supabase/client';
+import { useAuthStore } from '@/stores/auth-store';
 import { toast } from 'sonner';
 
 export default function LoginPage() {
@@ -22,14 +22,19 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
 
-      if (error) {
-        toast.error(error.message === 'Invalid login credentials' ? '이메일 또는 비밀번호가 올바르지 않습니다.' : error.message);
+      if (!res.ok) {
+        toast.error(data.error ?? '로그인 중 오류가 발생했습니다.');
         return;
       }
 
+      useAuthStore.getState().setProfile(data.profile);
       toast.success('로그인 성공!');
       router.push('/home');
       router.refresh();

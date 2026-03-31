@@ -22,7 +22,6 @@ import {
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useSoundStore } from '@/stores/sound-store';
-import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -45,8 +44,7 @@ export default function ProfilePage() {
   const league = leagueInfo[profile?.league ?? 'bronze'] ?? leagueInfo.bronze;
 
   async function handleLogout() {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    await fetch('/api/auth/logout', { method: 'POST' });
     useAuthStore.getState().logout();
     toast.success('로그아웃 되었습니다.');
     router.push('/');

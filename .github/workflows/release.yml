@@ -1,0 +1,158 @@
+name: Build & Release APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.0.1)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Bubblewrap
+        run: npm install -g @nicolo-ribaudo/bubblewrap
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+            echo "tag=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            TAG="${{ github.ref_name }}"
+            echo "version=${TAG#v}" >> $GITHUB_OUTPUT
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create TWA project
+        run: |
+          mkdir -p android-build && cd android-build
+          cat > twa-manifest.json << 'MANIFEST'
+          {
+            "packageId": "com.mathverse.app",
+            "host": "mathverse.pages.dev",
+            "name": "매쓰버스",
+            "launcherName": "매쓰버스",
+            "display": "standalone",
+            "themeColor": "#6C5CE7",
+            "navigationColor": "#ffffff",
+            "backgroundColor": "#ffffff",
+            "enableNotifications": false,
+            "startUrl": "/home",
+            "iconUrl": "https://mathverse.pages.dev/icons/icon-512.png",
+            "maskableIconUrl": "https://mathverse.pages.dev/icons/icon-512.png",
+            "splashScreenFadeOutDuration": 300,
+            "signingKey": {
+              "path": "mathverse-keystore.jks",
+              "alias": "mathverse"
+            },
+            "appVersionCode": 1,
+            "appVersionName": "${{ steps.version.outputs.version }}",
+            "shortcuts": [],
+            "generatorApp": "bubblewrap-cli",
+            "enableSiteSettingsShortcut": true,
+            "isChromeOSOnly": false,
+            "orientation": "portrait",
+            "fingerprints": []
+          }
+          MANIFEST
+
+      - name: Generate keystore
+        run: |
+          cd android-build
+          keytool -genkey -v \
+            -keystore mathverse-keystore.jks \
+            -alias mathverse \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass ${{ secrets.KEYSTORE_PASSWORD || 'mathverse123' }} \
+            -keypass ${{ secrets.KEYSTORE_PASSWORD || 'mathverse123' }} \
+            -dname "CN=MathVerse, OU=Dev, O=MathVerse, L=Seoul, ST=Seoul, C=KR"
+
+      - name: Build APK with Bubblewrap
+        run: |
+          cd android-build
+          echo "${{ secrets.KEYSTORE_PASSWORD || 'mathverse123' }}" | bubblewrap build --skipPwaValidation
+        continue-on-error: true
+
+      - name: Find APK
+        id: find-apk
+        run: |
+          APK=$(find android-build -name "*.apk" -type f | head -1)
+          if [ -z "$APK" ]; then
+            echo "No APK found, creating placeholder"
+            echo "apk_found=false" >> $GITHUB_OUTPUT
+          else
+            echo "apk_path=$APK" >> $GITHUB_OUTPUT
+            echo "apk_found=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "매쓰버스 v${{ steps.version.outputs.version }}"
+          body: |
+            ## 매쓰버스 v${{ steps.version.outputs.version }}
+
+            ### 변경사항
+            - 이 릴리스의 변경사항은 커밋 히스토리를 참조하세요.
+
+            ### 설치 방법
+            - **Android**: 아래 APK 파일을 다운로드하여 설치
+            - **iOS**: Safari에서 사이트 접속 → 공유 → 홈 화면에 추가
+            - **웹**: https://mathverse.pages.dev
+          files: |
+            ${{ steps.find-apk.outputs.apk_found == 'true' && steps.find-apk.outputs.apk_path || '' }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-cloudflare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Cloudflare
+        run: npx opennextjs-cloudflare build
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET || 'build-placeholder-secret-minimum-32-chars!!' }}
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}

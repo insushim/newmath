@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AuthLayout } from '@/components/layout/auth-layout';
-import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { GraduationCap, Users, School } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -35,21 +34,21 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            display_name: displayName,
-            role,
-            grade: role === 'student' ? grade : null,
-          },
-        },
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          displayName,
+          role,
+          grade: role === 'student' ? grade : null,
+        }),
       });
+      const data = await res.json();
 
-      if (error) {
-        toast.error(error.message);
+      if (!res.ok) {
+        toast.error(data.error ?? '회원가입 중 오류가 발생했습니다.');
         return;
       }
 
