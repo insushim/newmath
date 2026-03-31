@@ -11,8 +11,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "mathverse-db",
-      "database_id": "placeholder-will-be-set-after-d1-create",
+      "database_name": "iwmath-db",
+      "database_id": "4cbc3ac8-a390-4b11-aa60-2f1589285c84",
       "migrations_dir": "migrations"
     }
   ],
