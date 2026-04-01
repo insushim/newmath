@@ -167,8 +167,8 @@ export async function POST(request: NextRequest) {
         const studentId = crypto.randomUUID();
         const num = String(i).padStart(2, '0');
         const loginId = `${idPrefix}${num}`;
-        const email = `${loginId}@mv.local`;
-        const password = generateSimplePassword();
+        const email = loginId; // 이메일 형식 아님 — 순수 아이디
+        const password = loginId; // 초기 비밀번호 = 아이디와 동일
         const displayName = `${i}번 학생`;
         const hash = await quickHash(password);
 

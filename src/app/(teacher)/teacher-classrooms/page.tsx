@@ -211,7 +211,7 @@ export default function ClassroomsPage() {
                   onChange={(e) => setPrefix(e.target.value)}
                 />
                 <p className="text-xs text-muted-foreground">
-                  아이디: <strong>{(prefix || '접두어').toLowerCase()}01</strong>, <strong>{(prefix || '접두어').toLowerCase()}02</strong>, ... 형식으로 생성됩니다.
+                  아이디: <strong>{(prefix || '접두어').toLowerCase()}01</strong>, <strong>{(prefix || '접두어').toLowerCase()}02</strong>, ... (초기 비밀번호 = 아이디와 동일)
                 </p>
               </div>
 
@@ -236,9 +236,9 @@ export default function ClassroomsPage() {
 
               <div className="rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground space-y-1">
                 <p className="font-medium text-foreground">최소 개인정보 원칙</p>
-                <p>학생 계정은 <strong>번호 기반 아이디 + 4자리 비밀번호</strong>로 자동 생성됩니다.</p>
+                <p>학생 계정은 <strong>접두어+번호</strong> 아이디로 자동 생성됩니다.</p>
+                <p>초기 비밀번호는 아이디와 동일하며, 학생이 나중에 변경할 수 있습니다.</p>
                 <p>실명, 전화번호, 이메일 등 개인정보를 수집하지 않습니다.</p>
-                <p>생성 후 학생이 직접 이름(별명)을 변경할 수 있습니다.</p>
               </div>
 
               <Button onClick={handleCreate} disabled={creating} className="w-full h-11">
@@ -271,10 +271,10 @@ export default function ClassroomsPage() {
           <div className="space-y-4 mt-2">
             <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-3">
               <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">
-                이 정보를 꼭 저장하세요!
+                학생 계정이 생성되었습니다!
               </p>
               <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
-                비밀번호는 다시 확인할 수 없습니다. 복사하거나 인쇄해 두세요.
+                초기 비밀번호는 아이디와 동일합니다. 학생에게 로그인 후 비밀번호를 바꾸도록 안내하세요.
               </p>
             </div>
 
@@ -293,8 +293,8 @@ export default function ClassroomsPage() {
                 <thead>
                   <tr className="bg-muted/50 border-b">
                     <th className="text-left px-3 py-2 font-medium text-xs">이름</th>
-                    <th className="text-left px-3 py-2 font-medium text-xs">아이디(이메일)</th>
-                    <th className="text-left px-3 py-2 font-medium text-xs">비밀번호</th>
+                    <th className="text-left px-3 py-2 font-medium text-xs">아이디</th>
+                    <th className="text-left px-3 py-2 font-medium text-xs">초기 비밀번호</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -312,7 +312,7 @@ export default function ClassroomsPage() {
             </div>
 
             <div className="rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground">
-              <p><strong>접속 방법:</strong> mathverse.simssijjang.workers.dev → 로그인 → 아이디/비밀번호 입력</p>
+              <p><strong>접속 방법:</strong> mathverse.simssijjang.workers.dev → 로그인 → 아이디 입력 (비밀번호도 아이디와 동일)</p>
             </div>
           </div>
         </DialogContent>
