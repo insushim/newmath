@@ -107,6 +107,12 @@ function buildAdaptiveLesson(
   return lesson.slice(0, count);
 }
 
+/** Get current semester: 3-7월 = 1학기, 8-2월 = 2학기 */
+function getCurrentSemester(): number {
+  const month = new Date().getMonth() + 1; // 1-12
+  return (month >= 3 && month <= 7) ? 1 : 2;
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const {
@@ -114,15 +120,19 @@ export async function POST(request: NextRequest) {
     grade,
     sessionType = 'lesson',
     count = 10,
-    theta = 0, // student's current ability
-    skillId, // specific skill for focused practice
+    theta = 0,
+    skillId,
+    semester, // optional: override semester
   } = body;
+
+  // Determine current semester (선행학습 금지법 준수)
+  const currentSemester = semester ?? getCurrentSemester();
 
   let selected: SeedQuestion[] = [];
 
   if (sessionType === 'daily_quest' && grade) {
-    // Daily quest: adaptive mix from student's grade
-    const gradeUnits = allUnits.filter((u) => u.grade === grade);
+    // Daily quest: ONLY from current semester (선행학습 금지)
+    const gradeUnits = allUnits.filter((u) => u.grade === grade && u.semester <= currentSemester);
     const gradeUnitIds = new Set(gradeUnits.map((u) => u.id));
     const gradeSkills = allSkills.filter((s) => gradeUnitIds.has(s.unitId));
     const gradeSkillIds = new Set(gradeSkills.map((s) => s.id));
@@ -186,9 +196,8 @@ export async function POST(request: NextRequest) {
 
     selected = buildAdaptiveLesson(pool, theta, count);
   } else if (sessionType === 'review') {
-    // Review session: focus on questions the student previously got wrong
-    // or skills that need review
-    const gradeUnits = allUnits.filter((u) => u.grade === (grade ?? 3));
+    // Review session: only current semester (선행학습 금지)
+    const gradeUnits = allUnits.filter((u) => u.grade === (grade ?? 3) && u.semester <= currentSemester);
     const gradeUnitIds = new Set(gradeUnits.map((u) => u.id));
     const gradeSkills = allSkills.filter((s) => gradeUnitIds.has(s.unitId));
 
