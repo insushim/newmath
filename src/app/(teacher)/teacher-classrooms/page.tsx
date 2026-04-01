@@ -64,6 +64,7 @@ export default function ClassroomsPage() {
   const [newName, setNewName] = useState('');
   const [newGrade, setNewGrade] = useState<number | null>(null);
   const [studentCount, setStudentCount] = useState(30);
+  const [prefix, setPrefix] = useState('');
   const [creating, setCreating] = useState(false);
 
   // Result dialog
@@ -97,7 +98,7 @@ export default function ClassroomsPage() {
       const res = await fetch('/api/teacher/classroom', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newName.trim(), grade: newGrade, studentCount }),
+        body: JSON.stringify({ name: newName.trim(), grade: newGrade, studentCount, prefix: prefix.trim() || undefined }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -111,6 +112,7 @@ export default function ClassroomsPage() {
         setNewName('');
         setNewGrade(null);
         setStudentCount(30);
+        setPrefix('');
         fetchClassrooms();
       } else {
         toast.error(data.error ?? '생성 실패');
@@ -197,6 +199,20 @@ export default function ClassroomsPage() {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="prefix">아이디 접두어</Label>
+                <Input
+                  id="prefix"
+                  placeholder="예: math5ban"
+                  className="h-11"
+                  value={prefix}
+                  onChange={(e) => setPrefix(e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  아이디: <strong>{(prefix || '접두어').toLowerCase()}01</strong>, <strong>{(prefix || '접두어').toLowerCase()}02</strong>, ... 형식으로 생성됩니다.
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -362,7 +378,11 @@ export default function ClassroomsPage() {
                     {cls.students.length > 0 ? (
                       <div className="p-5 space-y-2">
                         <p className="text-sm font-semibold mb-3">학생 목록 ({cls.students.length}명)</p>
-                        {cls.students.map((student, i) => (
+                        {[...cls.students].sort((a, b) => {
+                          const numA = parseInt(a.display_name.match(/\d+/)?.[0] ?? '0');
+                          const numB = parseInt(b.display_name.match(/\d+/)?.[0] ?? '0');
+                          return numA - numB;
+                        }).map((student, i) => (
                           <div key={student.id} className="flex items-center gap-3 rounded-xl border p-3 hover:bg-muted/30 transition-colors">
                             <div className={cn(
                               'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold',

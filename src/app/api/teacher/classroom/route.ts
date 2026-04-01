@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
     if (!teacherId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { name, grade, studentCount } = body;
+    const { name, grade, studentCount, prefix } = body;
 
     if (!name || !grade || grade < 1 || grade > 6) {
       return NextResponse.json({ error: '학급 이름과 학년을 입력하세요.' }, { status: 400 });
@@ -116,9 +116,12 @@ export async function POST(request: NextRequest) {
       // Pre-generate all passwords and hash them
       const studentData: Array<{ id: string; email: string; hash: string; displayName: string; password: string }> = [];
 
+      const idPrefix = (prefix || joinCode).toLowerCase().replace(/[^a-z0-9가-힣]/g, '');
+
       for (let i = 1; i <= count; i++) {
         const studentId = crypto.randomUUID();
-        const loginId = `${joinCode.toLowerCase()}${String(i).padStart(2, '0')}`;
+        const num = String(i).padStart(2, '0');
+        const loginId = `${idPrefix}${num}`;
         const email = `${loginId}@mv.local`;
         const password = generateSimplePassword();
         const displayName = `${i}번 학생`;
