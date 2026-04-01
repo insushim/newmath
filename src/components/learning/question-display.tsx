@@ -1,12 +1,77 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { Lightbulb, Check, X, ArrowUp, ArrowDown, GripVertical } from 'lucide-react';
 import type { SeedQuestion } from '@/data/curriculum-types';
+
+/** Generate auto choices from a correct answer for SHORT_ANSWER/FILL_IN_BLANK */
+function generateAutoChoices(correctAnswer: string | number | boolean | undefined): string[] | null {
+  if (correctAnswer === undefined || correctAnswer === null) return null;
+  const correct = String(correctAnswer).trim();
+  if (!correct) return null;
+
+  // Try numeric
+  const num = Number(correct);
+  if (!isNaN(num) && correct.match(/^-?\d+(\.\d+)?(\/\d+)?$/)) {
+    if (correct.includes('/')) {
+      // Fraction: generate similar fractions
+      const [n, d] = correct.split('/').map(Number);
+      const choices = new Set<string>([correct]);
+      if (n + 1 <= (d ?? 1)) choices.add(`${n + 1}/${d}`);
+      if (n - 1 >= 0) choices.add(`${n - 1}/${d}`);
+      choices.add(`${d}/${n || 1}`);
+      choices.add(`${n}/${(d ?? 1) + 1}`);
+      const arr = [...choices].filter(c => c !== correct).slice(0, 3);
+      if (arr.length < 3) arr.push(`${n + 2}/${d}`);
+      return shuffle([correct, ...arr.slice(0, 3)]);
+    }
+    // Number: generate nearby numbers
+    const choices = new Set<string>([correct]);
+    const offsets = [1, -1, 2, -2, 10, -10, 5, -5];
+    for (const off of offsets) {
+      const v = num + off;
+      if (v >= 0) choices.add(String(correct.includes('.') ? Number(v.toFixed(1)) : v));
+      if (choices.size >= 4) break;
+    }
+    // Also try common mistakes from the question
+    return shuffle([...choices].slice(0, 4));
+  }
+
+  // Text answer: try to create plausible choices
+  const textChoices: Record<string, string[]> = {
+    '선대칭': ['선대칭', '점대칭', '둘 다', '해당 없음'],
+    '점대칭': ['선대칭', '점대칭', '둘 다', '해당 없음'],
+    '둘 다': ['선대칭', '점대칭', '둘 다', '해당 없음'],
+    '예각': ['예각', '직각', '둔각', '평각'],
+    '직각': ['예각', '직각', '둔각', '평각'],
+    '둔각': ['예각', '직각', '둔각', '평각'],
+    '평각': ['예각', '직각', '둔각', '평각'],
+    '직사각형': ['직사각형', '정사각형', '평행사변형', '마름모'],
+    '정사각형': ['직사각형', '정사각형', '평행사변형', '마름모'],
+    '삼각형': ['삼각형', '사각형', '오각형', '원'],
+    '원': ['삼각형', '사각형', '오각형', '원'],
+  };
+  if (textChoices[correct]) return shuffle(textChoices[correct]);
+
+  // Short Korean text: generate with common alternatives
+  if (correct.length <= 10) {
+    return null; // Can't auto-generate meaningful text choices
+  }
+
+  return null;
+}
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 interface QuestionDisplayProps {
   question: SeedQuestion;
@@ -32,6 +97,27 @@ export function QuestionDisplay({
   const [matchActiveLeft, setMatchActiveLeft] = useState<string | null>(null);
   const { content } = question;
   const hints = content.hints ?? [];
+
+  // Auto-generate choices for SHORT_ANSWER/FILL_IN_BLANK
+  const autoChoices = useMemo(() => {
+    if (question.questionType === 'SHORT_ANSWER' || question.questionType === 'FILL_IN_BLANK') {
+      const correct = String(question.content.correctAnswer ?? '').trim();
+      const fromMistakes = (question.content.commonMistakes ?? []).map(m => m.answer);
+      const generated = generateAutoChoices(question.content.correctAnswer);
+      if (generated) return generated;
+      if (fromMistakes.length > 0 && correct) {
+        const all = new Set([correct, ...fromMistakes]);
+        const num = Number(correct);
+        if (!isNaN(num)) {
+          [1, -1, 2].forEach(off => all.add(String(num + off)));
+        }
+        return shuffle([...all].slice(0, 4));
+      }
+    }
+    return null;
+  }, [question]);
+
+  const useAutoChoices = autoChoices !== null;
 
   // Initialize ordering items (shuffled)
   const initOrdering = useCallback(() => {
@@ -82,12 +168,20 @@ export function QuestionDisplay({
       }
       case 'SHORT_ANSWER':
       case 'FILL_IN_BLANK': {
-        if (!textInput.trim()) return;
-        answer = textInput.trim();
-        const correctStr = String(content.correctAnswer).trim();
-        // Normalize for comparison: remove spaces, handle number formats
-        const normalize = (s: string) => s.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
-        correct = normalize(answer) === normalize(correctStr);
+        if (useAutoChoices) {
+          // Using auto-generated choices (tap-friendly)
+          if (!selectedOption) return;
+          answer = selectedOption;
+          const correctStr = String(content.correctAnswer).trim();
+          const normalize = (s: string) => s.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
+          correct = normalize(answer) === normalize(correctStr);
+        } else {
+          if (!textInput.trim()) return;
+          answer = textInput.trim();
+          const correctStr = String(content.correctAnswer).trim();
+          const normalize = (s: string) => s.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
+          correct = normalize(answer) === normalize(correctStr);
+        }
         break;
       }
       case 'TRUE_FALSE': {
@@ -128,7 +222,7 @@ export function QuestionDisplay({
         return selectedOption !== null;
       case 'SHORT_ANSWER':
       case 'FILL_IN_BLANK':
-        return textInput.trim() !== '';
+        return useAutoChoices ? selectedOption !== null : textInput.trim() !== '';
       case 'ORDERING':
         return orderedItems.length > 0;
       case 'MATCHING':
@@ -243,26 +337,60 @@ export function QuestionDisplay({
 
         {/* ─── Short Answer / Fill in Blank ─────────── */}
         {(question.questionType === 'SHORT_ANSWER' || question.questionType === 'FILL_IN_BLANK') && (
-          <div className="mx-auto max-w-xs">
-            <Input
-              type="text"
-              placeholder="답을 입력하세요"
-              value={textInput}
-              onChange={(e) => setTextInput(e.target.value)}
-              disabled={showResult}
-              className={cn(
-                'text-center text-lg h-12',
-                showResult && isCorrect && 'border-green-500 bg-green-50',
-                showResult && !isCorrect && 'border-red-500 bg-red-50',
+          useAutoChoices && autoChoices ? (
+            /* Auto-generated tap-friendly choices */
+            <div className="grid grid-cols-2 gap-2.5 max-w-sm mx-auto">
+              {autoChoices.map((choice, ci) => {
+                const isSelected = selectedOption === choice;
+                const correctStr = String(content.correctAnswer).trim();
+                const isCorrectChoice = choice === correctStr;
+                const showCorrectC = showResult && isCorrectChoice;
+                const showWrongC = showResult && isSelected && !isCorrectChoice;
+
+                return (
+                  <button
+                    key={ci}
+                    onClick={() => !showResult && setSelectedOption(choice)}
+                    disabled={showResult}
+                    className={cn(
+                      'rounded-xl border-2 p-4 text-center text-base font-semibold transition-all min-h-[56px]',
+                      showCorrectC && 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700',
+                      showWrongC && 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700',
+                      !showResult && isSelected && 'border-primary bg-primary/5 text-primary',
+                      !showResult && !isSelected && 'border-border hover:border-primary/40',
+                      showResult && !showCorrectC && !showWrongC && 'opacity-40',
+                    )}
+                  >
+                    {showCorrectC && <Check className="h-4 w-4 inline mr-1" />}
+                    {showWrongC && <X className="h-4 w-4 inline mr-1" />}
+                    {choice}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            /* Fallback: text input */
+            <div className="mx-auto max-w-xs">
+              <input
+                type="text"
+                placeholder="답을 입력하세요"
+                value={textInput}
+                onChange={(e) => setTextInput(e.target.value)}
+                disabled={showResult}
+                className={cn(
+                  'flex h-12 w-full rounded-xl border border-input bg-background px-3 py-2 text-center text-lg ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                  showResult && isCorrect && 'border-green-500 bg-green-50',
+                  showResult && !isCorrect && 'border-red-500 bg-red-50',
+                )}
+                onKeyDown={(e) => e.key === 'Enter' && canSubmit && handleSubmit()}
+              />
+              {showResult && !isCorrect && (
+                <p className="text-center text-sm text-green-700 mt-2 font-medium">
+                  정답: {String(content.correctAnswer)}
+                </p>
               )}
-              onKeyDown={(e) => e.key === 'Enter' && canSubmit && handleSubmit()}
-            />
-            {showResult && !isCorrect && (
-              <p className="text-center text-sm text-green-700 mt-2 font-medium">
-                정답: {String(content.correctAnswer)}
-              </p>
-            )}
-          </div>
+            </div>
+          )
         )}
 
         {/* ─── Ordering ─────────────────────────────── */}
