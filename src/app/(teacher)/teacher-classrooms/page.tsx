@@ -10,8 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   Plus, Users, Copy, Check, ChevronDown, ChevronUp,
-  Flame, Target, Clock, Sparkles, Inbox, Download,
-  UserPlus, Eye, EyeOff, Printer,
+  Flame, Target, Clock, Sparkles, Inbox,
+  UserPlus, Eye, EyeOff, Trash2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -369,7 +369,28 @@ export default function ClassroomsPage() {
                     </Button>
                   </div>
 
-                  {isExpanded ? <ChevronUp className="h-5 w-5 text-muted-foreground" /> : <ChevronDown className="h-5 w-5 text-muted-foreground" />}
+                  {/* Delete classroom button */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-red-600 hover:bg-red-50 shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!confirm(`"${cls.name}" 학급과 소속 학생 ${cls.students.length}명을 모두 삭제할까요?\n이 작업은 되돌릴 수 없습니다.`)) return;
+                      fetch('/api/teacher/classroom', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ classroomId: cls.id }),
+                      }).then(r => {
+                        if (r.ok) { toast.success('학급이 삭제되었습니다.'); fetchClassrooms(); }
+                        else toast.error('삭제 실패');
+                      });
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+
+                  {isExpanded ? <ChevronUp className="h-5 w-5 text-muted-foreground shrink-0" /> : <ChevronDown className="h-5 w-5 text-muted-foreground shrink-0" />}
                 </div>
 
                 {/* Expanded: Students */}
@@ -408,6 +429,23 @@ export default function ClassroomsPage() {
                               <p className="text-sm font-bold text-primary">{student.total_xp.toLocaleString()}</p>
                               <p className="text-[10px] text-muted-foreground">XP</p>
                             </div>
+
+                            <button
+                              className="p-1.5 rounded-lg text-muted-foreground/40 hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
+                              onClick={() => {
+                                if (!confirm(`"${student.display_name}"을(를) 삭제할까요?`)) return;
+                                fetch('/api/teacher/classroom', {
+                                  method: 'DELETE',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ classroomId: cls.id, studentId: student.id }),
+                                }).then(r => {
+                                  if (r.ok) { toast.success('학생이 삭제되었습니다.'); fetchClassrooms(); }
+                                  else toast.error('삭제 실패');
+                                });
+                              }}
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
                           </div>
                         ))}
                       </div>
