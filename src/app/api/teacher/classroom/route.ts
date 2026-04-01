@@ -127,24 +127,15 @@ export async function POST(request: NextRequest) {
         studentData.push({ id: studentId, email, hash, displayName, password });
       }
 
-      // Batch insert profiles
-      const profileStmts = studentData.map(s =>
-        db.prepare('INSERT INTO profiles (id, email, password_hash, display_name, role, grade) VALUES (?, ?, ?, ?, ?, ?)')
-          .bind(s.id, s.email, s.hash, s.displayName, 'student', grade)
-      );
+      // Insert one by one (D1 batch can be unreliable with mixed tables)
+      for (const s of studentData) {
+        await db.prepare(
+          'INSERT INTO profiles (id, email, password_hash, display_name, role, grade) VALUES (?, ?, ?, ?, ?, ?)'
+        ).bind(s.id, s.email, s.hash, s.displayName, 'student', grade).run();
 
-      // Batch insert classroom_students
-      const memberStmts = studentData.map(s =>
-        db.prepare('INSERT INTO classroom_students (classroom_id, student_id) VALUES (?, ?)')
-          .bind(classId, s.id)
-      );
-
-      // Execute in batches (D1 batch limit)
-      const allStmts = [...profileStmts, ...memberStmts];
-      const batchSize = 20;
-      for (let i = 0; i < allStmts.length; i += batchSize) {
-        const batch = allStmts.slice(i, i + batchSize);
-        await db.batch(batch);
+        await db.prepare(
+          'INSERT INTO classroom_students (classroom_id, student_id) VALUES (?, ?)'
+        ).bind(classId, s.id).run();
       }
 
       for (const s of studentData) {
