@@ -77,13 +77,16 @@ export default function TeacherLayout({ children }: { children: ReactNode }) {
 
         {/* Bottom */}
         <div className="p-3 border-t border-border">
-          <Link
-            href="/login"
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 transition-colors"
+          <button
+            onClick={async () => {
+              await fetch('/api/auth/logout', { method: 'POST' });
+              window.location.href = '/login';
+            }}
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 transition-colors"
           >
             <LogOut className="h-5 w-5" />
             로그아웃
-          </Link>
+          </button>
         </div>
       </aside>
 
