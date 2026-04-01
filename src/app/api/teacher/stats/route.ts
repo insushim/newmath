@@ -86,23 +86,28 @@ export async function GET() {
         correct_count: number; total_questions: number; xp_earned: number; completed_at: string;
       }>();
 
-    // At-risk students: low accuracy or inactive
+    // At-risk students: only students who have actually started learning
+    // (have at least 1 learning session) and show declining patterns
     const atRiskResult = await db
       .prepare(`
-        SELECT p.id, p.display_name, p.current_streak, p.updated_at,
+        SELECT p.id, p.display_name, p.current_streak, p.updated_at, p.total_xp,
         COALESCE(
           (SELECT ROUND(CAST(SUM(sa.correct_count) AS REAL) / MAX(SUM(sa.total_attempts), 1) * 100)
            FROM student_abilities sa WHERE sa.student_id = p.id), 0
         ) as accuracy
         FROM profiles p
-        WHERE p.role = 'student'
+        JOIN classroom_students cs ON cs.student_id = p.id
+        JOIN classrooms c ON c.id = cs.classroom_id
+        WHERE c.teacher_id = ?
+        AND p.total_xp > 0
         AND (
           p.updated_at < datetime('now', '-3 days')
-          OR p.current_streak = 0
+          OR (p.total_xp > 50 AND p.current_streak = 0)
         )
         ORDER BY p.updated_at ASC
         LIMIT 10
       `)
+      .bind(teacher.id)
       .all<{ id: string; display_name: string; current_streak: number; updated_at: string; accuracy: number }>();
 
     const avgAccuracy = totalQuestionsToday > 0
