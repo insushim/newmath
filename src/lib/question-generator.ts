@@ -165,6 +165,164 @@ function g1AddSubQuestion(cfg: GeneratorConfig): SeedQuestion {
   });
 }
 
+// ─── Word Problem Generators (전 학년 공통) ─────────────────
+
+interface WordProblemTemplate {
+  items: string[];
+  people: string[];
+  actions: { add: string[]; sub: string[] };
+  units: string[];
+}
+
+const WP_TEMPLATES: Record<string, WordProblemTemplate> = {
+  low: {
+    items: ['사과', '귤', '배', '사탕', '과자', '공', '연필', '지우개', '색종이', '스티커', '구슬', '바둑돌'],
+    people: ['민수', '지영', '수아', '하준', '서연', '도윤', '엄마', '아빠', '할머니', '선생님'],
+    actions: {
+      add: ['더 샀습니다', '더 받았습니다', '더 가져왔습니다', '선물 받았습니다'],
+      sub: ['먹었습니다', '친구에게 주었습니다', '잃어버렸습니다', '사용했습니다'],
+    },
+    units: ['개', '개', '자루', '장', '봉지'],
+  },
+  high: {
+    items: ['책', '노트', '음료수', '빵', '케이크', '꽃', '풍선', '카드', '쿠키', '초콜릿'],
+    people: ['학생들', '반 친구', '동아리 회원', '가족', '이웃'],
+    actions: {
+      add: ['추가로 구입했습니다', '기부받았습니다', '만들었습니다'],
+      sub: ['나누어 주었습니다', '판매했습니다', '소비했습니다'],
+    },
+    units: ['개', '권', '병', '송이', '묶음'],
+  },
+};
+
+function wordProblemAddSub(cfg: GeneratorConfig): SeedQuestion {
+  const isLow = cfg.difficulty < 0;
+  const tpl = isLow ? WP_TEMPLATES.low : WP_TEMPLATES.high;
+  const isAdd = Math.random() > 0.4;
+  const item = pick(tpl.items);
+  const person = pick(tpl.people);
+  const unit = pick(tpl.units);
+
+  let a: number, b: number;
+  if (cfg.difficulty < -1.5) {
+    a = randInt(1, 9); b = randInt(1, 9 - a);
+  } else if (cfg.difficulty < -0.5) {
+    a = randInt(10, 50); b = randInt(5, 30);
+  } else if (cfg.difficulty < 0.5) {
+    a = randInt(50, 200); b = randInt(20, 100);
+  } else {
+    a = randInt(100, 999); b = randInt(50, 500);
+  }
+
+  if (!isAdd && a < b) [a, b] = [b, a];
+  const answer = isAdd ? a + b : a - b;
+  const action = pick(isAdd ? tpl.actions.add : tpl.actions.sub);
+
+  const questionText = isAdd
+    ? `${person}에게 ${item}이(가) ${a}${unit} 있었습니다. ${pick(tpl.people)}이(가) ${item} ${b}${unit}를 ${action}. ${item}은(는) 모두 몇 ${unit}일까요?`
+    : `${person}에게 ${item}이(가) ${a}${unit} 있었습니다. 그 중 ${b}${unit}를 ${action}. 남은 ${item}은(는) 몇 ${unit}일까요?`;
+
+  return makeQuestion(cfg, pick(['SHORT_ANSWER', 'MULTIPLE_CHOICE']), questionText, {
+    correctAnswer: answer,
+    options: Math.random() > 0.5 ? buildMC(questionText, answer,
+      generateDistractors(answer, 3, Math.max(0, answer - 20), answer + 20),
+      `${a} ${isAdd ? '+' : '-'} ${b} = ${answer}${unit}입니다.`,
+      [isAdd ? '처음 수에 받은 수를 더하세요.' : '처음 수에서 사용한 수를 빼세요.', `${a} ${isAdd ? '+' : '-'} ${b}를 계산하세요.`],
+      [{ answer: String(isAdd ? a - b : a + b), misconception: `${isAdd ? '뺄셈' : '덧셈'}을 했어요.` }],
+    ).options : undefined,
+    explanation: `${a} ${isAdd ? '+' : '-'} ${b} = ${answer}이므로 ${answer}${unit}입니다.`,
+    hints: [isAdd ? '두 수를 합하면 됩니다.' : '큰 수에서 작은 수를 빼면 됩니다.', `${a} ${isAdd ? '+' : '-'} ${b}를 계산해 보세요.`],
+    commonMistakes: [{ answer: String(isAdd ? a - b : a + b), misconception: `연산을 반대로 했어요.` }],
+  });
+}
+
+function wordProblemMultDiv(cfg: GeneratorConfig): SeedQuestion {
+  const isMult = Math.random() > 0.4;
+  const items = ['사탕', '초콜릿', '스티커', '연필', '공책', '쿠키', '빵'];
+  const item = pick(items);
+
+  if (isMult) {
+    const perGroup = randInt(2, cfg.difficulty < 0 ? 5 : 9);
+    const groups = randInt(2, cfg.difficulty < 0 ? 5 : 9);
+    const answer = perGroup * groups;
+    const containers = ['봉지', '상자', '접시', '묶음', '줄'];
+    const container = pick(containers);
+
+    const questionText = `${item}이(가) 한 ${container}에 ${perGroup}개씩 들어 있습니다. ${groups}${container}에는 ${item}이(가) 모두 몇 개일까요?`;
+
+    return makeQuestion(cfg, pick(['SHORT_ANSWER', 'MULTIPLE_CHOICE']), questionText, {
+      correctAnswer: answer,
+      options: Math.random() > 0.5 ? buildMC(questionText, answer,
+        generateDistractors(answer, 3, 1, answer + 20),
+        `${perGroup} × ${groups} = ${answer}개입니다.`,
+        [`한 ${container}에 ${perGroup}개씩, ${groups}${container}이니까 곱셈을 하세요.`, `${perGroup} × ${groups}을 계산하세요.`],
+        [{ answer: String(perGroup + groups), misconception: '곱셈 대신 덧셈을 했어요.' }],
+      ).options : undefined,
+      explanation: `${perGroup} × ${groups} = ${answer}이므로 모두 ${answer}개입니다.`,
+      hints: ['(한 묶음의 수) × (묶음의 수)를 계산하세요.', `${perGroup} × ${groups}을 구하세요.`],
+      commonMistakes: [{ answer: String(perGroup + groups), misconception: '곱셈 대신 덧셈을 했어요.' }],
+    });
+  } else {
+    const divisor = randInt(2, cfg.difficulty < 0 ? 5 : 9);
+    const quotient = randInt(2, cfg.difficulty < 0 ? 5 : 9);
+    const total = divisor * quotient;
+    const people = ['명', '명', '모둠'];
+    const unit = pick(people);
+
+    const questionText = `${item} ${total}개를 ${divisor}${unit}에게 똑같이 나누어 주려고 합니다. 한 ${unit === '모둠' ? '모둠' : '사람'}에게 몇 개씩 줄 수 있을까요?`;
+
+    return makeQuestion(cfg, 'SHORT_ANSWER', questionText, {
+      correctAnswer: quotient,
+      explanation: `${total} ÷ ${divisor} = ${quotient}이므로 한 ${unit === '모둠' ? '모둠' : '사람'}에게 ${quotient}개씩 줄 수 있습니다.`,
+      hints: ['전체 수를 나누는 수로 나누세요.', `${total} ÷ ${divisor}를 계산하세요.`],
+      commonMistakes: [{ answer: String(total - divisor), misconception: '나눗셈 대신 뺄셈을 했어요.' }],
+    });
+  }
+}
+
+function wordProblemShopping(cfg: GeneratorConfig): SeedQuestion {
+  const items = [
+    { name: '연필', prices: [500, 800, 1000, 1200] },
+    { name: '지우개', prices: [300, 500, 700] },
+    { name: '공책', prices: [1000, 1500, 2000, 2500] },
+    { name: '색연필 세트', prices: [3000, 5000, 8000] },
+    { name: '음료수', prices: [800, 1200, 1500] },
+    { name: '과자', prices: [1000, 1500, 2000] },
+    { name: '빵', prices: [1500, 2000, 2500, 3000] },
+  ];
+
+  const item = pick(items);
+  const price = pick(item.prices);
+  const count = randInt(2, 5);
+  const totalCost = price * count;
+  const paid = Math.ceil(totalCost / 1000) * 1000 + (Math.random() > 0.5 ? 0 : pick([0, 1000, 2000]));
+  const change = paid - totalCost;
+
+  const scenarios = [
+    {
+      text: `${item.name} 한 개의 가격은 ${price.toLocaleString()}원입니다. ${count}개를 사면 얼마를 내야 할까요?`,
+      answer: totalCost,
+      explanation: `${price.toLocaleString()} × ${count} = ${totalCost.toLocaleString()}원입니다.`,
+      hints: ['(한 개 가격) × (개수)를 계산하세요.'],
+    },
+    {
+      text: `${item.name}을(를) ${count}개 샀더니 ${totalCost.toLocaleString()}원이었습니다. ${paid.toLocaleString()}원을 냈다면 거스름돈은 얼마일까요?`,
+      answer: change,
+      explanation: `${paid.toLocaleString()} - ${totalCost.toLocaleString()} = ${change.toLocaleString()}원입니다.`,
+      hints: ['낸 돈에서 물건 값을 빼면 거스름돈이에요.'],
+    },
+  ];
+
+  const scenario = paid > totalCost && change >= 0 ? pick(scenarios) : scenarios[0];
+
+  return makeQuestion(cfg, 'SHORT_ANSWER', scenario.text, {
+    correctAnswer: scenario.answer,
+    explanation: scenario.explanation,
+    hints: [...scenario.hints, '단위(원)를 잊지 마세요.'],
+    commonMistakes: [{ answer: String(scenario.answer + price), misconception: '계산을 한 번 더 했거나 덜 했어요.' }],
+  });
+}
+
 // ─── Grade 2 Generators ─────────────────────────────────────
 
 function g2MultiDigitAddSub(cfg: GeneratorConfig): SeedQuestion {
@@ -678,14 +836,21 @@ export interface GenerateOptions {
   count: number;
 }
 
+/** Universal generators that work across all grades */
+const UNIVERSAL_GENERATORS: GeneratorFn[] = [
+  wordProblemAddSub,
+  wordProblemMultDiv,
+  wordProblemShopping,
+];
+
 /**
  * Generate fresh questions for a skill using procedural generation.
  * These are algorithmically created with randomized numbers.
+ * Mixes skill-specific generators with universal word problem generators.
  */
 export function generateQuestions(opts: GenerateOptions): SeedQuestion[] {
   const { skillId, skillCode, grade, targetDifficulty, count } = opts;
   const generator = findGenerator(skillId, skillCode, grade);
-  if (!generator) return [];
 
   const questions: SeedQuestion[] = [];
   const diffRange = 0.5; // spread around target
@@ -693,7 +858,10 @@ export function generateQuestions(opts: GenerateOptions): SeedQuestion[] {
   for (let i = 0; i < count; i++) {
     const difficulty = targetDifficulty + (Math.random() * diffRange * 2 - diffRange);
     try {
-      const q = generator({ skillId, difficulty });
+      // 40% chance to use a word problem generator for variety
+      const useWordProblem = Math.random() < 0.4 && grade >= 1;
+      const gen = useWordProblem ? pick(UNIVERSAL_GENERATORS) : (generator ?? pick(UNIVERSAL_GENERATORS));
+      const q = gen({ skillId, difficulty });
       questions.push(q);
     } catch {
       // Skip generation errors

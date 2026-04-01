@@ -2472,4 +2472,781 @@ export const G3_QUESTIONS: SeedQuestion[] = [
     estimatedTimeSeconds: 10,
     tags: ['분수', '비교', '3학년'],
   },
+
+  // ============================================================
+  // 추가 문제: 문장형(서술형) 문제 — Word Problems
+  // ============================================================
+
+  // --- 세 자리 수 덧셈/뺄셈 문장형 ---
+  {
+    id: 'G3_S1_NUM_01_SK01_WP01',
+    skillId: 'G3_S1_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '서점에 동화책이 245권, 만화책이 378권 있습니다. 책은 모두 몇 권일까요?',
+      correctAnswer: 623,
+      explanation: '245 + 378 = 623권입니다. 일의 자리: 5 + 8 = 13, 십의 자리: 4 + 7 + 1 = 12, 백의 자리: 2 + 3 + 1 = 6.',
+      hints: ['두 수를 더하세요.', '일의 자리부터 차례대로 더해 보세요.'],
+      commonMistakes: [{ answer: '513', misconception: '십의 자리에서 올림을 잊었어요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'addition', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_01_SK02_WP01',
+    skillId: 'G3_S1_NUM_01_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '학교에 학생이 832명 있었는데, 졸업생 156명이 떠났습니다. 남은 학생은 몇 명일까요?',
+      correctAnswer: 676,
+      explanation: '832 - 156 = 676명입니다.',
+      hints: ['떠났으니 빼기를 하세요.', '일의 자리부터 빼 보세요. 2 - 6은 안 되니 빌려와야 해요.'],
+      commonMistakes: [{ answer: '686', misconception: '십의 자리에서 받아내림을 잘못 했어요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'subtraction', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_01_SK01_WP02',
+    skillId: 'G3_S1_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '과일 가게에서 사과 167개와 귤 245개를 팔았습니다. 팔린 과일은 모두 몇 개일까요?',
+      correctAnswer: 412,
+      explanation: '167 + 245 = 412개입니다.',
+      hints: ['두 수를 더하세요.', '167 + 245를 일의 자리부터 계산해 보세요.'],
+      commonMistakes: [{ answer: '402', misconception: '일의 자리에서 올림을 빠뜨렸어요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'addition', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_01_SK02_WP02',
+    skillId: 'G3_S1_NUM_01_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '마트에서 오전에 음료수 503병을 팔았고, 오후에는 오전보다 128병 적게 팔았습니다. 오후에 팔린 음료수는 몇 병일까요?',
+      correctAnswer: 375,
+      explanation: '503 - 128 = 375병입니다.',
+      hints: ['"적게"이니 빼기를 해야 해요.', '503 - 128을 계산해 보세요.'],
+      commonMistakes: [{ answer: '631', misconception: '더하기를 했어요. "적게"이니 빼야 합니다.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'subtraction', 'real_life', '3학년'],
+  },
+
+  // --- 곱셈 문장형 ---
+  {
+    id: 'G3_S1_NUM_02_SK01_WP01',
+    skillId: 'G3_S1_NUM_02_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '한 상자에 과자가 24개씩 들어 있습니다. 3상자를 사면 과자는 모두 몇 개일까요?',
+      correctAnswer: 72,
+      explanation: '24 × 3 = 72개입니다. 4 × 3 = 12, 20 × 3 = 60, 12 + 60 = 72.',
+      hints: ['24를 3번 더하면 얼마인지 생각해 보세요.', '24 × 3을 일의 자리부터 계산해 보세요.'],
+      commonMistakes: [{ answer: '27', misconception: '2 + 4 + 3처럼 더하기를 했어요. 곱셈을 해야 합니다.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'multiplication', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_02_SK02_WP01',
+    skillId: 'G3_S1_NUM_02_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '축구 동아리에 18명이 있고, 각자 축구공을 4개씩 가지고 왔습니다. 축구공은 모두 몇 개일까요?',
+      correctAnswer: 72,
+      explanation: '18 × 4 = 72개입니다.',
+      hints: ['18명이 각자 4개씩이니 18 × 4를 구하세요.', '8 × 4 = 32, 10 × 4 = 40, 32 + 40 = ?'],
+      commonMistakes: [{ answer: '22', misconception: '18 + 4를 했어요. 곱셈을 해야 합니다.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['word_problem', 'multiplication', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_02_SK01_WP02',
+    skillId: 'G3_S1_NUM_02_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '학교에서 운동회를 합니다. 한 줄에 35명씩 5줄로 서 있습니다. 학생은 모두 몇 명일까요?',
+      correctAnswer: 175,
+      explanation: '35 × 5 = 175명입니다. 5 × 5 = 25, 30 × 5 = 150, 25 + 150 = 175.',
+      hints: ['35명씩 5줄이니 35 × 5를 구하세요.', '일의 자리: 5 × 5 = 25, 2 올림'],
+      commonMistakes: [{ answer: '40', misconception: '35 + 5를 했어요. 곱셈을 해야 합니다.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['word_problem', 'multiplication', 'real_life', '3학년'],
+  },
+
+  // --- 나눗셈 문장형 ---
+  {
+    id: 'G3_S2_NUM_01_SK01_WP01',
+    skillId: 'G3_S2_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '사탕 24개를 4명에게 똑같이 나누어 주려고 합니다. 한 사람에게 몇 개씩 줄 수 있을까요?',
+      correctAnswer: 6,
+      explanation: '24 ÷ 4 = 6개입니다.',
+      hints: ['24개를 4명에게 똑같이 나누세요.', '4 × ? = 24를 생각해 보세요.'],
+      commonMistakes: [{ answer: '20', misconception: '24 - 4를 했어요. 똑같이 나누는 것은 나눗셈이에요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['word_problem', 'division', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_01_SK02_WP01',
+    skillId: 'G3_S2_NUM_01_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '엄마가 귤 36개를 9개씩 봉지에 담으려 합니다. 봉지는 몇 개가 필요할까요?',
+      correctAnswer: 4,
+      explanation: '36 ÷ 9 = 4개입니다. 9 × 4 = 36이므로 봉지 4개가 필요합니다.',
+      hints: ['36 안에 9가 몇 번 들어가나요?', '9 × ? = 36'],
+      commonMistakes: [{ answer: '27', misconception: '36 - 9를 했어요. 몇 묶음인지는 나눗셈으로 구해요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['word_problem', 'division', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_01_SK03_WP01',
+    skillId: 'G3_S2_NUM_01_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.5,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '색종이 23장을 5명에게 똑같이 나누어 주면, 한 사람에게 몇 장씩 주고 몇 장이 남을까요? 남는 장수를 쓰세요.',
+      correctAnswer: 3,
+      explanation: '23 ÷ 5 = 4 ... 3. 한 사람에게 4장씩 주고 3장이 남습니다.',
+      hints: ['5 × 4 = 20, 23 - 20 = ?', '나머지를 구하세요.'],
+      commonMistakes: [{ answer: '4', misconception: '몫을 답했어요. 남는 장수(나머지)를 써야 해요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'division', 'remainder', 'real_life', '3학년'],
+  },
+
+  // --- 분수 문장형 ---
+  {
+    id: 'G3_S2_NUM_03_SK01_WP01',
+    skillId: 'G3_S2_NUM_03_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '피자 한 판을 8조각으로 똑같이 나누었습니다. 지우가 3조각을 먹었다면, 지우가 먹은 양은 전체의 얼마인가요?',
+      options: [
+        { id: 'a', text: '3/8', isCorrect: true },
+        { id: 'b', text: '8/3', isCorrect: false },
+        { id: 'c', text: '3/5', isCorrect: false },
+        { id: 'd', text: '5/8', isCorrect: false },
+      ],
+      explanation: '전체 8조각 중 3조각을 먹었으므로 3/8입니다.',
+      hints: ['전체 조각 수가 분모, 먹은 조각 수가 분자예요.', '분모는 8, 분자는 3이에요.'],
+      commonMistakes: [{ answer: '8/3', misconception: '분모와 분자를 바꿨어요. 전체가 분모, 부분이 분자예요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['word_problem', 'fraction', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_03_SK02_WP01',
+    skillId: 'G3_S2_NUM_03_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '케이크를 똑같이 나누었습니다. 민수는 케이크의 2/6을, 수아는 4/6을 먹었습니다. 누가 더 많이 먹었을까요?',
+      options: [
+        { id: 'a', text: '민수', isCorrect: false },
+        { id: 'b', text: '수아', isCorrect: true },
+        { id: 'c', text: '같다', isCorrect: false },
+        { id: 'd', text: '알 수 없다', isCorrect: false },
+      ],
+      explanation: '분모가 같으면 분자가 큰 쪽이 더 큽니다. 4/6 > 2/6이므로 수아가 더 많이 먹었습니다.',
+      hints: ['분모가 같으니 분자를 비교하세요.', '4 > 2이므로 4/6이 더 커요.'],
+      commonMistakes: [{ answer: '민수', misconception: '분자가 작은 쪽을 골랐어요. 분모가 같으면 분자가 큰 쪽이 더 커요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['word_problem', 'fraction', 'comparison', 'real_life', '3학년'],
+  },
+
+  // --- 길이와 시간 문장형 ---
+  {
+    id: 'G3_S1_SHAPE_04_SK01_WP01',
+    skillId: 'G3_S1_SHAPE_04_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '학교에서 도서관까지 거리가 2km 300m입니다. 이것은 몇 m일까요?',
+      correctAnswer: 2300,
+      explanation: '2km = 2000m이므로 2000 + 300 = 2300m입니다.',
+      hints: ['1km = 1000m예요.', '2km를 m로 바꾸면 2000m이에요.'],
+      commonMistakes: [{ answer: '230', misconception: '2와 300을 합쳤어요. 1km = 1000m를 기억하세요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['word_problem', 'length', 'unit_conversion', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_SHAPE_04_SK02_WP01',
+    skillId: 'G3_S1_SHAPE_04_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '영화가 오후 2시 30분에 시작해서 오후 4시 10분에 끝났습니다. 영화 상영 시간은 몇 분일까요?',
+      correctAnswer: 100,
+      explanation: '2시 30분 → 4시 10분: 1시간 40분 = 100분입니다.',
+      hints: ['먼저 시간 차이를 구하세요.', '2시 30분에서 4시 10분까지는 1시간 40분이에요. 1시간 = 60분.'],
+      commonMistakes: [{ answer: '140', misconception: '1시간 40분을 140분으로 잘못 계산했어요. 1시간 = 60분이에요.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['word_problem', 'time', 'real_life', '3학년'],
+  },
+
+  // --- 들이와 무게 문장형 ---
+  {
+    id: 'G3_S2_SHAPE_04_SK01_WP01',
+    skillId: 'G3_S2_SHAPE_04_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '냉장고에 우유가 2L 500mL 있었습니다. 가족이 800mL를 마셨습니다. 남은 우유는 몇 mL일까요?',
+      correctAnswer: 1700,
+      explanation: '2L 500mL = 2500mL. 2500 - 800 = 1700mL입니다.',
+      hints: ['먼저 2L 500mL를 mL로 바꾸세요.', '2L = 2000mL이니 2000 + 500 = 2500mL.'],
+      commonMistakes: [{ answer: '1500', misconception: '2L에서만 800을 뺐어요. 2L 500mL = 2500mL입니다.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'volume', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S2_SHAPE_04_SK02_WP01',
+    skillId: 'G3_S2_SHAPE_04_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '수박의 무게가 3kg 200g이고, 참외의 무게가 1kg 500g입니다. 수박이 참외보다 몇 g 더 무거울까요?',
+      correctAnswer: 1700,
+      explanation: '3kg 200g = 3200g, 1kg 500g = 1500g. 3200 - 1500 = 1700g입니다.',
+      hints: ['먼저 kg을 g으로 바꾸세요.', '3kg = 3000g, 1kg = 1000g'],
+      commonMistakes: [{ answer: '2700', misconception: '3200 - 500만 했어요. 1kg 500g = 1500g입니다.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'weight', 'real_life', '3학년'],
+  },
+
+  // --- 원 문장형 ---
+  {
+    id: 'G3_S2_SHAPE_02_SK01_WP01',
+    skillId: 'G3_S2_SHAPE_02_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '원의 반지름이 5cm입니다. 이 원의 지름은 몇 cm일까요?',
+      correctAnswer: 10,
+      explanation: '지름 = 반지름 × 2 = 5 × 2 = 10cm입니다.',
+      hints: ['지름은 반지름의 2배예요.', '5 × 2 = ?'],
+      commonMistakes: [{ answer: '5', misconception: '반지름을 그대로 썼어요. 지름 = 반지름 × 2예요.' }],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['word_problem', 'circle', 'real_life', '3학년'],
+  },
+
+  // ============================================================
+  // 추가 문제: ORDERING (순서 정하기)
+  // ============================================================
+
+  // --- 세 자리 수 순서 ---
+  {
+    id: 'G3_S1_NUM_01_SK01_ORD01',
+    skillId: 'G3_S1_NUM_01_SK01',
+    questionType: 'ORDERING',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 덧셈의 결과를 작은 수부터 순서대로 놓으세요.',
+      correctOrder: ['120+130', '250+180', '310+290', '450+350'],
+      explanation: '120+130=250, 250+180=430, 310+290=600, 450+350=800. 작은 순: 250, 430, 600, 800.',
+      hints: ['각각의 덧셈을 먼저 계산하세요.', '계산 결과를 비교해 보세요.'],
+      commonMistakes: [{ answer: '450+350,310+290,250+180,120+130', misconception: '큰 수부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 40,
+    tags: ['ordering', 'addition', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_01_SK02_ORD01',
+    skillId: 'G3_S1_NUM_01_SK02',
+    questionType: 'ORDERING',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 수를 작은 수부터 순서대로 놓으세요.',
+      correctOrder: ['198', '305', '472', '864'],
+      explanation: '작은 수부터 나열하면 198, 305, 472, 864입니다.',
+      hints: ['백의 자리를 먼저 비교하세요.', '1 < 3 < 4 < 8'],
+      commonMistakes: [{ answer: '864,472,305,198', misconception: '큰 수부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['ordering', 'number_sense', '3학년'],
+  },
+
+  // --- 곱셈 결과 순서 ---
+  {
+    id: 'G3_S1_NUM_02_SK01_ORD01',
+    skillId: 'G3_S1_NUM_02_SK01',
+    questionType: 'ORDERING',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 곱셈의 결과를 작은 수부터 순서대로 놓으세요.',
+      correctOrder: ['12 × 3', '15 × 4', '23 × 5', '31 × 6'],
+      explanation: '12×3=36, 15×4=60, 23×5=115, 31×6=186. 작은 순: 36, 60, 115, 186.',
+      hints: ['각 곱셈을 먼저 계산하세요.', '12×3=36, 15×4=60, ...'],
+      commonMistakes: [{ answer: '31×6,23×5,15×4,12×3', misconception: '큰 수부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 45,
+    tags: ['ordering', 'multiplication', '3학년'],
+  },
+
+  // --- 나눗셈 몫 순서 ---
+  {
+    id: 'G3_S2_NUM_01_SK01_ORD01',
+    skillId: 'G3_S2_NUM_01_SK01',
+    questionType: 'ORDERING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 나눗셈의 몫을 작은 수부터 순서대로 놓으세요.',
+      correctOrder: ['8 ÷ 4', '15 ÷ 3', '24 ÷ 4', '36 ÷ 4'],
+      explanation: '8÷4=2, 15÷3=5, 24÷4=6, 36÷4=9. 작은 순: 2, 5, 6, 9.',
+      hints: ['각 나눗셈의 몫을 구하세요.', '8÷4=2, 15÷3=5, ...'],
+      commonMistakes: [{ answer: '36÷4,24÷4,15÷3,8÷4', misconception: '큰 수부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 40,
+    tags: ['ordering', 'division', '3학년'],
+  },
+
+  // --- 분수 순서 ---
+  {
+    id: 'G3_S2_NUM_03_SK02_ORD01',
+    skillId: 'G3_S2_NUM_03_SK02',
+    questionType: 'ORDERING',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 분수를 작은 수부터 순서대로 놓으세요. (분모가 모두 같습니다)',
+      correctOrder: ['1/8', '3/8', '5/8', '7/8'],
+      explanation: '분모가 같으면 분자가 작을수록 작은 수입니다. 1/8 < 3/8 < 5/8 < 7/8.',
+      hints: ['분모가 같으니 분자를 비교하세요.', '1 < 3 < 5 < 7'],
+      commonMistakes: [{ answer: '7/8,5/8,3/8,1/8', misconception: '큰 수부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['ordering', 'fraction', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_03_SK02_ORD02',
+    skillId: 'G3_S2_NUM_03_SK02',
+    questionType: 'ORDERING',
+    difficulty: 0.5,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 단위분수를 큰 수부터 순서대로 놓으세요.',
+      correctOrder: ['1/2', '1/3', '1/5', '1/10'],
+      explanation: '단위분수는 분모가 작을수록 큰 수입니다. 1/2 > 1/3 > 1/5 > 1/10.',
+      hints: ['단위분수는 분모가 작을수록 커요.', '피자를 2조각으로 나눈 것이 10조각보다 한 조각이 크겠죠?'],
+      commonMistakes: [{ answer: '1/10,1/5,1/3,1/2', misconception: '분모가 큰 것부터 나열했어요. 단위분수는 분모가 작을수록 커요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['ordering', 'fraction', 'unit_fraction', '3학년'],
+  },
+
+  // --- 길이 순서 ---
+  {
+    id: 'G3_S1_SHAPE_04_SK01_ORD01',
+    skillId: 'G3_S1_SHAPE_04_SK01',
+    questionType: 'ORDERING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 길이를 짧은 것부터 순서대로 놓으세요.',
+      correctOrder: ['5mm', '30mm', '1cm 5mm', '3cm'],
+      explanation: '5mm, 30mm=3cm, 1cm 5mm=15mm, 3cm=30mm. 짧은 순: 5mm, 15mm, 30mm, 30mm. → 5mm, 1cm 5mm, 30mm, 3cm.',
+      hints: ['단위를 통일해서 비교하세요.', '1cm = 10mm예요.'],
+      commonMistakes: [{ answer: '3cm,30mm,1cm 5mm,5mm', misconception: '긴 것부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['ordering', 'length', 'unit_conversion', '3학년'],
+  },
+
+  // --- 들이와 무게 순서 ---
+  {
+    id: 'G3_S2_SHAPE_04_SK01_ORD01',
+    skillId: 'G3_S2_SHAPE_04_SK01',
+    questionType: 'ORDERING',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 들이를 적은 것부터 순서대로 놓으세요.',
+      correctOrder: ['200mL', '500mL', '1L', '2L 300mL'],
+      explanation: '200mL < 500mL < 1L(=1000mL) < 2L 300mL(=2300mL).',
+      hints: ['모두 mL로 바꿔서 비교하세요.', '1L = 1000mL예요.'],
+      commonMistakes: [{ answer: '2L 300mL,1L,500mL,200mL', misconception: '많은 것부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['ordering', 'volume', '3학년'],
+  },
+  {
+    id: 'G3_S2_SHAPE_04_SK02_ORD01',
+    skillId: 'G3_S2_SHAPE_04_SK02',
+    questionType: 'ORDERING',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 무게를 가벼운 것부터 순서대로 놓으세요.',
+      correctOrder: ['300g', '1kg', '1kg 500g', '3kg'],
+      explanation: '300g < 1kg(=1000g) < 1kg 500g(=1500g) < 3kg(=3000g).',
+      hints: ['모두 g으로 바꿔서 비교하세요.', '1kg = 1000g예요.'],
+      commonMistakes: [{ answer: '3kg,1kg 500g,1kg,300g', misconception: '무거운 것부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['ordering', 'weight', '3학년'],
+  },
+
+  // ============================================================
+  // 추가 문제: MATCHING (짝짓기)
+  // ============================================================
+
+  // --- 세 자리 수 덧셈/뺄셈 매칭 ---
+  {
+    id: 'G3_S1_NUM_01_SK01_MAT01',
+    skillId: 'G3_S1_NUM_01_SK01',
+    questionType: 'MATCHING',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '계산 결과가 같은 것끼리 연결하세요.',
+      pairs: [
+        { left: '150 + 250', right: '400' },
+        { left: '320 + 180', right: '500' },
+        { left: '275 + 125', right: '400' },
+        { left: '410 + 90', right: '500' },
+      ],
+      explanation: '150+250=400, 320+180=500, 275+125=400, 410+90=500입니다.',
+      hints: ['각 덧셈을 먼저 계산하세요.', '같은 결과끼리 연결하세요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '계산을 다시 확인해 보세요.' }],
+    },
+    estimatedTimeSeconds: 40,
+    tags: ['matching', 'addition', '3학년'],
+  },
+
+  // --- 곱셈 매칭 ---
+  {
+    id: 'G3_S1_NUM_02_SK01_MAT01',
+    skillId: 'G3_S1_NUM_02_SK01',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '곱셈과 그 답을 연결하세요.',
+      pairs: [
+        { left: '14 × 3', right: '42' },
+        { left: '23 × 4', right: '92' },
+        { left: '16 × 5', right: '80' },
+        { left: '32 × 3', right: '96' },
+      ],
+      explanation: '14×3=42, 23×4=92, 16×5=80, 32×3=96입니다.',
+      hints: ['각 곱셈을 계산해 보세요.', '일의 자리, 십의 자리를 각각 곱한 뒤 더하세요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '곱셈 계산을 다시 확인해 보세요.' }],
+    },
+    estimatedTimeSeconds: 40,
+    tags: ['matching', 'multiplication', '3학년'],
+  },
+
+  // --- 나눗셈 매칭 ---
+  {
+    id: 'G3_S2_NUM_01_SK01_MAT01',
+    skillId: 'G3_S2_NUM_01_SK01',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '나눗셈과 그 몫을 연결하세요.',
+      pairs: [
+        { left: '18 ÷ 3', right: '6' },
+        { left: '32 ÷ 8', right: '4' },
+        { left: '45 ÷ 9', right: '5' },
+        { left: '56 ÷ 7', right: '8' },
+      ],
+      explanation: '18÷3=6, 32÷8=4, 45÷9=5, 56÷7=8입니다.',
+      hints: ['곱셈구구를 이용하세요.', '3 × ? = 18'],
+      commonMistakes: [{ answer: 'mixed', misconception: '곱셈구구를 떠올려 보세요.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['matching', 'division', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_01_SK02_MAT01',
+    skillId: 'G3_S2_NUM_01_SK02',
+    questionType: 'MATCHING',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '곱셈과 나눗셈의 관계를 연결하세요.',
+      pairs: [
+        { left: '4 × 7 = 28', right: '28 ÷ 7 = 4' },
+        { left: '6 × 5 = 30', right: '30 ÷ 5 = 6' },
+        { left: '8 × 3 = 24', right: '24 ÷ 3 = 8' },
+        { left: '9 × 6 = 54', right: '54 ÷ 6 = 9' },
+      ],
+      explanation: '곱셈을 뒤집으면 나눗셈이 됩니다.',
+      hints: ['곱셈의 결과를 나누는 수로 나누면 다른 수가 나와요.', '4 × 7 = 28이면 28 ÷ 7 = ?'],
+      commonMistakes: [{ answer: 'mixed', misconception: '곱셈과 나눗셈의 관계를 다시 생각해 보세요.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['matching', 'multiplication', 'division', '3학년'],
+  },
+
+  // --- 분수 매칭 ---
+  {
+    id: 'G3_S2_NUM_03_SK01_MAT01',
+    skillId: 'G3_S2_NUM_03_SK01',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '분수와 그 의미를 연결하세요.',
+      pairs: [
+        { left: '1/2', right: '전체를 2개로 나눈 것 중 1개' },
+        { left: '1/4', right: '전체를 4개로 나눈 것 중 1개' },
+        { left: '3/4', right: '전체를 4개로 나눈 것 중 3개' },
+        { left: '2/3', right: '전체를 3개로 나눈 것 중 2개' },
+      ],
+      explanation: '분모는 전체를 나눈 수, 분자는 그 중 취한 수입니다.',
+      hints: ['분모는 전체 조각 수, 분자는 취한 조각 수예요.', '1/2는 전체를 2개로 나눈 것 중 1개예요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '분모와 분자의 의미를 다시 확인해 보세요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['matching', 'fraction', '3학년'],
+  },
+
+  // --- 길이 단위 매칭 ---
+  {
+    id: 'G3_S1_SHAPE_04_SK01_MAT01',
+    skillId: 'G3_S1_SHAPE_04_SK01',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '같은 길이끼리 연결하세요.',
+      pairs: [
+        { left: '2cm', right: '20mm' },
+        { left: '3km', right: '3000m' },
+        { left: '50mm', right: '5cm' },
+        { left: '1km 500m', right: '1500m' },
+      ],
+      explanation: '2cm=20mm, 3km=3000m, 50mm=5cm, 1km 500m=1500m입니다.',
+      hints: ['1cm = 10mm, 1km = 1000m예요.', '단위를 변환해서 비교하세요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '단위 변환을 다시 확인해 보세요.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['matching', 'length', 'unit_conversion', '3학년'],
+  },
+
+  // --- 들이와 무게 매칭 ---
+  {
+    id: 'G3_S2_SHAPE_04_SK01_MAT01',
+    skillId: 'G3_S2_SHAPE_04_SK01',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '같은 양끼리 연결하세요.',
+      pairs: [
+        { left: '2L', right: '2000mL' },
+        { left: '1L 500mL', right: '1500mL' },
+        { left: '3000mL', right: '3L' },
+        { left: '500mL', right: '0.5L' },
+      ],
+      explanation: '1L = 1000mL를 이용하여 변환하면 됩니다.',
+      hints: ['1L = 1000mL예요.', '2L를 mL로 바꾸면 2000mL예요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '1L = 1000mL를 기억하세요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['matching', 'volume', 'unit_conversion', '3학년'],
+  },
+  {
+    id: 'G3_S2_SHAPE_04_SK02_MAT01',
+    skillId: 'G3_S2_SHAPE_04_SK02',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '같은 무게끼리 연결하세요.',
+      pairs: [
+        { left: '1kg', right: '1000g' },
+        { left: '2kg 500g', right: '2500g' },
+        { left: '3000g', right: '3kg' },
+        { left: '500g', right: '0.5kg' },
+      ],
+      explanation: '1kg = 1000g를 이용하여 변환하면 됩니다.',
+      hints: ['1kg = 1000g예요.', '2kg 500g은 2000 + 500 = 2500g이에요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '1kg = 1000g를 기억하세요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['matching', 'weight', 'unit_conversion', '3학년'],
+  },
+
+  // --- 원 매칭 ---
+  {
+    id: 'G3_S2_SHAPE_02_SK01_MAT01',
+    skillId: 'G3_S2_SHAPE_02_SK01',
+    questionType: 'MATCHING',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '원에 대한 용어와 설명을 연결하세요.',
+      pairs: [
+        { left: '중심', right: '원의 가운데 점' },
+        { left: '반지름', right: '중심에서 원까지의 거리' },
+        { left: '지름', right: '원을 지나는 가장 긴 선분' },
+        { left: '지름 = 반지름 × ?', right: '2' },
+      ],
+      explanation: '중심은 가운데 점, 반지름은 중심에서 원까지, 지름은 가장 긴 선분이며 반지름의 2배입니다.',
+      hints: ['원의 부분 이름을 떠올려 보세요.', '지름은 반지름의 몇 배?'],
+      commonMistakes: [{ answer: 'mixed', misconception: '원의 용어를 다시 확인해 보세요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['matching', 'circle', '3학년'],
+  },
+
+  // ============================================================
+  // 추가 문제: 문장형 보충
+  // ============================================================
+
+  {
+    id: 'G3_S1_NUM_01_SK01_WP03',
+    skillId: 'G3_S1_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '아빠가 온라인에서 책 345권과 문구류 287개를 주문했습니다. 주문한 물건은 모두 몇 개일까요?',
+      correctAnswer: 632,
+      explanation: '345 + 287 = 632개입니다.',
+      hints: ['두 수를 더하세요.', '일의 자리: 5 + 7 = 12, 올림 1'],
+      commonMistakes: [{ answer: '522', misconception: '십의 자리에서 올림을 잊었어요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'addition', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_01_SK01_WP02',
+    skillId: 'G3_S2_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '빵 42개를 7명에게 똑같이 나누어 주면 한 사람에게 몇 개씩 줄 수 있을까요?',
+      correctAnswer: 6,
+      explanation: '42 ÷ 7 = 6개입니다.',
+      hints: ['42를 7로 나누세요.', '7 × ? = 42'],
+      commonMistakes: [{ answer: '35', misconception: '42 - 7을 했어요. 나누어 주는 것은 나눗셈이에요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['word_problem', 'division', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S1_NUM_02_SK02_WP02',
+    skillId: 'G3_S1_NUM_02_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.5,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '문구점에서 공책 한 권에 450원입니다. 공책 3권을 사면 얼마를 내야 할까요?',
+      correctAnswer: 1350,
+      explanation: '450 × 3 = 1350원입니다.',
+      hints: ['450원짜리 3권이니 450 × 3을 구하세요.', '400 × 3 = 1200, 50 × 3 = 150, 1200 + 150 = ?'],
+      commonMistakes: [{ answer: '453', misconception: '450 + 3을 했어요. 곱셈을 해야 합니다.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['word_problem', 'multiplication', 'money', 'real_life', '3학년'],
+  },
+  {
+    id: 'G3_S2_NUM_01_SK03_WP02',
+    skillId: 'G3_S2_NUM_01_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.5,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '딸기 50개를 한 접시에 8개씩 담으려 합니다. 접시는 최소 몇 개가 필요할까요?',
+      correctAnswer: 7,
+      explanation: '50 ÷ 8 = 6 ... 2. 나머지 2개도 담아야 하므로 접시는 6 + 1 = 7개 필요합니다.',
+      hints: ['50 ÷ 8의 몫과 나머지를 구하세요.', '나머지가 있으면 접시가 1개 더 필요해요.'],
+      commonMistakes: [{ answer: '6', misconception: '나머지 2개를 담을 접시를 잊었어요. 1개 더 필요합니다.' }],
+    },
+    estimatedTimeSeconds: 35,
+    tags: ['word_problem', 'division', 'remainder', 'real_life', '3학년'],
+  },
+
+  // --- 추가 ORDERING ---
+  {
+    id: 'G3_S1_NUM_02_SK01_ORD02',
+    skillId: 'G3_S1_NUM_02_SK01',
+    questionType: 'ORDERING',
+    difficulty: 0.5,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 곱셈의 결과를 큰 수부터 순서대로 놓으세요.',
+      correctOrder: ['45 × 6', '32 × 7', '28 × 5', '11 × 9'],
+      explanation: '45×6=270, 32×7=224, 28×5=140, 11×9=99. 큰 순: 270, 224, 140, 99.',
+      hints: ['각 곱셈을 먼저 계산하세요.', '45×6=270이 가장 커요.'],
+      commonMistakes: [{ answer: '11×9,28×5,32×7,45×6', misconception: '작은 수부터 나열했어요.' }],
+    },
+    estimatedTimeSeconds: 45,
+    tags: ['ordering', 'multiplication', '3학년'],
+  },
+
+  // --- 추가 MATCHING ---
+  {
+    id: 'G3_S1_DATA_05_SK01_MAT01',
+    skillId: 'G3_S1_DATA_05_SK01',
+    questionType: 'MATCHING',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '자료 정리 방법과 설명을 연결하세요.',
+      pairs: [
+        { left: '정(正) 자 세기', right: '획을 그어 5개씩 묶어 세기' },
+        { left: '표', right: '항목과 수를 정리한 것' },
+        { left: '그림그래프', right: '그림으로 수를 나타낸 것' },
+        { left: '○, × 표시', right: '있다/없다를 표시하는 것' },
+      ],
+      explanation: '각각의 자료 정리 방법에는 특징이 있습니다.',
+      hints: ['정(正) 자는 획을 하나씩 그어 5개가 되면 한 묶음이에요.', '표는 항목별로 수를 정리한 것이에요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '각 방법의 특징을 다시 확인해 보세요.' }],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['matching', 'data', '3학년'],
+  },
 ];
