@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -7,96 +8,120 @@ import { Badge } from '@/components/ui/badge';
 import {
   Users, BookOpen, TrendingUp, AlertTriangle, ArrowRight,
   Clock, Star, Target, Flame, ChevronRight, Trophy, Zap,
-  UserCheck, BarChart3, Activity,
+  UserCheck, BarChart3, Activity, Inbox, Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer,
 } from 'recharts';
 
-// ─── 실제감 있는 데이터 ──────────────────────────────────
+interface TeacherStats {
+  teacher: { name: string };
+  overview: {
+    totalStudents: number;
+    activeToday: number;
+    avgAccuracy: number;
+    totalQuestionsToday: number;
+    atRiskCount: number;
+  };
+  students: Array<{
+    id: string; display_name: string; grade: number;
+    total_xp: number; current_streak: number; level: number;
+  }>;
+  weeklyActivity: Array<{ date: string; students: number; questions: number }>;
+  recentSessions: Array<{
+    display_name: string; session_type: string;
+    correct_count: number; total_questions: number; xp_earned: number; completed_at: string;
+  }>;
+  atRiskStudents: Array<{
+    display_name: string; current_streak: number; updated_at: string; accuracy: number;
+  }>;
+}
 
-const weeklyActivity = [
-  { day: '월', students: 24, questions: 312 },
-  { day: '화', students: 26, questions: 348 },
-  { day: '수', students: 22, questions: 286 },
-  { day: '목', students: 25, questions: 330 },
-  { day: '금', students: 27, questions: 364 },
-  { day: '토', students: 12, questions: 156 },
-  { day: '일', students: 8, questions: 98 },
-];
+function EmptyState({ icon: Icon, title, description }: { icon: typeof Inbox; title: string; description: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-10 text-center">
+      <div className="rounded-2xl bg-muted/50 p-4 mb-3">
+        <Icon className="h-8 w-8 text-muted-foreground/50" />
+      </div>
+      <p className="text-sm font-medium text-muted-foreground">{title}</p>
+      <p className="text-xs text-muted-foreground/70 mt-1 max-w-xs">{description}</p>
+    </div>
+  );
+}
 
-const masteryDistribution = [
-  { name: '마스터', value: 42, color: '#22c55e' },
-  { name: '연습 중', value: 35, color: '#eab308' },
-  { name: '학습 중', value: 18, color: '#3b82f6' },
-  { name: '미시작', value: 5, color: '#d1d5db' },
-];
+function timeAgo(dateStr: string): string {
+  if (!dateStr) return '';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const min = Math.floor(diff / 60000);
+  if (min < 1) return '방금 전';
+  if (min < 60) return `${min}분 전`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}시간 전`;
+  const day = Math.floor(hr / 24);
+  return `${day}일 전`;
+}
 
-const topStudents = [
-  { name: '정예은', xp: 2840, streak: 14, accuracy: 94, level: 12 },
-  { name: '최도윤', xp: 2650, streak: 11, accuracy: 91, level: 11 },
-  { name: '한서아', xp: 2420, streak: 9, accuracy: 89, level: 10 },
-  { name: '윤지호', xp: 2180, streak: 7, accuracy: 87, level: 9 },
-  { name: '김하린', xp: 2050, streak: 12, accuracy: 86, level: 9 },
-];
-
-const alerts = [
-  { student: '김민수', issue: '3일 연속 미접속', detail: '마지막 접속: 3월 29일', severity: 'high' as const, trend: 'down' },
-  { student: '박서연', issue: '분수 영역 정답률 38%', detail: '최근 15문제 중 6문제 정답', severity: 'high' as const, trend: 'down' },
-  { student: '이지훈', issue: '나눗셈 5연속 오답', detail: '오늘 오전 학습에서 발생', severity: 'medium' as const, trend: 'flat' },
-  { student: '강수빈', issue: '학습 시간 급감', detail: '지난주 대비 70% 감소', severity: 'medium' as const, trend: 'down' },
-  { student: '조민재', issue: '속도 급저하', detail: '문제당 평균 시간 2배 증가', severity: 'low' as const, trend: 'flat' },
-];
-
-const recentActivity = [
-  { student: '정예은', action: '일일 퀘스트 완료', detail: '10/10 정답, +180 XP', time: '3분 전', icon: '🎉' },
-  { student: '최도윤', action: '단원 마스터 달성', detail: '분수의 덧셈과 뺄셈', time: '12분 전', icon: '👑' },
-  { student: '한서아', action: '7일 연속 스트릭', detail: '일주일 전사 뱃지 획득', time: '25분 전', icon: '🔥' },
-  { student: '김하린', action: '진단 테스트 완료', detail: '5학년 수준 배정', time: '42분 전', icon: '📊' },
-  { student: '윤지호', action: '복습 세션 완료', detail: '8/10 정답', time: '1시간 전', icon: '📚' },
-  { student: '박지민', action: '신규 가입', detail: '5학년 3반 참여', time: '2시간 전', icon: '👋' },
-];
-
-const classes = [
-  { id: '1', name: '5학년 3반', grade: 5, students: 28, active: 24, avgAccuracy: 78.5, avgXp: 1840 },
-  { id: '2', name: '5학년 4반', grade: 5, students: 30, active: 18, avgAccuracy: 72.3, avgXp: 1520 },
-];
-
-const domainStats = [
-  { name: '수와 연산', accuracy: 82, mastered: 15, total: 20 },
-  { name: '변화와 관계', accuracy: 71, mastered: 8, total: 14 },
-  { name: '도형과 측정', accuracy: 76, mastered: 10, total: 16 },
-  { name: '자료와 가능성', accuracy: 68, mastered: 5, total: 10 },
-];
-
-const SEVERITY_STYLES = {
-  high: 'border-l-red-500 bg-red-50/80 dark:bg-red-950/30',
-  medium: 'border-l-amber-500 bg-amber-50/80 dark:bg-amber-950/30',
-  low: 'border-l-blue-500 bg-blue-50/80 dark:bg-blue-950/30',
+const SESSION_TYPE_LABEL: Record<string, string> = {
+  daily_quest: '일일 퀘스트',
+  lesson: '단원 학습',
+  review: '복습',
+  skill_practice: '스킬 연습',
 };
 
 export default function TeacherDashboard() {
-  const totalStudents = classes.reduce((s, c) => s + c.students, 0);
-  const totalActive = classes.reduce((s, c) => s + c.active, 0);
-  const avgAccuracy = (classes.reduce((s, c) => s + c.avgAccuracy, 0) / classes.length).toFixed(1);
+  const [data, setData] = useState<TeacherStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/teacher/stats')
+      .then(r => r.json())
+      .then(setData)
+      .catch(() => setData(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="h-8 w-8 mx-auto mb-3 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <p className="text-sm text-muted-foreground">데이터를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const overview = data?.overview ?? { totalStudents: 0, activeToday: 0, avgAccuracy: 0, totalQuestionsToday: 0, atRiskCount: 0 };
+  const students = data?.students ?? [];
+  const weekly = data?.weeklyActivity ?? [];
+  const recent = data?.recentSessions ?? [];
+  const atRisk = data?.atRiskStudents ?? [];
+  const activityRate = overview.totalStudents > 0 ? Math.round((overview.activeToday / overview.totalStudents) * 100) : 0;
+
+  // Format weekly data for chart
+  const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+  const chartData = weekly.map(w => ({
+    day: dayNames[new Date(w.date).getDay()] ?? w.date,
+    학생: w.students,
+    문제: w.questions,
+  }));
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight">교사 대시보드</h1>
-        <p className="text-muted-foreground mt-1">오늘의 학급 현황을 한눈에 확인하세요</p>
+        <p className="text-muted-foreground mt-1">학급 현황을 실시간으로 확인하세요</p>
       </div>
 
-      {/* Overview Stats — Gradient cards */}
+      {/* Overview Stats */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
-          { label: '전체 학생', value: totalStudents, sub: `${classes.length}개 학급`, icon: Users, gradient: 'from-blue-500 to-cyan-500' },
-          { label: '오늘 학습', value: totalActive, sub: `${Math.round(totalActive / totalStudents * 100)}% 활동률`, icon: UserCheck, gradient: 'from-green-500 to-emerald-500' },
-          { label: '평균 정답률', value: `${avgAccuracy}%`, sub: '전체 학급', icon: Target, gradient: 'from-violet-500 to-purple-500' },
-          { label: '주의 필요', value: alerts.filter(a => a.severity === 'high').length, sub: `전체 ${alerts.length}명`, icon: AlertTriangle, gradient: 'from-rose-500 to-red-500' },
+          { label: '전체 학생', value: overview.totalStudents, sub: overview.totalStudents === 0 ? '학급을 만들어 보세요' : `${activityRate}% 활동률`, icon: Users, gradient: 'from-blue-500 to-cyan-500' },
+          { label: '오늘 학습', value: overview.activeToday, sub: overview.activeToday === 0 ? '아직 활동 없음' : `${overview.totalQuestionsToday}문제 풀이`, icon: UserCheck, gradient: 'from-green-500 to-emerald-500' },
+          { label: '평균 정답률', value: overview.avgAccuracy > 0 ? `${overview.avgAccuracy}%` : '-', sub: overview.avgAccuracy > 0 ? '오늘 기준' : '데이터 없음', icon: Target, gradient: 'from-violet-500 to-purple-500' },
+          { label: '주의 필요', value: overview.atRiskCount, sub: overview.atRiskCount === 0 ? '모두 양호' : `관리 필요`, icon: AlertTriangle, gradient: 'from-rose-500 to-red-500' },
         ].map((stat, i) => (
           <Card key={i} className="overflow-hidden border-0 shadow-md">
             <CardContent className="p-0">
@@ -117,75 +142,89 @@ export default function TeacherDashboard() {
         ))}
       </div>
 
-      {/* Charts Row */}
-      <div className="grid gap-6 lg:grid-cols-5">
-        {/* Weekly Activity Chart */}
-        <Card className="lg:col-span-3 shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <BarChart3 className="h-4 w-4 text-primary" />
-              이번 주 학습 현황
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-56">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={weeklyActivity} barCategoryGap="20%">
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                  <XAxis dataKey="day" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip
-                    contentStyle={{ borderRadius: 12, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                  />
-                  <Bar dataKey="students" fill="#6366f1" radius={[6, 6, 0, 0]} name="학습 학생" />
-                  <Bar dataKey="questions" fill="#c4b5fd" radius={[6, 6, 0, 0]} name="풀이 문제" />
-                </BarChart>
-              </ResponsiveContainer>
+      {/* No students CTA */}
+      {overview.totalStudents === 0 && (
+        <Card className="border-2 border-dashed border-primary/30 bg-primary/5">
+          <CardContent className="flex flex-col items-center text-center py-10">
+            <div className="rounded-2xl bg-primary/10 p-4 mb-4">
+              <Sparkles className="h-10 w-10 text-primary" />
             </div>
+            <h2 className="text-lg font-bold">시작해 볼까요?</h2>
+            <p className="text-sm text-muted-foreground mt-2 max-w-md">
+              아직 가입한 학생이 없습니다. 학급을 만들고 참여 코드를 학생들에게 공유하면, 여기서 실시간으로 학습 현황을 확인할 수 있어요.
+            </p>
+            <Link href="/teacher-classrooms" className="mt-4">
+              <Button className="gap-2">
+                <Users className="h-4 w-4" /> 학급 만들기
+              </Button>
+            </Link>
           </CardContent>
         </Card>
+      )}
 
-        {/* Mastery Distribution */}
-        <Card className="lg:col-span-2 shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Trophy className="h-4 w-4 text-yellow-500" />
-              스킬 마스터리 분포
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-40 mb-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={masteryDistribution}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={45}
-                    outerRadius={65}
-                    paddingAngle={3}
-                    dataKey="value"
-                  >
-                    {masteryDistribution.map((entry, i) => (
-                      <Cell key={i} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {masteryDistribution.map((item) => (
-                <div key={item.name} className="flex items-center gap-2 text-xs">
-                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                  <span className="text-muted-foreground">{item.name}</span>
-                  <span className="ml-auto font-semibold">{item.value}%</span>
+      {/* Charts — only if data exists */}
+      {weekly.length > 0 && (
+        <div className="grid gap-6 lg:grid-cols-5">
+          <Card className="lg:col-span-3 shadow-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-primary" />
+                이번 주 학습 현황
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-56">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} barCategoryGap="20%">
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                    <XAxis dataKey="day" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis fontSize={12} tickLine={false} axisLine={false} />
+                    <Bar dataKey="학생" fill="#6366f1" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="문제" fill="#c4b5fd" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Top students */}
+          <Card className="lg:col-span-2 shadow-sm">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Star className="h-4 w-4 text-yellow-500" />
+                XP 순위
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2.5">
+              {students.slice(0, 5).map((s, i) => (
+                <div key={s.id} className="flex items-center gap-3 rounded-xl border p-2.5">
+                  <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                    i === 0 ? 'bg-yellow-100 text-yellow-700' :
+                    i === 1 ? 'bg-gray-100 text-gray-600' :
+                    i === 2 ? 'bg-orange-100 text-orange-700' :
+                    'bg-muted text-muted-foreground'
+                  }`}>
+                    {i + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold truncate">{s.display_name}</p>
+                    <p className="text-[10px] text-muted-foreground">Lv.{s.level}</p>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="text-sm font-bold text-primary">{s.total_xp.toLocaleString()}</p>
+                    <p className="text-[10px] text-orange-500 flex items-center gap-0.5 justify-end">
+                      <Flame className="h-3 w-3" /> {s.current_streak}일
+                    </p>
+                  </div>
                 </div>
               ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              {students.length === 0 && (
+                <EmptyState icon={Trophy} title="아직 학생이 없어요" description="학생이 가입하면 순위가 표시됩니다" />
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Alerts + Activity Row */}
       <div className="grid gap-6 lg:grid-cols-2">
@@ -195,38 +234,32 @@ export default function TeacherDashboard() {
             <CardTitle className="text-base flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-red-500" />
               주의가 필요한 학생
-              <Badge variant="secondary" className="ml-auto text-[10px]">{alerts.length}명</Badge>
+              {atRisk.length > 0 && <Badge variant="secondary" className="ml-auto text-[10px]">{atRisk.length}명</Badge>}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {alerts.map((alert, i) => (
-              <div
-                key={i}
-                className={`rounded-xl border-l-4 p-3.5 transition-colors ${SEVERITY_STYLES[alert.severity]}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-semibold">{alert.student}</p>
-                    <p className="text-xs text-foreground/70 mt-0.5">{alert.issue}</p>
-                    <p className="text-[11px] text-muted-foreground mt-1">{alert.detail}</p>
+          <CardContent>
+            {atRisk.length > 0 ? (
+              <div className="space-y-2">
+                {atRisk.map((a, i) => (
+                  <div key={i} className="rounded-xl border-l-4 border-l-red-500 bg-red-50/80 dark:bg-red-950/30 p-3.5">
+                    <p className="text-sm font-semibold">{a.display_name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      정답률 {a.accuracy}% · 스트릭 {a.current_streak}일 · 마지막 활동 {timeAgo(a.updated_at)}
+                    </p>
                   </div>
-                  <Badge
-                    variant="outline"
-                    className={`text-[10px] shrink-0 ${
-                      alert.severity === 'high' ? 'border-red-300 text-red-600' :
-                      alert.severity === 'medium' ? 'border-amber-300 text-amber-600' :
-                      'border-blue-300 text-blue-600'
-                    }`}
-                  >
-                    {alert.severity === 'high' ? '긴급' : alert.severity === 'medium' ? '주의' : '관찰'}
-                  </Badge>
-                </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <EmptyState
+                icon={AlertTriangle}
+                title={overview.totalStudents === 0 ? '아직 학생이 없어요' : '모두 잘하고 있어요!'}
+                description={overview.totalStudents === 0 ? '학생이 가입하면 여기에 표시됩니다' : '주의가 필요한 학생이 없습니다'}
+              />
+            )}
           </CardContent>
         </Card>
 
-        {/* Recent Activity Feed */}
+        {/* Recent Activity */}
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
@@ -235,148 +268,54 @@ export default function TeacherDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {recentActivity.map((act, i) => (
-                <div key={i} className="flex items-start gap-3 group">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-lg">
-                    {act.icon}
+            {recent.length > 0 ? (
+              <div className="space-y-3">
+                {recent.map((act, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold">
+                      {act.display_name.charAt(0)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm">
+                        <span className="font-semibold">{act.display_name}</span>
+                        <span className="text-muted-foreground"> {SESSION_TYPE_LABEL[act.session_type] ?? act.session_type} 완료</span>
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        {act.correct_count}/{act.total_questions} 정답 · +{act.xp_earned} XP
+                      </p>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground shrink-0">{timeAgo(act.completed_at)}</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm">
-                      <span className="font-semibold">{act.student}</span>
-                      <span className="text-muted-foreground"> {act.action}</span>
-                    </p>
-                    <p className="text-[11px] text-muted-foreground">{act.detail}</p>
-                  </div>
-                  <span className="text-[10px] text-muted-foreground shrink-0 pt-0.5">{act.time}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Domain Stats */}
-      <Card className="shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
-            <BarChart3 className="h-4 w-4 text-indigo-500" />
-            영역별 학습 현황
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {domainStats.map((domain) => (
-              <div key={domain.name} className="rounded-xl border p-4 space-y-3">
-                <p className="text-sm font-semibold">{domain.name}</p>
-                <div>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-muted-foreground">평균 정답률</span>
-                    <span className="font-medium">{domain.accuracy}%</span>
-                  </div>
-                  <Progress value={domain.accuracy} className="h-2" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-muted-foreground">마스터리</span>
-                    <span className="font-medium">{domain.mastered}/{domain.total}</span>
-                  </div>
-                  <Progress value={(domain.mastered / domain.total) * 100} className="h-2" />
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Top Students + Classes */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Top Students */}
-        <Card className="shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Star className="h-4 w-4 text-yellow-500" />
-              이번 주 우수 학생
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2.5">
-              {topStudents.map((s, i) => (
-                <div key={s.name} className="flex items-center gap-3 rounded-xl border p-3 hover:bg-muted/50 transition-colors">
-                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-bold text-sm ${
-                    i === 0 ? 'bg-yellow-100 text-yellow-700' :
-                    i === 1 ? 'bg-gray-100 text-gray-700' :
-                    i === 2 ? 'bg-orange-100 text-orange-700' :
-                    'bg-muted text-muted-foreground'
-                  }`}>
-                    {i + 1}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold">{s.name}</p>
-                    <p className="text-[11px] text-muted-foreground">
-                      Lv.{s.level} · 정답률 {s.accuracy}%
-                    </p>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-sm font-bold text-primary">{s.xp.toLocaleString()} XP</p>
-                    <p className="text-[10px] text-orange-500 flex items-center gap-0.5 justify-end">
-                      <Flame className="h-3 w-3" /> {s.streak}일
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Classes */}
-        <Card className="shadow-sm">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Users className="h-4 w-4 text-blue-500" />
-                내 학급
-              </CardTitle>
-              <Link href="/teacher-classrooms">
-                <Button variant="ghost" size="sm" className="gap-1 text-xs">
-                  전체 보기 <ChevronRight className="h-3 w-3" />
-                </Button>
-              </Link>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {classes.map((cls) => {
-              const activityRate = Math.round((cls.active / cls.students) * 100);
-              return (
-                <Link key={cls.id} href="/teacher-classrooms">
-                  <div className="rounded-xl border p-4 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer">
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <p className="font-semibold">{cls.name}</p>
-                        <p className="text-xs text-muted-foreground">{cls.students}명 · 평균 {cls.avgAccuracy}%</p>
-                      </div>
-                      <Badge variant={activityRate >= 80 ? 'default' : 'secondary'} className="text-[10px]">
-                        {activityRate}% 활동
-                      </Badge>
-                    </div>
-                    <div className="space-y-1.5">
-                      <div className="flex justify-between text-[11px]">
-                        <span className="text-muted-foreground">오늘 활동률</span>
-                        <span className="font-medium">{cls.active}/{cls.students}명</span>
-                      </div>
-                      <Progress value={activityRate} className="h-2" />
-                    </div>
-                    <div className="flex items-center gap-4 mt-2.5 text-[11px] text-muted-foreground">
-                      <span className="flex items-center gap-1"><Zap className="h-3 w-3" /> 평균 {cls.avgXp} XP</span>
-                      <span className="flex items-center gap-1"><Target className="h-3 w-3" /> {cls.avgAccuracy}%</span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+            ) : (
+              <EmptyState
+                icon={Activity}
+                title="아직 학습 활동이 없어요"
+                description={overview.totalStudents === 0 ? '학생이 문제를 풀기 시작하면 여기에 표시됩니다' : '오늘은 아직 아무도 학습하지 않았어요'}
+              />
+            )}
           </CardContent>
         </Card>
       </div>
+
+      {/* Quick link to classrooms */}
+      <Link href="/teacher-classrooms">
+        <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-primary/30">
+          <CardContent className="flex items-center justify-between p-5">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-indigo-100 dark:bg-indigo-900/30 p-2.5">
+                <Users className="h-5 w-5 text-indigo-600" />
+              </div>
+              <div>
+                <p className="font-semibold">학급 관리</p>
+                <p className="text-xs text-muted-foreground">학급 만들기, 학생 관리, 참여 코드 확인</p>
+              </div>
+            </div>
+            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+          </CardContent>
+        </Card>
+      </Link>
     </div>
   );
 }
