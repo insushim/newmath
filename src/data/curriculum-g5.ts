@@ -532,11 +532,11 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: 0.7,
     difficultyLabel: '어려움',
     content: {
-      questionText: '시간(x)과 거리(y)의 관계가 y = x × 60일 때, 3시간이면 거리는 몇 km인가요?',
+      questionText: '시간(□)과 거리(△)의 관계가 △ = □ × 60일 때, 3시간이면 거리는 몇 km인가요?',
       correctAnswer: 180,
       explanation: 'y = 3 × 60 = 180km입니다.',
       hints: [
-        'x에 3을 넣어 보세요.',
+        '□에 3을 넣어 보세요.',
         '3 × 60 = ?',
       ],
     },
@@ -1310,7 +1310,7 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     content: {
       questionText: '탁자 1개에 4명이 앉을 수 있습니다. 탁자 8개에는 몇 명이 앉을 수 있나요?',
       correctAnswer: 32,
-      explanation: 'y = x × 4에서 x=8이면 y = 32.',
+      explanation: '△ = □ × 4에서 □=8이면 △ = 32.',
       hints: ['탁자 수 × 4 = 앉을 수 있는 사람 수', '8 × 4 = ?'],
       commonMistakes: [{ answer: '12', misconception: '덧셈(8+4)으로 계산했습니다.' }],
     },
@@ -1324,7 +1324,7 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: 0.5,
     difficultyLabel: '어려움',
     content: {
-      questionText: 'x와 y의 관계가 y = x + 7일 때, x = 15이면 y = □이다.',
+      questionText: '□와 △의 관계가 △ = □ + 7일 때, □ = 15이면 △은 얼마일까요?.',
       correctAnswer: '22',
       explanation: 'y = 15 + 7 = 22',
       hints: ['x에 15를 넣으세요.', '15 + 7 = ?'],
@@ -2082,7 +2082,7 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: -0.3,
     difficultyLabel: '쉬움',
     content: {
-      questionText: 'y = x × 2일 때, x = 10이면 y = □이다.',
+      questionText: '△ = □ × 2일 때, □ = 10이면 △은 얼마일까요?.',
       correctAnswer: '20',
       explanation: 'y = 10 × 2 = 20.',
       hints: ['x에 10을 넣으세요.'],
@@ -2869,10 +2869,10 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: 0.5,
     difficultyLabel: '보통',
     content: {
-      questionText: 'y = x × 3일 때, x가 작은 것부터 순서대로 놓으세요.',
-      correctOrder: ['x=1, y=3', 'x=3, y=9', 'x=5, y=15', 'x=10, y=30'],
+      questionText: '△ = □ × 3일 때, □가 작은 것부터 순서대로 놓으세요.',
+      correctOrder: ['□=1, △=3', '□=3, △=9', '□=5, △=15', '□=10, △=30'],
       explanation: 'x에 3을 곱하면 y가 됩니다. x가 작을수록 y도 작습니다.',
-      hints: ['각 x에 3을 곱해서 y를 구하세요.', 'x=1이면 y=3, x=3이면 y=9, ...'],
+      hints: ['각 □에 3을 곱해서 △를 구하세요.', '□=1이면 △=3, □=3이면 △=9, ...'],
       commonMistakes: [{ answer: 'x=10,x=5,x=3,x=1', misconception: '큰 것부터 나열했어요.' }],
     },
     estimatedTimeSeconds: 30,
