@@ -29,9 +29,15 @@ export async function GET() {
       return NextResponse.json({ error: 'Not a teacher' }, { status: 403 });
     }
 
-    // Get all students (for now, all student profiles — later: by classroom)
+    // Get students in teacher's classrooms
     const studentsResult = await db
-      .prepare('SELECT id, display_name, grade, total_xp, current_streak, level, coins, created_at, updated_at FROM profiles WHERE role = "student" ORDER BY total_xp DESC')
+      .prepare(`SELECT DISTINCT p.id, p.display_name, p.grade, p.total_xp, p.current_streak, p.level, p.coins, p.created_at, p.updated_at
+        FROM profiles p
+        JOIN classroom_students cs ON cs.student_id = p.id
+        JOIN classrooms c ON c.id = cs.classroom_id
+        WHERE c.teacher_id = ?
+        ORDER BY p.total_xp DESC`)
+      .bind(teacher.id)
       .all<{
         id: string; display_name: string; grade: number;
         total_xp: number; current_streak: number; level: number;
