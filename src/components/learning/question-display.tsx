@@ -7,6 +7,88 @@ import { cn } from '@/lib/utils';
 import { Lightbulb, Check, X, ArrowUp, ArrowDown, GripVertical } from 'lucide-react';
 import type { SeedQuestion } from '@/data/curriculum-types';
 
+/**
+ * Render text with fractions (a/b) as proper KaTeX fractions
+ * and math operators (×, ÷, +, -, =) nicely formatted.
+ */
+function MathText({ text, className }: { text: string; className?: string }) {
+  // Convert fraction patterns and math to KaTeX
+  const html = useMemo(() => {
+    try {
+      const katex = require('katex');
+      // Replace fractions like 1/4, 2/3, 12/100 with \frac{}{}
+      // Also handle expressions like "1/4 × 2/3 = □"
+      let latex = text
+        // fractions: number/number
+        .replace(/(\d+)\s*\/\s*(\d+)/g, '\\frac{$1}{$2}')
+        // operators
+        .replace(/×/g, '\\times ')
+        .replace(/÷/g, '\\div ')
+        .replace(/□/g, '\\square ')
+        .replace(/△/g, '\\triangle ')
+        .replace(/≥/g, '\\geq ')
+        .replace(/≤/g, '\\leq ')
+        .replace(/≠/g, '\\neq ');
+
+      // Only render as KaTeX if there's actual math content
+      if (latex !== text) {
+        return katex.renderToString(latex, { throwOnError: false, displayMode: false });
+      }
+    } catch {
+      // KaTeX not available, fall through
+    }
+    return null;
+  }, [text]);
+
+  if (html) {
+    return <span className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+  }
+  return <span className={className}>{text}</span>;
+}
+
+/** Render text, auto-detecting and converting fractions to proper display */
+function RichText({ children, className }: { children: string; className?: string }) {
+  // Check if text contains fraction patterns
+  const hasFraction = /\d+\s*\/\s*\d+/.test(children);
+  const hasMathSymbol = /[×÷□△]/.test(children);
+
+  if (hasFraction || hasMathSymbol) {
+    return <MathText text={children} className={className} />;
+  }
+  return <span className={className}>{children}</span>;
+}
+
+/** Check if two fraction strings are equivalent (e.g., 2/12 === 1/6) */
+function areFractionsEqual(a: string, b: string): boolean {
+  const parseFrac = (s: string): [number, number] | null => {
+    const m = s.trim().match(/^(-?\d+)\s*\/\s*(\d+)$/);
+    if (!m) return null;
+    return [parseInt(m[1]), parseInt(m[2])];
+  };
+  const fa = parseFrac(a);
+  const fb = parseFrac(b);
+  if (!fa || !fb) return false;
+  if (fa[1] === 0 || fb[1] === 0) return false;
+  // Cross-multiply to compare: a/b == c/d iff a*d == b*c
+  return fa[0] * fb[1] === fa[1] * fb[0];
+}
+
+/** Normalize comparison: handles numbers, fractions (with equivalence), text */
+function isAnswerCorrect(given: string, correct: string): boolean {
+  const g = given.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
+  const c = correct.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
+  if (g === c) return true;
+  // Check numeric equality
+  const gn = Number(g);
+  const cn = Number(c);
+  if (!isNaN(gn) && !isNaN(cn) && gn === cn) return true;
+  // Check fraction equivalence
+  if (g.includes('/') || c.includes('/')) {
+    return areFractionsEqual(g, c);
+  }
+  return false;
+}
+
 /** Generate auto choices from a correct answer for SHORT_ANSWER/FILL_IN_BLANK */
 function generateAutoChoices(correctAnswer: string | number | boolean | undefined): string[] | null {
   if (correctAnswer === undefined || correctAnswer === null) return null;
@@ -169,18 +251,13 @@ export function QuestionDisplay({
       case 'SHORT_ANSWER':
       case 'FILL_IN_BLANK': {
         if (useAutoChoices) {
-          // Using auto-generated choices (tap-friendly)
           if (!selectedOption) return;
           answer = selectedOption;
-          const correctStr = String(content.correctAnswer).trim();
-          const normalize = (s: string) => s.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
-          correct = normalize(answer) === normalize(correctStr);
+          correct = isAnswerCorrect(answer, String(content.correctAnswer));
         } else {
           if (!textInput.trim()) return;
           answer = textInput.trim();
-          const correctStr = String(content.correctAnswer).trim();
-          const normalize = (s: string) => s.replace(/\s/g, '').replace(/,/g, '').toLowerCase();
-          correct = normalize(answer) === normalize(correctStr);
+          correct = isAnswerCorrect(answer, String(content.correctAnswer));
         }
         break;
       }
@@ -236,9 +313,9 @@ export function QuestionDisplay({
     <div className="space-y-6">
       {/* Question text */}
       <div className="text-center">
-        <p className="text-xl font-semibold leading-relaxed whitespace-pre-line">
-          {content.questionText}
-        </p>
+        <div className="text-xl font-semibold leading-relaxed whitespace-pre-line">
+          <RichText>{content.questionText}</RichText>
+        </div>
         {content.questionLatex && (
           <div
             className="mt-2 text-2xl text-primary"
@@ -296,7 +373,7 @@ export function QuestionDisplay({
                      showWrong ? <X className="h-4 w-4" /> :
                      opt.id.toUpperCase()}
                   </div>
-                  <span className="font-medium">{opt.text}</span>
+                  <span className="font-medium"><RichText>{opt.text}</RichText></span>
                 </button>
               );
             })}
@@ -342,8 +419,7 @@ export function QuestionDisplay({
             <div className="grid grid-cols-2 gap-2.5 max-w-sm mx-auto">
               {autoChoices.map((choice, ci) => {
                 const isSelected = selectedOption === choice;
-                const correctStr = String(content.correctAnswer).trim();
-                const isCorrectChoice = choice === correctStr;
+                const isCorrectChoice = isAnswerCorrect(choice, String(content.correctAnswer));
                 const showCorrectC = showResult && isCorrectChoice;
                 const showWrongC = showResult && isSelected && !isCorrectChoice;
 
@@ -363,7 +439,7 @@ export function QuestionDisplay({
                   >
                     {showCorrectC && <Check className="h-4 w-4 inline mr-1" />}
                     {showWrongC && <X className="h-4 w-4 inline mr-1" />}
-                    {choice}
+                    <RichText>{choice}</RichText>
                   </button>
                 );
               })}
