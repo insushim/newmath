@@ -4485,4 +4485,27 @@ export const G1_QUESTIONS: SeedQuestion[] = [
     estimatedTimeSeconds: 35,
     tags: ['matching', 'addition', 'carry', '1학년'],
   },
+
+  // --- 100까지의 수 매칭 ---
+  {
+    id: 'G1_S2_NUM_01_SK01_MAT01',
+    skillId: 'G1_S2_NUM_01_SK01',
+    questionType: 'MATCHING',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '수와 읽는 방법을 연결하세요.',
+      pairs: [
+        { left: '60', right: '육십' },
+        { left: '75', right: '칠십오' },
+        { left: '88', right: '팔십팔' },
+        { left: '100', right: '백' },
+      ],
+      explanation: '60=육십, 75=칠십오, 88=팔십팔, 100=백입니다.',
+      hints: ['십의 자리와 일의 자리를 순서대로 읽어 보세요.', '60은 6이 십의 자리이니 "육십"이에요.'],
+      commonMistakes: [{ answer: 'mixed', misconception: '수를 소리 내어 읽어 보세요.' }],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['matching', 'number_names', '1학년'],
+  },
 ];
