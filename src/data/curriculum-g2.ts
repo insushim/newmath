@@ -1791,4 +1791,2652 @@ export const G2_QUESTIONS: SeedQuestion[] = [
     estimatedTimeSeconds: 25,
     tags: ['네 자리 수', '비교', '2학년'],
   },
+
+  // ============================================================
+  // ===== 추가 문제 시작 (스킬별 7문제 이상 확보) =====
+  // ============================================================
+
+  // ============================================================
+  // 단원: 세 자리 수 - SK01: 백의 자리 이해 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_NUM_01_SK01_Q04',
+    skillId: 'G2_S1_NUM_01_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -1.8,
+    difficultyLabel: '쉬움',
+    content: {
+      questionText: '"100이 9개이면 900이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '100이 9개이면 100 × 9 = 900입니다.',
+      hints: [
+        '100씩 9번 세어 보세요.',
+        '100, 200, 300, ..., 800, 900!',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '100 × 9 = 900이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['세 자리 수', '백의 자리', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK01_Q05',
+    skillId: 'G2_S1_NUM_01_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -1.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '300은 100이 ___개인 수입니다.',
+      correctAnswer: 3,
+      explanation: '300 = 100 × 3이므로 100이 3개인 수입니다.',
+      hints: [
+        '100씩 세어서 300이 되려면?',
+        '100, 200, 300 - 몇 번?',
+      ],
+      commonMistakes: [
+        { answer: '30', misconception: '10이 아니라 100의 개수를 물었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['세 자리 수', '백의 자리', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK01_Q06',
+    skillId: 'G2_S1_NUM_01_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -1.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '100이 6개이면 얼마인가요?',
+      options: [
+        { id: 'a', text: '16', isCorrect: false },
+        { id: 'b', text: '60', isCorrect: false },
+        { id: 'c', text: '600', isCorrect: true },
+        { id: 'd', text: '6000', isCorrect: false },
+      ],
+      explanation: '100이 6개이면 100 × 6 = 600입니다.',
+      hints: [
+        '100씩 6번 세어 보세요.',
+        '100, 200, 300, 400, 500, ?',
+      ],
+      commonMistakes: [
+        { answer: '60', misconception: '10이 6개이면 60이지만, 100이 6개이면 600이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['세 자리 수', '백의 자리', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK01_Q07',
+    skillId: 'G2_S1_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.8,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '500은 100이 몇 개인 수인가요?',
+      correctAnswer: 5,
+      explanation: '500 = 100 × 5이므로 100이 5개인 수입니다.',
+      hints: [
+        '100씩 세어서 500이 되려면?',
+        '100, 200, 300, 400, 500 - 몇 번?',
+      ],
+      commonMistakes: [
+        { answer: '50', misconception: '10의 개수가 아니라 100의 개수를 물었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['세 자리 수', '백의 자리', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 세 자리 수 - SK02: 세 자리 수 읽고 쓰기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_NUM_01_SK02_Q04',
+    skillId: 'G2_S1_NUM_01_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -1.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"247에서 4는 40을 나타낸다." 맞나요?',
+      correctAnswer: true,
+      explanation: '247에서 4는 십의 자리에 있으므로 40을 나타냅니다.',
+      hints: [
+        '247에서 4는 어느 자리에 있나요?',
+        '백의 자리는 2, 십의 자리는 4, 일의 자리는 7이에요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '4가 십의 자리에 있으므로 40을 나타내는 것이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['자릿값', '세 자리 수', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK02_Q05',
+    skillId: 'G2_S1_NUM_01_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.8,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '100이 5개, 10이 3개, 1이 9개이면 ___입니다.',
+      correctAnswer: 539,
+      explanation: '500 + 30 + 9 = 539입니다.',
+      hints: [
+        '100이 5개이면 500이에요.',
+        '500 + 30 + 9 = ?',
+      ],
+      commonMistakes: [
+        { answer: '593', misconception: '십의 자리와 일의 자리를 바꿨어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['자릿값', '세 자리 수', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK02_Q06',
+    skillId: 'G2_S1_NUM_01_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"삼백십오"를 수로 쓰면 얼마인가요?',
+      correctAnswer: 315,
+      explanation: '"삼백"은 300, "십"은 10, "오"는 5이므로 300 + 10 + 5 = 315입니다.',
+      hints: [
+        '"삼백"은 얼마인가요?',
+        '300 + 10 + 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: '350', misconception: '"십오"를 50으로 읽었어요. "십"은 10, "오"는 5이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['수 읽기', '세 자리 수', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK02_Q07',
+    skillId: 'G2_S1_NUM_01_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '806에서 0은 어떤 자릿값을 나타내나요?',
+      options: [
+        { id: 'a', text: '0', isCorrect: true },
+        { id: 'b', text: '80', isCorrect: false },
+        { id: 'c', text: '100', isCorrect: false },
+        { id: 'd', text: '10', isCorrect: false },
+      ],
+      explanation: '806에서 0은 십의 자리에 있고, 십의 자리에 아무것도 없으므로 0을 나타냅니다.',
+      hints: [
+        '806 = 800 + 0 + 6이에요.',
+        '십의 자리에 0이 있으면 십이 없다는 뜻이에요.',
+      ],
+      commonMistakes: [
+        { answer: '80', misconception: '0이 있는 자리는 십의 자리이므로 0 × 10 = 0이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['자릿값', '세 자리 수', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 세 자리 수 - SK03: 세 자리 수 크기 비교 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_NUM_01_SK03_Q04',
+    skillId: 'G2_S1_NUM_01_SK03',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"389는 412보다 크다." 맞나요?',
+      correctAnswer: false,
+      explanation: '백의 자리를 비교하면 3 < 4이므로 389가 412보다 작습니다.',
+      hints: [
+        '백의 자리를 먼저 비교해 보세요.',
+        '3과 4 중 어느 것이 더 큰가요?',
+      ],
+      commonMistakes: [
+        { answer: 'true', misconception: '백의 자리가 3 < 4이므로 389가 더 작아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['수 비교', '세 자리 수', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK03_Q05',
+    skillId: 'G2_S1_NUM_01_SK03',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '325, 253, 532 중 가장 큰 수는 ___입니다.',
+      correctAnswer: 532,
+      explanation: '백의 자리를 비교하면 5 > 3 > 2이므로 532가 가장 큽니다.',
+      hints: [
+        '백의 자리가 가장 큰 수를 찾아보세요.',
+        '3, 2, 5 중 가장 큰 것은?',
+      ],
+      commonMistakes: [
+        { answer: '325', misconception: '모든 수의 백의 자리를 비교해 보세요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['수 비교', '세 자리 수', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK03_Q06',
+    skillId: 'G2_S1_NUM_01_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '467과 463 중 더 큰 수를 쓰세요.',
+      correctAnswer: 467,
+      explanation: '백의 자리(4)와 십의 자리(6)가 같으므로 일의 자리를 비교합니다. 7 > 3이므로 467이 더 큽니다.',
+      hints: [
+        '백의 자리와 십의 자리가 같으면 일의 자리를 비교해요.',
+        '7과 3 중 어느 것이 더 큰가요?',
+      ],
+      commonMistakes: [
+        { answer: '463', misconception: '일의 자리에서 7 > 3이므로 467이 더 커요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['수 비교', '세 자리 수', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_01_SK03_Q07',
+    skillId: 'G2_S1_NUM_01_SK03',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '다음 중 가장 작은 수는?',
+      options: [
+        { id: 'a', text: '305', isCorrect: true },
+        { id: 'b', text: '350', isCorrect: false },
+        { id: 'c', text: '503', isCorrect: false },
+        { id: 'd', text: '530', isCorrect: false },
+      ],
+      explanation: '백의 자리를 비교하면 3 < 5이므로 305와 350이 후보이고, 305 < 350이므로 305가 가장 작습니다.',
+      hints: [
+        '백의 자리가 가장 작은 수를 먼저 찾아보세요.',
+        '305와 350 중 더 작은 수는?',
+      ],
+      commonMistakes: [
+        { answer: '350', misconception: '305의 십의 자리가 0이므로 305가 350보다 작아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['수 비교', '세 자리 수', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 여러 가지 도형 - SK01: 삼각형, 사각형, 원 알기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_SHAPE_02_SK01_Q04',
+    skillId: 'G2_S1_SHAPE_02_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -1.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '둥근 선으로 이루어진 도형은 ___입니다.',
+      correctAnswer: '원',
+      explanation: '둥근 선으로 이루어진 도형을 원이라고 합니다.',
+      hints: [
+        '동그란 모양을 생각해 보세요.',
+        '곧은 선이 없는 도형이에요.',
+      ],
+      commonMistakes: [
+        { answer: '삼각형', misconception: '삼각형은 곧은 선 3개로 이루어져 있어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '원', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_02_SK01_Q05',
+    skillId: 'G2_S1_SHAPE_02_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -1.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"삼각형은 곧은 선 4개로 둘러싸인 도형이다." 맞나요?',
+      correctAnswer: false,
+      explanation: '삼각형은 곧은 선 3개로 둘러싸인 도형입니다. 4개는 사각형이에요.',
+      hints: [
+        '"삼"은 숫자 3을 뜻해요.',
+        '삼각형의 변은 몇 개인가요?',
+      ],
+      commonMistakes: [
+        { answer: 'true', misconception: '삼각형의 "삼"은 3이에요. 변이 3개예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '삼각형', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_02_SK01_Q06',
+    skillId: 'G2_S1_SHAPE_02_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.8,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '곧은 선 4개로 둘러싸인 도형의 이름은 무엇인가요?',
+      correctAnswer: '사각형',
+      explanation: '곧은 선 4개로 둘러싸인 도형을 사각형이라고 합니다.',
+      hints: [
+        '"사"는 숫자 4를 뜻해요.',
+        '변이 4개인 도형이에요.',
+      ],
+      commonMistakes: [
+        { answer: '삼각형', misconception: '삼각형은 변이 3개예요. 변이 4개인 것은 사각형이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '사각형', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_02_SK01_Q07',
+    skillId: 'G2_S1_SHAPE_02_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 중 원의 특징이 아닌 것은?',
+      options: [
+        { id: 'a', text: '둥근 선으로 이루어져 있다', isCorrect: false },
+        { id: 'b', text: '꼭짓점이 없다', isCorrect: false },
+        { id: 'c', text: '변이 3개이다', isCorrect: true },
+        { id: 'd', text: '곧은 선이 없다', isCorrect: false },
+      ],
+      explanation: '원에는 곧은 선(변)이 없으므로 "변이 3개"는 원의 특징이 아닙니다.',
+      hints: [
+        '원은 둥근 선으로만 이루어져 있어요.',
+        '변이 3개인 도형은 삼각형이에요.',
+      ],
+      commonMistakes: [
+        { answer: '꼭짓점이 없다', misconception: '원에는 정말 꼭짓점이 없어요. 그건 맞는 특징이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['도형', '원', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 여러 가지 도형 - SK02: 변과 꼭짓점 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_SHAPE_02_SK02_Q04',
+    skillId: 'G2_S1_SHAPE_02_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -1.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"사각형의 꼭짓점은 4개이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '사각형은 변이 4개이고 꼭짓점도 4개입니다.',
+      hints: [
+        '사각형을 그려서 꼭짓점을 세어 보세요.',
+        '변과 변이 만나는 점이 꼭짓점이에요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '사각형의 꼭짓점은 4개가 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '꼭짓점', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_02_SK02_Q05',
+    skillId: 'G2_S1_SHAPE_02_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.8,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '삼각형의 변은 ___개입니다.',
+      correctAnswer: 3,
+      explanation: '삼각형은 곧은 선 3개로 둘러싸인 도형이므로 변이 3개입니다.',
+      hints: [
+        '"삼"각형의 "삼"은 3이에요.',
+        '삼각형을 그려서 변을 세어 보세요.',
+      ],
+      commonMistakes: [
+        { answer: '4', misconception: '변이 4개인 도형은 사각형이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '변', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_02_SK02_Q06',
+    skillId: 'G2_S1_SHAPE_02_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '원의 꼭짓점은 몇 개인가요?',
+      correctAnswer: 0,
+      explanation: '원에는 곧은 선(변)이 없으므로 꼭짓점도 0개입니다.',
+      hints: [
+        '꼭짓점은 변과 변이 만나는 점이에요.',
+        '원에는 변이 있나요?',
+      ],
+      commonMistakes: [
+        { answer: '1', misconception: '원에는 변이 없으므로 꼭짓점도 없어요(0개).' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '꼭짓점', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_02_SK02_Q07',
+    skillId: 'G2_S1_SHAPE_02_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '변이 4개이고 꼭짓점이 4개인 도형은?',
+      options: [
+        { id: 'a', text: '삼각형', isCorrect: false },
+        { id: 'b', text: '사각형', isCorrect: true },
+        { id: 'c', text: '원', isCorrect: false },
+        { id: 'd', text: '오각형', isCorrect: false },
+      ],
+      explanation: '변 4개, 꼭짓점 4개인 도형은 사각형입니다.',
+      hints: [
+        '"사"는 4를 뜻해요.',
+        '변이 4개인 도형의 이름은?',
+      ],
+      commonMistakes: [
+        { answer: '삼각형', misconception: '삼각형은 변이 3개예요. 4개는 사각형이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['도형', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 덧셈과 뺄셈 - SK01: 두 자리 수 + 두 자리 수 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_NUM_03_SK01_Q04',
+    skillId: 'G2_S1_NUM_03_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.8,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '29 + 34 = ___',
+      questionLatex: '29 + 34 = \\square',
+      correctAnswer: 63,
+      explanation: '일의 자리: 9 + 4 = 13 (3을 쓰고 1을 올림). 십의 자리: 2 + 3 + 1 = 6. 답은 63입니다.',
+      hints: [
+        '일의 자리끼리 먼저 더해 보세요.',
+        '9 + 4 = 13이므로 일의 자리에 3을 쓰고 1을 올려요.',
+      ],
+      commonMistakes: [
+        { answer: '53', misconception: '받아올림 1을 더하지 않았어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['두 자리 덧셈', '받아올림', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK01_Q05',
+    skillId: 'G2_S1_NUM_03_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"46 + 37 = 83이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '일의 자리: 6 + 7 = 13 (3을 쓰고 1을 올림). 십의 자리: 4 + 3 + 1 = 8. 답은 83입니다.',
+      hints: [
+        '일의 자리: 6 + 7 = ?',
+        '13에서 3을 일의 자리에, 1을 올리면 4 + 3 + 1 = 8.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '46 + 37을 다시 계산해 보면 83이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['두 자리 덧셈', '받아올림', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK01_Q06',
+    skillId: 'G2_S1_NUM_03_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '68 + 25 = ?',
+      questionLatex: '68 + 25 = \\square',
+      correctAnswer: 93,
+      explanation: '일의 자리: 8 + 5 = 13 (3을 쓰고 1을 올림). 십의 자리: 6 + 2 + 1 = 9. 답은 93입니다.',
+      hints: [
+        '일의 자리끼리 더하면 8 + 5 = ?',
+        '13에서 3을 쓰고 1을 올려요.',
+      ],
+      commonMistakes: [
+        { answer: '83', misconception: '받아올림을 빠뜨렸어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['두 자리 덧셈', '받아올림', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK01_Q07',
+    skillId: 'G2_S1_NUM_03_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '문구점에서 공책을 57권, 연필을 36자루 샀습니다. 모두 몇 개인가요?',
+      options: [
+        { id: 'a', text: '83개', isCorrect: false },
+        { id: 'b', text: '93개', isCorrect: true },
+        { id: 'c', text: '91개', isCorrect: false },
+        { id: 'd', text: '103개', isCorrect: false },
+      ],
+      explanation: '57 + 36 = 93입니다.',
+      hints: [
+        '"모두"라는 말이 있으므로 덧셈이에요.',
+        '일의 자리: 7 + 6 = 13, 올림 1. 십의 자리: 5 + 3 + 1 = 9.',
+      ],
+      commonMistakes: [
+        { answer: '83개', misconception: '받아올림을 빠뜨렸어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['두 자리 덧셈', '서술형', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 덧셈과 뺄셈 - SK02: 두 자리 수 - 두 자리 수 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_NUM_03_SK02_Q04',
+    skillId: 'G2_S1_NUM_03_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.8,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '41 - 17 = ___',
+      questionLatex: '41 - 17 = \\square',
+      correctAnswer: 24,
+      explanation: '일의 자리: 1에서 7을 뺄 수 없으므로 받아내림. 11 - 7 = 4. 십의 자리: 3 - 1 = 2. 답은 24입니다.',
+      hints: [
+        '일의 자리에서 뺄 수 없으면 십의 자리에서 빌려와요.',
+        '11 - 7 = 4, 3 - 1 = 2.',
+      ],
+      commonMistakes: [
+        { answer: '36', misconception: '받아내림 없이 계산했어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['두 자리 뺄셈', '받아내림', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK02_Q05',
+    skillId: 'G2_S1_NUM_03_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"83 - 45 = 38이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '일의 자리: 13 - 5 = 8 (받아내림). 십의 자리: 7 - 4 = 3. 답은 38입니다.',
+      hints: [
+        '일의 자리: 3에서 5를 뺄 수 없으니 받아내림!',
+        '13 - 5 = 8, 7 - 4 = 3.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '83 - 45를 다시 계산해 보면 38이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['두 자리 뺄셈', '받아내림', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK02_Q06',
+    skillId: 'G2_S1_NUM_03_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '90 - 53 = ?',
+      questionLatex: '90 - 53 = \\square',
+      correctAnswer: 37,
+      explanation: '일의 자리: 0에서 3을 뺄 수 없으므로 받아내림. 10 - 3 = 7. 십의 자리: 8 - 5 = 3. 답은 37입니다.',
+      hints: [
+        '0에서 3을 뺄 수 없으니 받아내림!',
+        '10 - 3 = 7, 8 - 5 = 3.',
+      ],
+      commonMistakes: [
+        { answer: '47', misconception: '십의 자리에서 1을 빌려준 것을 잊었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['두 자리 뺄셈', '받아내림', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK02_Q07',
+    skillId: 'G2_S1_NUM_03_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '연필이 75자루 있었는데 38자루를 나눠 주었습니다. 남은 연필은?',
+      options: [
+        { id: 'a', text: '37자루', isCorrect: true },
+        { id: 'b', text: '43자루', isCorrect: false },
+        { id: 'c', text: '47자루', isCorrect: false },
+        { id: 'd', text: '33자루', isCorrect: false },
+      ],
+      explanation: '75 - 38 = 37자루입니다.',
+      hints: [
+        '"나눠 주었다"이므로 뺄셈이에요.',
+        '일의 자리: 15 - 8 = 7, 십의 자리: 6 - 3 = 3.',
+      ],
+      commonMistakes: [
+        { answer: '43개', misconception: '받아내림을 하지 않았어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['두 자리 뺄셈', '서술형', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 덧셈과 뺄셈 - SK03: 문장제 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_NUM_03_SK03_Q03',
+    skillId: 'G2_S1_NUM_03_SK03',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '유리는 색종이 48장, 민호는 35장을 가지고 있습니다. 두 사람의 색종이는 모두 ___장입니다.',
+      correctAnswer: 83,
+      explanation: '48 + 35 = 83장입니다.',
+      hints: [
+        '"모두"라는 말이 나왔으니 덧셈이에요.',
+        '48 + 35에서 일의 자리: 8 + 5 = 13. 올림 1.',
+      ],
+      commonMistakes: [
+        { answer: '73', misconception: '받아올림을 빠뜨렸어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['문장제', '덧셈', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK03_Q04',
+    skillId: 'G2_S1_NUM_03_SK03',
+    questionType: 'TRUE_FALSE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"43명이 탄 버스에서 18명이 내리면 남은 사람은 25명이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '43 - 18 = 25명입니다.',
+      hints: [
+        '"내리면"은 뺄셈이에요.',
+        '43 - 18을 계산해 보세요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '43 - 18 = 25가 맞아요. 일의 자리: 13 - 8 = 5, 십의 자리: 3 - 1 = 2.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['문장제', '뺄셈', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK03_Q05',
+    skillId: 'G2_S1_NUM_03_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '형은 구슬을 84개, 동생은 57개 가지고 있습니다. 형이 동생보다 구슬을 몇 개 더 많이 가지고 있나요?',
+      correctAnswer: 27,
+      explanation: '84 - 57 = 27개 더 많습니다.',
+      hints: [
+        '"더 많이"는 차이를 구하는 것이므로 뺄셈이에요.',
+        '84 - 57을 계산해 보세요.',
+      ],
+      commonMistakes: [
+        { answer: '33', misconception: '받아내림을 하지 않았어요. 일의 자리: 14 - 7 = 7, 십의 자리: 7 - 5 = 2.' },
+      ],
+    },
+    estimatedTimeSeconds: 25,
+    tags: ['문장제', '뺄셈', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 길이 재기 (1학기) - SK01: cm로 길이 재기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_SHAPE_04_SK01_Q04',
+    skillId: 'G2_S1_SHAPE_04_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -1.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"cm는 미터라고 읽는다." 맞나요?',
+      correctAnswer: false,
+      explanation: 'cm는 "센티미터"라고 읽습니다. m가 "미터"예요.',
+      hints: [
+        'cm 앞에 "센티"가 붙어요.',
+        '1cm는 매우 짧은 길이예요.',
+      ],
+      commonMistakes: [
+        { answer: 'true', misconception: 'cm는 센티미터, m는 미터예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', 'cm', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK01_Q05',
+    skillId: 'G2_S1_SHAPE_04_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '자의 0부터 12까지의 길이는 ___cm입니다.',
+      correctAnswer: 12,
+      explanation: '0부터 12까지의 길이는 12cm입니다.',
+      hints: [
+        '시작점(0)부터 끝점(12)까지 몇 칸인가요?',
+        '12 - 0 = ?',
+      ],
+      commonMistakes: [
+        { answer: '11', misconception: '0부터 세기 시작하므로 12 - 0 = 12cm예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', 'cm', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK01_Q06',
+    skillId: 'G2_S1_SHAPE_04_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '7cm와 6cm를 합하면 몇 cm인가요?',
+      correctAnswer: 13,
+      explanation: '7cm + 6cm = 13cm입니다.',
+      hints: [
+        '같은 단위끼리 더하면 돼요.',
+        '7 + 6 = ?',
+      ],
+      commonMistakes: [
+        { answer: '1', misconception: '뺄셈이 아니라 덧셈을 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '덧셈', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK01_Q07',
+    skillId: 'G2_S1_SHAPE_04_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '15cm에서 9cm를 빼면 몇 cm인가요?',
+      options: [
+        { id: 'a', text: '4cm', isCorrect: false },
+        { id: 'b', text: '6cm', isCorrect: true },
+        { id: 'c', text: '24cm', isCorrect: false },
+        { id: 'd', text: '8cm', isCorrect: false },
+      ],
+      explanation: '15cm - 9cm = 6cm입니다.',
+      hints: [
+        '같은 단위끼리 빼면 돼요.',
+        '15 - 9 = ?',
+      ],
+      commonMistakes: [
+        { answer: '24cm', misconception: '뺄셈이 아니라 덧셈을 했어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '뺄셈', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 길이 어림하기 - SK02 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_SHAPE_04_SK02_Q02',
+    skillId: 'G2_S1_SHAPE_04_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"손톱의 너비는 약 1cm이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '손톱의 너비는 약 1cm 정도입니다.',
+      hints: [
+        '1cm는 매우 짧은 길이예요.',
+        '자로 손톱 너비를 재면 약 1cm예요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '손톱의 너비는 정말 약 1cm 정도예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '어림', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK02_Q03',
+    skillId: 'G2_S1_SHAPE_04_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '칠판의 길이는 약 ___cm 정도입니다. (30 / 300 / 3000)',
+      correctAnswer: 300,
+      explanation: '칠판의 길이는 약 3m, 즉 약 300cm 정도입니다.',
+      hints: [
+        '칠판은 꽤 길어요.',
+        '팔을 벌린 길이가 약 1m = 100cm인데, 칠판은 그보다 훨씬 길어요.',
+      ],
+      commonMistakes: [
+        { answer: '30', misconception: '칠판은 30cm보다 훨씬 길어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', '어림', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK02_Q04',
+    skillId: 'G2_S1_SHAPE_04_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '교과서의 긴 쪽 길이는 약 얼마쯤 될까요?',
+      options: [
+        { id: 'a', text: '약 3cm', isCorrect: false },
+        { id: 'b', text: '약 30cm', isCorrect: true },
+        { id: 'c', text: '약 3m', isCorrect: false },
+        { id: 'd', text: '약 300cm', isCorrect: false },
+      ],
+      explanation: '교과서의 긴 쪽 길이는 약 30cm 정도입니다.',
+      hints: [
+        '교과서를 자로 재어 본 적이 있나요?',
+        '30cm 자와 비슷한 길이예요.',
+      ],
+      commonMistakes: [
+        { answer: '약 3cm', misconception: '3cm는 너무 짧아요. 교과서는 그보다 훨씬 길어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', '어림', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 분류하기 - SK01 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_DATA_05_SK01_Q03',
+    skillId: 'G2_S1_DATA_05_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -1.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"모양으로 분류하면 삼각형과 원은 같은 무리이다." 맞나요?',
+      correctAnswer: false,
+      explanation: '삼각형과 원은 모양이 다르므로 같은 무리가 아닙니다.',
+      hints: [
+        '삼각형과 원의 모양이 같은가요?',
+        '삼각형은 곧은 선 3개, 원은 둥근 선이에요.',
+      ],
+      commonMistakes: [
+        { answer: 'true', misconception: '삼각형과 원은 서로 다른 모양이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['분류', '2학년'],
+  },
+  {
+    id: 'G2_S1_DATA_05_SK01_Q04',
+    skillId: 'G2_S1_DATA_05_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '연필, 볼펜, 색연필, 크레파스를 "쓰는 도구"로 분류하면 ___가지입니다.',
+      correctAnswer: 4,
+      explanation: '연필, 볼펜, 색연필, 크레파스 모두 쓰는 도구이므로 4가지입니다.',
+      hints: [
+        '모두 글이나 그림을 쓰거나 그리는 도구예요.',
+        '하나씩 세어 보세요.',
+      ],
+      commonMistakes: [
+        { answer: '3', misconception: '하나를 빠뜨렸어요. 모두 세어 보세요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['분류', '2학년'],
+  },
+  {
+    id: 'G2_S1_DATA_05_SK01_Q05',
+    skillId: 'G2_S1_DATA_05_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '사과, 당근, 바나나, 오이, 포도, 배추 중 과일은 몇 가지인가요?',
+      correctAnswer: 3,
+      explanation: '과일은 사과, 바나나, 포도로 3가지입니다. 당근, 오이, 배추는 채소예요.',
+      hints: [
+        '과일과 채소를 구분해 보세요.',
+        '사과, 바나나, 포도는 과일이에요.',
+      ],
+      commonMistakes: [
+        { answer: '4', misconception: '당근이나 오이는 채소예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['분류', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 분류하여 세기 - SK02 (추가)
+  // ============================================================
+  {
+    id: 'G2_S1_DATA_05_SK02_Q03',
+    skillId: 'G2_S1_DATA_05_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"빨간 구슬 5개, 파란 구슬 8개, 노란 구슬 3개가 있으면, 파란 구슬이 가장 많다." 맞나요?',
+      correctAnswer: true,
+      explanation: '파란 구슬이 8개로 가장 많습니다.',
+      hints: [
+        '5, 8, 3을 비교해 보세요.',
+        '가장 큰 수는 8이에요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '8이 5, 3보다 크므로 파란 구슬이 가장 많아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['분류', '세기', '2학년'],
+  },
+  {
+    id: 'G2_S1_DATA_05_SK02_Q04',
+    skillId: 'G2_S1_DATA_05_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '장난감 자동차 6개, 인형 9개, 블록 4개가 있습니다. 장난감은 모두 ___개입니다.',
+      correctAnswer: 19,
+      explanation: '6 + 9 + 4 = 19개입니다.',
+      hints: [
+        '모든 장난감 수를 더하면 돼요.',
+        '6 + 9 = 15이고, 15 + 4 = ?',
+      ],
+      commonMistakes: [
+        { answer: '15', misconception: '블록 4개를 빼먹었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['분류', '세기', '2학년'],
+  },
+  {
+    id: 'G2_S1_DATA_05_SK02_Q05',
+    skillId: 'G2_S1_DATA_05_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '빨간 구슬 10개, 파란 구슬 7개가 있습니다. 빨간 구슬이 파란 구슬보다 몇 개 더 많나요?',
+      correctAnswer: 3,
+      explanation: '10 - 7 = 3개 더 많습니다.',
+      hints: [
+        '"더 많다"는 차이를 구하는 것이에요.',
+        '10 - 7 = ?',
+      ],
+      commonMistakes: [
+        { answer: '17', misconception: '빼기가 아니라 더하기를 했어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['분류', '비교', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 네 자리 수 - SK01: 천의 자리 이해 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_01_SK01_Q04',
+    skillId: 'G2_S2_NUM_01_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"1000이 7개이면 7000이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '1000이 7개이면 1000 × 7 = 7000입니다.',
+      hints: [
+        '1000씩 7번 세어 보세요.',
+        '1000, 2000, ..., 7000!',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '1000 × 7 = 7000이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['네 자리 수', '천의 자리', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK01_Q05',
+    skillId: 'G2_S2_NUM_01_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '9000은 1000이 ___개인 수입니다.',
+      correctAnswer: 9,
+      explanation: '9000 = 1000 × 9이므로 1000이 9개인 수입니다.',
+      hints: [
+        '1000씩 세어서 9000이 되려면?',
+        '1000, 2000, ..., 9000 - 몇 번?',
+      ],
+      commonMistakes: [
+        { answer: '90', misconception: '100의 개수가 아니라 1000의 개수를 물었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['네 자리 수', '천의 자리', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK01_Q06',
+    skillId: 'G2_S2_NUM_01_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '1000이 4개이면 얼마인가요?',
+      correctAnswer: 4000,
+      explanation: '1000이 4개이면 1000 × 4 = 4000입니다.',
+      hints: [
+        '1000씩 4번 세어 보세요.',
+        '1000 + 1000 + 1000 + 1000 = ?',
+      ],
+      commonMistakes: [
+        { answer: '400', misconception: '100이 아니라 1000의 개수예요. 1000 × 4 = 4000이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['네 자리 수', '천의 자리', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK01_Q07',
+    skillId: 'G2_S2_NUM_01_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '6000은 1000이 몇 개인 수인가요?',
+      options: [
+        { id: 'a', text: '3개', isCorrect: false },
+        { id: 'b', text: '6개', isCorrect: true },
+        { id: 'c', text: '60개', isCorrect: false },
+        { id: 'd', text: '600개', isCorrect: false },
+      ],
+      explanation: '6000 = 1000 × 6이므로 1000이 6개입니다.',
+      hints: [
+        '6000 ÷ 1000 = ?',
+        '1000, 2000, 3000, 4000, 5000, 6000 - 몇 번?',
+      ],
+      commonMistakes: [
+        { answer: '60개', misconception: '100의 개수가 아니라 1000의 개수예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['네 자리 수', '천의 자리', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 네 자리 수 - SK02: 네 자리 수 읽고 쓰기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_01_SK02_Q03',
+    skillId: 'G2_S2_NUM_01_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"7089에서 0은 백의 자리이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '7089에서 천의 자리는 7, 백의 자리는 0, 십의 자리는 8, 일의 자리는 9입니다.',
+      hints: [
+        '왼쪽부터 천, 백, 십, 일의 자리예요.',
+        '7-0-8-9에서 0은 두 번째 자리에요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '7089에서 0은 백의 자리가 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['네 자리 수', '자릿값', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK02_Q04',
+    skillId: 'G2_S2_NUM_01_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '1000이 2개, 100이 5개, 10이 0개, 1이 3개이면 ___입니다.',
+      correctAnswer: 2503,
+      explanation: '2000 + 500 + 0 + 3 = 2503입니다.',
+      hints: [
+        '각 자릿값을 합해 보세요.',
+        '2000 + 500 + 0 + 3 = ?',
+      ],
+      commonMistakes: [
+        { answer: '253', misconception: '천의 자리를 빼먹었어요. 1000이 2개이면 2000이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '자릿값', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK02_Q05',
+    skillId: 'G2_S2_NUM_01_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"오천사백육십이"를 수로 쓰면?',
+      correctAnswer: 5462,
+      explanation: '5000 + 400 + 60 + 2 = 5462입니다.',
+      hints: [
+        '"오천"은 5000이에요.',
+        '5000 + 400 + 60 + 2 = ?',
+      ],
+      commonMistakes: [
+        { answer: '5426', misconception: '십의 자리와 일의 자리를 바꿨어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '읽기 쓰기', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 네 자리 수 - SK03: 네 자리 수 크기 비교 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_01_SK03_Q03',
+    skillId: 'G2_S2_NUM_01_SK03',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"5678은 5687보다 크다." 맞나요?',
+      correctAnswer: false,
+      explanation: '천의 자리(5)와 백의 자리(6)가 같고, 십의 자리에서 7 < 8이므로 5678이 더 작습니다.',
+      hints: [
+        '큰 자리부터 비교해 보세요.',
+        '천의 자리와 백의 자리가 같으면 십의 자리를 비교해요.',
+      ],
+      commonMistakes: [
+        { answer: 'true', misconception: '십의 자리에서 7 < 8이므로 5678이 더 작아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['네 자리 수', '비교', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK03_Q04',
+    skillId: 'G2_S2_NUM_01_SK03',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '2345, 3245, 2435 중 가장 큰 수는 ___입니다.',
+      correctAnswer: 3245,
+      explanation: '천의 자리를 비교하면 3245만 천의 자리가 3이므로 가장 큽니다.',
+      hints: [
+        '천의 자리가 가장 큰 수를 찾아보세요.',
+        '2, 3, 2 중 가장 큰 것은?',
+      ],
+      commonMistakes: [
+        { answer: '2435', misconception: '천의 자리가 3인 수가 가장 커요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '비교', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK03_Q05',
+    skillId: 'G2_S2_NUM_01_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '7801과 7810 중 더 작은 수를 쓰세요.',
+      correctAnswer: 7801,
+      explanation: '천의 자리(7)와 백의 자리(8)가 같고, 십의 자리에서 0 < 1이므로 7801이 더 작습니다.',
+      hints: [
+        '큰 자리부터 비교해 보세요.',
+        '십의 자리에서 0과 1을 비교하세요.',
+      ],
+      commonMistakes: [
+        { answer: '7810', misconception: '"더 작은 수"를 물었어요. 7801의 십의 자리가 0이므로 더 작아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '비교', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 곱셈구구 - SK01: 곱셈의 의미 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_02_SK01_Q04',
+    skillId: 'G2_S2_NUM_02_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"4 + 4 + 4 = 4 × 3이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '4를 3번 더한 것이므로 4 × 3 = 12입니다.',
+      hints: [
+        '4가 몇 번 나와요?',
+        '같은 수를 여러 번 더하면 곱셈이에요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '4 + 4 + 4 = 4 × 3 = 12가 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈', '의미', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK01_Q05',
+    skillId: 'G2_S2_NUM_02_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '6 + 6 + 6 + 6 + 6 = 6 × ___',
+      correctAnswer: 5,
+      explanation: '6을 5번 더했으므로 6 × 5입니다.',
+      hints: [
+        '6이 몇 번 나오는지 세어 보세요.',
+        '6이 5번 나와요.',
+      ],
+      commonMistakes: [
+        { answer: '30', misconception: '곱셈의 결과가 아니라 몇 번 더했는지를 물었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈', '의미', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK01_Q06',
+    skillId: 'G2_S2_NUM_02_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '한 봉지에 사탕이 7개씩 들어 있습니다. 3봉지에는 사탕이 모두 몇 개인가요?',
+      correctAnswer: 21,
+      explanation: '7 × 3 = 21개입니다.',
+      hints: [
+        '7개씩 3봉지이므로 7 × 3이에요.',
+        '7 + 7 + 7 = ?',
+      ],
+      commonMistakes: [
+        { answer: '10', misconception: '7 + 3 = 10으로 덧셈을 했어요. 7 × 3 = 21이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['곱셈', '의미', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK01_Q07',
+    skillId: 'G2_S2_NUM_02_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '3 × 5와 같은 덧셈식은?',
+      options: [
+        { id: 'a', text: '3 + 5', isCorrect: false },
+        { id: 'b', text: '5 + 5 + 5', isCorrect: false },
+        { id: 'c', text: '3 + 3 + 3 + 3 + 3', isCorrect: true },
+        { id: 'd', text: '3 + 3 + 5', isCorrect: false },
+      ],
+      explanation: '3 × 5는 3을 5번 더하는 것과 같습니다.',
+      hints: [
+        '3 × 5는 3을 5번 더하라는 뜻이에요.',
+        '3을 5번 쓰고 더하면?',
+      ],
+      commonMistakes: [
+        { answer: '5 + 5 + 5', misconception: '5 + 5 + 5 = 5 × 3이에요. 3 × 5는 3을 5번 더하는 거예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['곱셈', '의미', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 곱셈구구 - SK02: 2, 5의 단 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_02_SK02_Q04',
+    skillId: 'G2_S2_NUM_02_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"2 × 9 = 18이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '2 × 9 = 18입니다.',
+      hints: [
+        '2씩 9번 세어 보세요.',
+        '2, 4, 6, 8, 10, 12, 14, 16, 18!',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '2 × 9 = 18이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '2의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK02_Q05',
+    skillId: 'G2_S2_NUM_02_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '5 × 8 = ___',
+      questionLatex: '5 \\times 8 = \\square',
+      correctAnswer: 40,
+      explanation: '5 × 8 = 40입니다.',
+      hints: [
+        '5씩 8번 세어 보세요.',
+        '5, 10, 15, 20, 25, 30, 35, ?',
+      ],
+      commonMistakes: [
+        { answer: '35', misconception: '5 × 7 = 35와 혼동했어요. 한 번 더 세어야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '5의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK02_Q06',
+    skillId: 'G2_S2_NUM_02_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '2 × 5 = ?',
+      questionLatex: '2 \\times 5 = \\square',
+      correctAnswer: 10,
+      explanation: '2 × 5 = 10입니다.',
+      hints: [
+        '2씩 5번 세어 보세요.',
+        '2, 4, 6, 8, ?',
+      ],
+      commonMistakes: [
+        { answer: '7', misconception: '2 + 5 = 7로 덧셈을 했어요. 곱셈을 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '2의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK02_Q07',
+    skillId: 'G2_S2_NUM_02_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '한 묶음에 5개씩 묶은 과자 7묶음은 모두 몇 개인가요?',
+      options: [
+        { id: 'a', text: '12개', isCorrect: false },
+        { id: 'b', text: '30개', isCorrect: false },
+        { id: 'c', text: '35개', isCorrect: true },
+        { id: 'd', text: '40개', isCorrect: false },
+      ],
+      explanation: '5 × 7 = 35개입니다.',
+      hints: [
+        '5개씩 7묶음이므로 5 × 7이에요.',
+        '5, 10, 15, 20, 25, 30, ?',
+      ],
+      commonMistakes: [
+        { answer: '12개', misconception: '5 + 7 = 12로 덧셈을 했어요. 곱셈을 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['곱셈구구', '서술형', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 곱셈구구 - SK03: 3, 6, 9의 단 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_02_SK03_Q04',
+    skillId: 'G2_S2_NUM_02_SK03',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"6 × 7 = 42이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '6 × 7 = 42입니다.',
+      hints: [
+        '6씩 7번 세어 보세요.',
+        '6, 12, 18, 24, 30, 36, ?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '6 × 7 = 42가 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '6의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK03_Q05',
+    skillId: 'G2_S2_NUM_02_SK03',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '9 × 5 = ___',
+      questionLatex: '9 \\times 5 = \\square',
+      correctAnswer: 45,
+      explanation: '9 × 5 = 45입니다.',
+      hints: [
+        '9씩 5번 세어 보세요.',
+        '9, 18, 27, 36, ?',
+      ],
+      commonMistakes: [
+        { answer: '36', misconception: '9 × 4 = 36과 혼동했어요. 한 번 더 세야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '9의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK03_Q06',
+    skillId: 'G2_S2_NUM_02_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '3 × 9 = ?',
+      questionLatex: '3 \\times 9 = \\square',
+      correctAnswer: 27,
+      explanation: '3 × 9 = 27입니다.',
+      hints: [
+        '3씩 9번 세어 보세요.',
+        '3, 6, 9, 12, 15, 18, 21, 24, ?',
+      ],
+      commonMistakes: [
+        { answer: '24', misconception: '3 × 8 = 24와 혼동했어요. 한 번 더 세야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '3의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK03_Q07',
+    skillId: 'G2_S2_NUM_02_SK03',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '한 줄에 9명씩 6줄로 줄을 섰습니다. 모두 몇 명인가요?',
+      options: [
+        { id: 'a', text: '15명', isCorrect: false },
+        { id: 'b', text: '45명', isCorrect: false },
+        { id: 'c', text: '54명', isCorrect: true },
+        { id: 'd', text: '63명', isCorrect: false },
+      ],
+      explanation: '9 × 6 = 54명입니다.',
+      hints: [
+        '9명씩 6줄이므로 9 × 6이에요.',
+        '9, 18, 27, 36, 45, ?',
+      ],
+      commonMistakes: [
+        { answer: '15명', misconception: '9 + 6 = 15로 덧셈을 했어요. 곱셈을 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['곱셈구구', '서술형', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 곱셈구구 - SK04: 4, 7, 8의 단 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_NUM_02_SK04_Q04',
+    skillId: 'G2_S2_NUM_02_SK04',
+    questionType: 'TRUE_FALSE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"4 × 7 = 28이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '4 × 7 = 28입니다.',
+      hints: [
+        '4씩 7번 세어 보세요.',
+        '4, 8, 12, 16, 20, 24, ?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '4 × 7 = 28이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['곱셈구구', '4의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK04_Q05',
+    skillId: 'G2_S2_NUM_02_SK04',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '8 × 8 = ___',
+      questionLatex: '8 \\times 8 = \\square',
+      correctAnswer: 64,
+      explanation: '8 × 8 = 64입니다.',
+      hints: [
+        '8씩 8번 세어 보세요.',
+        '8, 16, 24, 32, 40, 48, 56, ?',
+      ],
+      commonMistakes: [
+        { answer: '56', misconception: '8 × 7 = 56과 혼동했어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['곱셈구구', '8의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK04_Q06',
+    skillId: 'G2_S2_NUM_02_SK04',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '7 × 6 = ?',
+      questionLatex: '7 \\times 6 = \\square',
+      correctAnswer: 42,
+      explanation: '7 × 6 = 42입니다.',
+      hints: [
+        '7씩 6번 세어 보세요.',
+        '7, 14, 21, 28, 35, ?',
+      ],
+      commonMistakes: [
+        { answer: '35', misconception: '7 × 5 = 35와 혼동했어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['곱셈구구', '7의 단', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_02_SK04_Q07',
+    skillId: 'G2_S2_NUM_02_SK04',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.5,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '주차장에 자동차가 8대씩 7줄로 있습니다. 자동차는 모두 몇 대인가요?',
+      options: [
+        { id: 'a', text: '15대', isCorrect: false },
+        { id: 'b', text: '48대', isCorrect: false },
+        { id: 'c', text: '56대', isCorrect: true },
+        { id: 'd', text: '64대', isCorrect: false },
+      ],
+      explanation: '8 × 7 = 56대입니다.',
+      hints: [
+        '8대씩 7줄이므로 8 × 7이에요.',
+        '8씩 7번 세어 보세요.',
+      ],
+      commonMistakes: [
+        { answer: '15대', misconception: '8 + 7 = 15로 덧셈을 했어요. 곱셈을 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['곱셈구구', '서술형', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 길이 재기 (2학기) - SK01: m 단위 이해 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_SHAPE_03_SK01_Q03',
+    skillId: 'G2_S2_SHAPE_03_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"1m = 10cm이다." 맞나요?',
+      correctAnswer: false,
+      explanation: '1m = 100cm입니다. 10cm가 아니에요.',
+      hints: [
+        'm와 cm의 관계를 생각해 보세요.',
+        '1m는 10cm보다 훨씬 길어요.',
+      ],
+      commonMistakes: [
+        { answer: 'true', misconception: '1m = 100cm예요. 10cm가 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', 'm', '2학년'],
+  },
+  {
+    id: 'G2_S2_SHAPE_03_SK01_Q04',
+    skillId: 'G2_S2_SHAPE_03_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '2m = ___cm',
+      correctAnswer: 200,
+      explanation: '1m = 100cm이므로 2m = 200cm입니다.',
+      hints: [
+        '1m = 100cm예요.',
+        '100 × 2 = ?',
+      ],
+      commonMistakes: [
+        { answer: '20', misconception: '1m = 100cm이지 10cm가 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', 'm', '2학년'],
+  },
+  {
+    id: 'G2_S2_SHAPE_03_SK01_Q05',
+    skillId: 'G2_S2_SHAPE_03_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '운동장 한 바퀴가 약 200m입니다. 이것은 몇 cm인가요?',
+      correctAnswer: 20000,
+      explanation: '200m = 200 × 100 = 20000cm입니다.',
+      hints: [
+        '1m = 100cm를 이용하세요.',
+        '200 × 100 = ?',
+      ],
+      commonMistakes: [
+        { answer: '2000', misconception: '200 × 10 = 2000이 아니라 200 × 100 = 20000이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', 'm', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 길이 재기 (2학기) - SK02: cm와 m 변환 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_SHAPE_03_SK02_Q03',
+    skillId: 'G2_S2_SHAPE_03_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"500cm = 5m이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '500cm = 500 ÷ 100 = 5m입니다.',
+      hints: [
+        '100cm = 1m를 이용하세요.',
+        '500 ÷ 100 = ?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '500 ÷ 100 = 5이므로 5m가 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '단위 변환', '2학년'],
+  },
+  {
+    id: 'G2_S2_SHAPE_03_SK02_Q04',
+    skillId: 'G2_S2_SHAPE_03_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '4m 30cm = ___cm',
+      correctAnswer: 430,
+      explanation: '4m = 400cm이므로 400 + 30 = 430cm입니다.',
+      hints: [
+        '4m를 cm로 바꾸면?',
+        '400 + 30 = ?',
+      ],
+      commonMistakes: [
+        { answer: '43', misconception: '4m = 400cm이지 40cm가 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', '단위 변환', '2학년'],
+  },
+  {
+    id: 'G2_S2_SHAPE_03_SK02_Q05',
+    skillId: 'G2_S2_SHAPE_03_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '370cm는 몇 m 몇 cm인가요? m 수를 답하세요.',
+      correctAnswer: 3,
+      explanation: '370cm = 300cm + 70cm = 3m 70cm입니다.',
+      hints: [
+        '100cm = 1m이에요.',
+        '370에서 100이 몇 개 들어가나요?',
+      ],
+      commonMistakes: [
+        { answer: '37', misconception: '10cm가 아니라 100cm = 1m이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', '단위 변환', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 시각과 시간 - SK01: 몇 시 몇 분 읽기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_CHANGE_04_SK01_Q03',
+    skillId: 'G2_S2_CHANGE_04_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"긴 바늘이 6을 가리키면 30분이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '긴 바늘이 6을 가리키면 6 × 5 = 30분입니다.',
+      hints: [
+        '긴 바늘에서 숫자 하나는 5분이에요.',
+        '6 × 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '6 × 5 = 30이므로 30분이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시각', '2학년'],
+  },
+  {
+    id: 'G2_S2_CHANGE_04_SK01_Q04',
+    skillId: 'G2_S2_CHANGE_04_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '짧은 바늘이 4와 5 사이, 긴 바늘이 12를 가리키면 ___시입니다.',
+      correctAnswer: 4,
+      explanation: '짧은 바늘이 4와 5 사이이면 4시이고, 긴 바늘이 12이면 정각입니다. 즉 4시입니다.',
+      hints: [
+        '짧은 바늘이 가리키는 수가 "시"예요.',
+        '4와 5 사이이면 아직 4시예요.',
+      ],
+      commonMistakes: [
+        { answer: '5', misconception: '짧은 바늘이 4와 5 사이이면 아직 4시예요. 5시가 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시각', '2학년'],
+  },
+  {
+    id: 'G2_S2_CHANGE_04_SK01_Q05',
+    skillId: 'G2_S2_CHANGE_04_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '긴 바늘이 11을 가리키면 몇 분인가요?',
+      correctAnswer: 55,
+      explanation: '11 × 5 = 55분입니다.',
+      hints: [
+        '긴 바늘에서 숫자 하나는 5분이에요.',
+        '11 × 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: '11', misconception: '긴 바늘의 숫자 × 5가 분이에요. 11분이 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시각', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 시각과 시간 - SK02: 시간의 흐름 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_CHANGE_04_SK02_Q03',
+    skillId: 'G2_S2_CHANGE_04_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"2시간 = 120분이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '1시간 = 60분이므로 2시간 = 120분입니다.',
+      hints: [
+        '1시간 = 60분이에요.',
+        '60 × 2 = ?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '60 × 2 = 120이므로 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시간', '2학년'],
+  },
+  {
+    id: 'G2_S2_CHANGE_04_SK02_Q04',
+    skillId: 'G2_S2_CHANGE_04_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '지금 5시입니다. 2시간 후는 ___시입니다.',
+      correctAnswer: 7,
+      explanation: '5시에서 2시간 후는 7시입니다.',
+      hints: [
+        '5 + 2 = ?',
+        '시계에서 5에서 2칸 더 가면?',
+      ],
+      commonMistakes: [
+        { answer: '3', misconception: '2시간 후이므로 더해야 해요. 빼는 것이 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시간', '경과', '2학년'],
+  },
+  {
+    id: 'G2_S2_CHANGE_04_SK02_Q05',
+    skillId: 'G2_S2_CHANGE_04_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '지금 8시 30분입니다. 30분 후는 몇 시인가요?',
+      correctAnswer: 9,
+      explanation: '8시 30분에서 30분 후는 8시 60분 = 9시입니다.',
+      hints: [
+        '30분 + 30분 = 60분이에요.',
+        '60분 = 1시간이에요.',
+      ],
+      commonMistakes: [
+        { answer: '8', misconception: '30 + 30 = 60분 = 1시간이므로 9시가 돼요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['시간', '경과', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 표와 그래프 - SK01: 표 읽기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_DATA_05_SK01_Q03',
+    skillId: 'G2_S2_DATA_05_SK01',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.5,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '좋아하는 운동 조사: 축구 12명, 야구 8명, 농구 10명. "야구를 좋아하는 학생이 가장 적다." 맞나요?',
+      correctAnswer: true,
+      explanation: '8 < 10 < 12이므로 야구를 좋아하는 학생이 8명으로 가장 적습니다.',
+      hints: [
+        '12, 8, 10을 비교해 보세요.',
+        '가장 작은 수는?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '8이 가장 작으므로 야구가 가장 적은 것이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['표', '자료 해석', '2학년'],
+  },
+  {
+    id: 'G2_S2_DATA_05_SK01_Q04',
+    skillId: 'G2_S2_DATA_05_SK01',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '좋아하는 계절: 봄 6명, 여름 9명, 가을 7명, 겨울 5명. 모두 ___명입니다.',
+      correctAnswer: 27,
+      explanation: '6 + 9 + 7 + 5 = 27명입니다.',
+      hints: [
+        '모든 인원을 더하면 돼요.',
+        '6 + 9 = 15이고, 7 + 5 = 12이고, 15 + 12 = ?',
+      ],
+      commonMistakes: [
+        { answer: '22', misconception: '한 항목을 빠뜨렸어요. 모두 더했는지 확인하세요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['표', '자료 해석', '2학년'],
+  },
+  {
+    id: 'G2_S2_DATA_05_SK01_Q05',
+    skillId: 'G2_S2_DATA_05_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '좋아하는 간식: 떡볶이 11명, 피자 8명, 치킨 13명. 치킨과 피자의 차이는 몇 명인가요?',
+      correctAnswer: 5,
+      explanation: '13 - 8 = 5명입니다.',
+      hints: [
+        '치킨 13명, 피자 8명이에요.',
+        '13 - 8 = ?',
+      ],
+      commonMistakes: [
+        { answer: '21', misconception: '차이를 구할 때는 빼기를 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['표', '자료 해석', '2학년'],
+  },
+
+  // ============================================================
+  // 단원: 표와 그래프 - SK02: 그래프 읽기 (추가)
+  // ============================================================
+  {
+    id: 'G2_S2_DATA_05_SK02_Q03',
+    skillId: 'G2_S2_DATA_05_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"그림그래프에서 ○ 하나가 5명을 나타낼 때, ○○는 10명이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '○ 하나가 5명이므로 ○ 2개는 5 × 2 = 10명입니다.',
+      hints: [
+        '○ 하나가 5명이에요.',
+        '5 × 2 = ?',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '5 × 2 = 10이 맞아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['그래프', '2학년'],
+  },
+  {
+    id: 'G2_S2_DATA_05_SK02_Q04',
+    skillId: 'G2_S2_DATA_05_SK02',
+    questionType: 'FILL_IN_BLANK',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '그림그래프에서 ○ 하나가 2명을 나타냅니다. 15명을 나타내려면 ○가 몇 개 반이 필요한가요? ○의 개수만 쓰세요.',
+      correctAnswer: 7,
+      explanation: '15 ÷ 2 = 7개 반입니다. ○ 7개와 반 개가 필요해요.',
+      hints: [
+        '2명씩 세어 보세요.',
+        '2, 4, 6, 8, 10, 12, 14 = ○ 7개이고, 나머지 1명은 반 개예요.',
+      ],
+      commonMistakes: [
+        { answer: '8', misconception: '15 ÷ 2 = 7 나머지 1이에요. ○ 7개와 반 개예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['그래프', '2학년'],
+  },
+  {
+    id: 'G2_S2_DATA_05_SK02_Q05',
+    skillId: 'G2_S2_DATA_05_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '그림그래프에서 ○ 하나가 5명을 나타냅니다. 수학 ○○○, 국어 ○○○○, 체육 ○○. 가장 인기 있는 과목은?',
+      options: [
+        { id: 'a', text: '수학', isCorrect: false },
+        { id: 'b', text: '국어', isCorrect: true },
+        { id: 'c', text: '체육', isCorrect: false },
+        { id: 'd', text: '모두 같다', isCorrect: false },
+      ],
+      explanation: '수학 15명, 국어 20명, 체육 10명이므로 국어가 가장 인기 있습니다.',
+      hints: [
+        '○의 개수를 비교해 보세요.',
+        '○가 가장 많은 과목이 가장 인기 있어요.',
+      ],
+      commonMistakes: [
+        { answer: '수학', misconception: '○가 가장 많은 것은 국어(4개)예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['그래프', '자료 해석', '2학년'],
+  },
+
+  // ============================================================
+  // ===== 추가 문제 2차 (스킬별 7문제 미달 보충) =====
+  // ============================================================
+
+  // --- G2_S1_SHAPE_04_SK02: 길이 어림하기 (3문제 추가) ---
+  {
+    id: 'G2_S1_SHAPE_04_SK02_Q05',
+    skillId: 'G2_S1_SHAPE_04_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '지우개의 길이는 약 몇 cm일까요? (약 5cm)',
+      correctAnswer: 5,
+      explanation: '지우개의 길이는 보통 약 5cm 정도입니다.',
+      hints: [
+        '지우개를 손가락과 비교해 보세요.',
+        '손가락 한 마디가 약 2cm이에요.',
+      ],
+      commonMistakes: [
+        { answer: '50', misconception: '50cm는 매우 길어요. 지우개는 그보다 훨씬 짧아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', '어림', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK02_Q06',
+    skillId: 'G2_S1_SHAPE_04_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '책상의 긴 쪽 길이는 약 얼마쯤 될까요?',
+      options: [
+        { id: 'a', text: '약 7cm', isCorrect: false },
+        { id: 'b', text: '약 70cm', isCorrect: true },
+        { id: 'c', text: '약 7m', isCorrect: false },
+        { id: 'd', text: '약 700cm', isCorrect: false },
+      ],
+      explanation: '책상의 긴 쪽 길이는 약 70cm 정도입니다.',
+      hints: [
+        '교과서(약 30cm)를 두 개 놓은 것보다 조금 더 길어요.',
+        '7cm는 너무 짧고, 7m는 너무 길어요.',
+      ],
+      commonMistakes: [
+        { answer: '약 7cm', misconception: '7cm는 너무 짧아요. 손가락 정도 길이밖에 안 돼요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['길이', '어림', '2학년'],
+  },
+  {
+    id: 'G2_S1_SHAPE_04_SK02_Q07',
+    skillId: 'G2_S1_SHAPE_04_SK02',
+    questionType: 'TRUE_FALSE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '"어린이 키는 약 120cm 정도이다." 맞나요?',
+      correctAnswer: true,
+      explanation: '초등학교 저학년 어린이의 키는 약 120cm 정도입니다.',
+      hints: [
+        '1m = 100cm이에요. 어린이는 1m보다 조금 더 커요.',
+        '120cm = 1m 20cm이에요.',
+      ],
+      commonMistakes: [
+        { answer: 'false', misconception: '초등 1~2학년 어린이의 키는 보통 110~130cm 정도예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '어림', '2학년'],
+  },
+
+  // --- G2_S1_DATA_05_SK01: 기준에 따라 분류하기 (2문제 추가) ---
+  {
+    id: 'G2_S1_DATA_05_SK01_Q06',
+    skillId: 'G2_S1_DATA_05_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 중 "동물"로 분류할 수 없는 것은?',
+      options: [
+        { id: 'a', text: '고양이', isCorrect: false },
+        { id: 'b', text: '참새', isCorrect: false },
+        { id: 'c', text: '장미', isCorrect: true },
+        { id: 'd', text: '개구리', isCorrect: false },
+      ],
+      explanation: '장미는 꽃(식물)이지 동물이 아닙니다.',
+      hints: [
+        '동물은 스스로 움직일 수 있어요.',
+        '장미는 어떤 것인가요?',
+      ],
+      commonMistakes: [
+        { answer: '개구리', misconception: '개구리도 동물이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['분류', '2학년'],
+  },
+  {
+    id: 'G2_S1_DATA_05_SK01_Q07',
+    skillId: 'G2_S1_DATA_05_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '1, 2, 3, 4, 5, 6, 7, 8, 9, 10 중 짝수는 몇 개인가요?',
+      correctAnswer: 5,
+      explanation: '짝수는 2, 4, 6, 8, 10으로 5개입니다.',
+      hints: [
+        '짝수는 2로 나누어떨어지는 수예요.',
+        '2, 4, 6, 8, 10을 세어 보세요.',
+      ],
+      commonMistakes: [
+        { answer: '4', misconception: '10도 짝수예요. 빠뜨리지 마세요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['분류', '짝수', '2학년'],
+  },
+
+  // --- G2_S1_DATA_05_SK02: 분류하여 세기 (2문제 추가) ---
+  {
+    id: 'G2_S1_DATA_05_SK02_Q06',
+    skillId: 'G2_S1_DATA_05_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '빨간 공 6개, 파란 공 4개, 노란 공 8개가 있습니다. 가장 적은 공의 색은?',
+      options: [
+        { id: 'a', text: '빨간 공', isCorrect: false },
+        { id: 'b', text: '파란 공', isCorrect: true },
+        { id: 'c', text: '노란 공', isCorrect: false },
+      ],
+      explanation: '파란 공이 4개로 가장 적습니다.',
+      hints: [
+        '6, 4, 8을 비교해 보세요.',
+        '가장 작은 수는?',
+      ],
+      commonMistakes: [
+        { answer: '빨간 공', misconception: '6 > 4이므로 빨간 공이 아니라 파란 공이 가장 적어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['분류', '비교', '2학년'],
+  },
+  {
+    id: 'G2_S1_DATA_05_SK02_Q07',
+    skillId: 'G2_S1_DATA_05_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '사탕 9개, 초콜릿 6개, 젤리 5개가 있습니다. 사탕과 젤리의 차이는 몇 개인가요?',
+      correctAnswer: 4,
+      explanation: '9 - 5 = 4개입니다.',
+      hints: [
+        '사탕 9개, 젤리 5개이에요.',
+        '9 - 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: '14', misconception: '차이를 구할 때는 빼기를 해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['분류', '비교', '2학년'],
+  },
+
+  // --- G2_S1_NUM_03_SK03: 덧셈과 뺄셈 문장제 (2문제 추가) ---
+  {
+    id: 'G2_S1_NUM_03_SK03_Q06',
+    skillId: 'G2_S1_NUM_03_SK03',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '철수는 사탕 25개, 영희는 37개를 가지고 있습니다. 영희가 철수보다 몇 개 더 많이 가지고 있나요?',
+      options: [
+        { id: 'a', text: '10개', isCorrect: false },
+        { id: 'b', text: '12개', isCorrect: true },
+        { id: 'c', text: '62개', isCorrect: false },
+        { id: 'd', text: '22개', isCorrect: false },
+      ],
+      explanation: '37 - 25 = 12개 더 많습니다.',
+      hints: [
+        '"더 많이"는 차이를 구하는 것이에요. 뺄셈!',
+        '37 - 25 = ?',
+      ],
+      commonMistakes: [
+        { answer: '62개', misconception: '차이를 구할 때는 빼기를 해야 해요. 더하기가 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['문장제', '뺄셈', '2학년'],
+  },
+  {
+    id: 'G2_S1_NUM_03_SK03_Q07',
+    skillId: 'G2_S1_NUM_03_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '가게에 빵이 56개 있었습니다. 오전에 19개, 오후에 23개를 팔았습니다. 남은 빵은 몇 개인가요?',
+      correctAnswer: 14,
+      explanation: '56 - 19 - 23 = 14개입니다. 또는 56 - (19 + 23) = 56 - 42 = 14개입니다.',
+      hints: [
+        '먼저 판 빵의 수를 구해 보세요. 19 + 23 = ?',
+        '56 - 42 = ?',
+      ],
+      commonMistakes: [
+        { answer: '37', misconception: '오전에 판 것만 빼고 오후에 판 것을 빼지 않았어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 30,
+    tags: ['문장제', '뺄셈', '2학년'],
+  },
+
+  // --- G2_S2_CHANGE_04_SK01: 몇 시 몇 분 읽기 (2문제 추가) ---
+  {
+    id: 'G2_S2_CHANGE_04_SK01_Q06',
+    skillId: 'G2_S2_CHANGE_04_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '짧은 바늘이 6과 7 사이, 긴 바늘이 9를 가리키면 몇 시 몇 분인가요?',
+      options: [
+        { id: 'a', text: '6시 9분', isCorrect: false },
+        { id: 'b', text: '6시 45분', isCorrect: true },
+        { id: 'c', text: '9시 30분', isCorrect: false },
+        { id: 'd', text: '7시 45분', isCorrect: false },
+      ],
+      explanation: '짧은 바늘이 6과 7 사이이면 6시, 긴 바늘이 9이면 9 × 5 = 45분입니다.',
+      hints: [
+        '짧은 바늘이 "시", 긴 바늘이 "분"이에요.',
+        '9 × 5 = 45분이에요.',
+      ],
+      commonMistakes: [
+        { answer: '6시 9분', misconception: '긴 바늘의 숫자 × 5가 분이에요. 9분이 아니라 45분이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['시각', '2학년'],
+  },
+  {
+    id: 'G2_S2_CHANGE_04_SK01_Q07',
+    skillId: 'G2_S2_CHANGE_04_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '긴 바늘이 4를 가리키면 몇 분인가요?',
+      correctAnswer: 20,
+      explanation: '4 × 5 = 20분입니다.',
+      hints: [
+        '긴 바늘에서 숫자 하나는 5분이에요.',
+        '4 × 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: '4', misconception: '4분이 아니에요. 긴 바늘은 숫자 × 5가 분이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시각', '2학년'],
+  },
+
+  // --- G2_S2_CHANGE_04_SK02: 시간의 흐름 (2문제 추가) ---
+  {
+    id: 'G2_S2_CHANGE_04_SK02_Q06',
+    skillId: 'G2_S2_CHANGE_04_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '지금 10시입니다. 3시간 전은 몇 시였나요?',
+      options: [
+        { id: 'a', text: '7시', isCorrect: true },
+        { id: 'b', text: '13시', isCorrect: false },
+        { id: 'c', text: '8시', isCorrect: false },
+        { id: 'd', text: '6시', isCorrect: false },
+      ],
+      explanation: '10 - 3 = 7이므로 3시간 전은 7시입니다.',
+      hints: [
+        '"전"이라고 했으므로 빼야 해요.',
+        '10 - 3 = ?',
+      ],
+      commonMistakes: [
+        { answer: '13시', misconception: '"전"이므로 빼야 해요. 더하는 것이 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['시간', '경과', '2학년'],
+  },
+  {
+    id: 'G2_S2_CHANGE_04_SK02_Q07',
+    skillId: 'G2_S2_CHANGE_04_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '지금 2시 40분입니다. 30분 후는 몇 시 몇 분인가요? 시(時)만 답하세요.',
+      correctAnswer: 3,
+      explanation: '2시 40분에서 30분 후는 2시 70분 = 3시 10분입니다.',
+      hints: [
+        '40분 + 30분 = 70분이에요.',
+        '70분 = 60분 + 10분 = 1시간 10분이에요.',
+      ],
+      commonMistakes: [
+        { answer: '2', misconception: '40 + 30 = 70분이므로 시간이 넘어가요. 3시 10분이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['시간', '경과', '2학년'],
+  },
+
+  // --- G2_S2_DATA_05_SK01: 표 읽기 (2문제 추가) ---
+  {
+    id: 'G2_S2_DATA_05_SK01_Q06',
+    skillId: 'G2_S2_DATA_05_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '좋아하는 음식: 김밥 7명, 떡볶이 12명, 라면 9명, 피자 6명. 두 번째로 인기 있는 음식은?',
+      options: [
+        { id: 'a', text: '김밥', isCorrect: false },
+        { id: 'b', text: '떡볶이', isCorrect: false },
+        { id: 'c', text: '라면', isCorrect: true },
+        { id: 'd', text: '피자', isCorrect: false },
+      ],
+      explanation: '12 > 9 > 7 > 6이므로 두 번째로 인기 있는 음식은 라면(9명)입니다.',
+      hints: [
+        '인원 수를 큰 것부터 나열해 보세요.',
+        '12, 9, 7, 6 순서에서 두 번째는?',
+      ],
+      commonMistakes: [
+        { answer: '떡볶이', misconception: '떡볶이는 1위예요. 2위를 찾아야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['표', '자료 해석', '2학년'],
+  },
+  {
+    id: 'G2_S2_DATA_05_SK01_Q07',
+    skillId: 'G2_S2_DATA_05_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '좋아하는 색: 빨강 11명, 파랑 8명, 초록 6명, 노랑 5명. 빨강과 초록을 좋아하는 학생 수의 합은?',
+      correctAnswer: 17,
+      explanation: '11 + 6 = 17명입니다.',
+      hints: [
+        '빨강 11명, 초록 6명이에요.',
+        '11 + 6 = ?',
+      ],
+      commonMistakes: [
+        { answer: '5', misconception: '합이 아니라 차이를 구했어요. 더해야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['표', '자료 해석', '2학년'],
+  },
+
+  // --- G2_S2_DATA_05_SK02: 그래프 읽기 (2문제 추가) ---
+  {
+    id: 'G2_S2_DATA_05_SK02_Q06',
+    skillId: 'G2_S2_DATA_05_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '그림그래프에서 ○ 하나가 4명입니다. ○○○○○이면 몇 명인가요?',
+      correctAnswer: 20,
+      explanation: '4 × 5 = 20명입니다.',
+      hints: [
+        '○ 하나가 4명이에요.',
+        '4 × 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: '9', misconception: '4 + 5 = 9가 아니라 4 × 5 = 20이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['그래프', '2학년'],
+  },
+  {
+    id: 'G2_S2_DATA_05_SK02_Q07',
+    skillId: 'G2_S2_DATA_05_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '그림그래프에서 ○ 하나가 3명입니다. 축구 ○○○○, 야구 ○○, 농구 ○○○. 축구와 야구를 좋아하는 학생 수의 합은?',
+      options: [
+        { id: 'a', text: '12명', isCorrect: false },
+        { id: 'b', text: '15명', isCorrect: false },
+        { id: 'c', text: '18명', isCorrect: true },
+        { id: 'd', text: '21명', isCorrect: false },
+      ],
+      explanation: '축구 3×4=12명, 야구 3×2=6명. 12 + 6 = 18명입니다.',
+      hints: [
+        '축구: 3 × 4 = ?, 야구: 3 × 2 = ?',
+        '12 + 6 = ?',
+      ],
+      commonMistakes: [
+        { answer: '12명', misconception: '축구만 세고 야구를 빼먹었어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['그래프', '자료 해석', '2학년'],
+  },
+
+  // --- G2_S2_NUM_01_SK02: 네 자리 수 읽고 쓰기 (2문제 추가) ---
+  {
+    id: 'G2_S2_NUM_01_SK02_Q06',
+    skillId: 'G2_S2_NUM_01_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '8306에서 3은 어떤 자릿값을 나타내나요?',
+      options: [
+        { id: 'a', text: '3', isCorrect: false },
+        { id: 'b', text: '30', isCorrect: false },
+        { id: 'c', text: '300', isCorrect: true },
+        { id: 'd', text: '3000', isCorrect: false },
+      ],
+      explanation: '8306에서 3은 백의 자리에 있으므로 300을 나타냅니다.',
+      hints: [
+        '8306에서 3은 왼쪽에서 두 번째에요.',
+        '천, 백, 십, 일의 자리 순서예요.',
+      ],
+      commonMistakes: [
+        { answer: '3', misconception: '자릿값을 무시하고 숫자만 읽었어요. 백의 자리이므로 300이에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '자릿값', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK02_Q07',
+    skillId: 'G2_S2_NUM_01_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '"칠천팔"을 수로 쓰면?',
+      correctAnswer: 7008,
+      explanation: '"칠천"은 7000이고, "팔"은 8이므로 7000 + 8 = 7008입니다. 백의 자리와 십의 자리가 0이에요.',
+      hints: [
+        '"칠천"은 7000이에요.',
+        '백의 자리와 십의 자리에 아무것도 없으면 0을 넣어요.',
+      ],
+      commonMistakes: [
+        { answer: '78', misconception: '7000이지 70이 아니에요. 네 자리 수예요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '읽기 쓰기', '2학년'],
+  },
+
+  // --- G2_S2_NUM_01_SK03: 네 자리 수 크기 비교 (2문제 추가) ---
+  {
+    id: 'G2_S2_NUM_01_SK03_Q06',
+    skillId: 'G2_S2_NUM_01_SK03',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '다음 중 가장 작은 수는?',
+      options: [
+        { id: 'a', text: '4567', isCorrect: false },
+        { id: 'b', text: '4576', isCorrect: false },
+        { id: 'c', text: '4089', isCorrect: true },
+        { id: 'd', text: '4765', isCorrect: false },
+      ],
+      explanation: '천의 자리가 모두 4이므로 백의 자리를 비교합니다. 0 < 5 < 7이므로 4089가 가장 작습니다.',
+      hints: [
+        '천의 자리가 같으면 백의 자리를 비교해요.',
+        '백의 자리가 0인 수를 찾아보세요.',
+      ],
+      commonMistakes: [
+        { answer: '4567', misconception: '4089의 백의 자리가 0이므로 가장 작아요.' },
+      ],
+    },
+    estimatedTimeSeconds: 15,
+    tags: ['네 자리 수', '비교', '2학년'],
+  },
+  {
+    id: 'G2_S2_NUM_01_SK03_Q07',
+    skillId: 'G2_S2_NUM_01_SK03',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '6543, 6534, 6345, 6354 중 가장 큰 수를 쓰세요.',
+      correctAnswer: 6543,
+      explanation: '천의 자리(6)가 모두 같으므로 백의 자리를 비교합니다. 5 > 3이므로 6543과 6534가 후보이고, 십의 자리에서 4 > 3이므로 6543이 가장 큽니다.',
+      hints: [
+        '백의 자리를 먼저 비교해 보세요.',
+        '백의 자리가 5인 두 수 중에서 십의 자리를 비교하세요.',
+      ],
+      commonMistakes: [
+        { answer: '6534', misconception: '6543과 6534에서 십의 자리를 비교하면 4 > 3이므로 6543이 더 커요.' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['네 자리 수', '비교', '2학년'],
+  },
+
+  // --- G2_S2_SHAPE_03_SK01: m 단위 이해 (2문제 추가) ---
+  {
+    id: 'G2_S2_SHAPE_03_SK01_Q06',
+    skillId: 'G2_S2_SHAPE_03_SK01',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: -0.3,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '학교에서 집까지의 거리를 재려면 어떤 단위가 적당한가요?',
+      options: [
+        { id: 'a', text: 'cm', isCorrect: false },
+        { id: 'b', text: 'm', isCorrect: true },
+        { id: 'c', text: 'mm', isCorrect: false },
+      ],
+      explanation: '학교에서 집까지는 매우 긴 거리이므로 m(미터)가 적당합니다.',
+      hints: [
+        '매우 긴 거리예요.',
+        'cm나 mm로 재면 숫자가 너무 커져요.',
+      ],
+      commonMistakes: [
+        { answer: 'cm', misconception: '학교에서 집까지는 cm로 재기엔 너무 길어요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '단위 선택', '2학년'],
+  },
+  {
+    id: 'G2_S2_SHAPE_03_SK01_Q07',
+    skillId: 'G2_S2_SHAPE_03_SK01',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '5m는 몇 cm인가요?',
+      correctAnswer: 500,
+      explanation: '1m = 100cm이므로 5m = 500cm입니다.',
+      hints: [
+        '1m = 100cm예요.',
+        '100 × 5 = ?',
+      ],
+      commonMistakes: [
+        { answer: '50', misconception: '1m = 100cm이지 10cm가 아니에요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', 'm', '2학년'],
+  },
+
+  // --- G2_S2_SHAPE_03_SK02: cm와 m 변환 (2문제 추가) ---
+  {
+    id: 'G2_S2_SHAPE_03_SK02_Q06',
+    skillId: 'G2_S2_SHAPE_03_SK02',
+    questionType: 'MULTIPLE_CHOICE',
+    difficulty: 0.0,
+    difficultyLabel: '보통',
+    content: {
+      questionText: '600cm는 몇 m인가요?',
+      options: [
+        { id: 'a', text: '6m', isCorrect: true },
+        { id: 'b', text: '60m', isCorrect: false },
+        { id: 'c', text: '0.6m', isCorrect: false },
+        { id: 'd', text: '600m', isCorrect: false },
+      ],
+      explanation: '600cm ÷ 100 = 6m입니다.',
+      hints: [
+        '100cm = 1m예요.',
+        '600 ÷ 100 = ?',
+      ],
+      commonMistakes: [
+        { answer: '60m', misconception: '10이 아니라 100으로 나눠야 해요.' },
+      ],
+    },
+    estimatedTimeSeconds: 10,
+    tags: ['길이', '단위 변환', '2학년'],
+  },
+  {
+    id: 'G2_S2_SHAPE_03_SK02_Q07',
+    skillId: 'G2_S2_SHAPE_03_SK02',
+    questionType: 'SHORT_ANSWER',
+    difficulty: 0.3,
+    difficultyLabel: '어려움',
+    content: {
+      questionText: '1m 50cm + 2m 30cm = ?m ?cm. 총 몇 cm인가요?',
+      correctAnswer: 380,
+      explanation: '1m 50cm = 150cm, 2m 30cm = 230cm. 150 + 230 = 380cm = 3m 80cm입니다.',
+      hints: [
+        '먼저 모두 cm로 바꿔 보세요.',
+        '150 + 230 = ?',
+      ],
+      commonMistakes: [
+        { answer: '380', misconception: '' },
+      ],
+    },
+    estimatedTimeSeconds: 20,
+    tags: ['길이', '단위 변환', '2학년'],
+  },
 ];
