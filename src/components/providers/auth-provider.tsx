@@ -21,19 +21,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
+    let cancelled = false;
     async function checkAuth() {
       try {
         const res = await fetch('/api/auth/me');
+        if (cancelled) return;
         if (res.ok) {
           const data = await res.json();
           setProfile(data.profile);
 
-          // Role-based redirect
+          // Role-based redirect (use current pathname at call time)
+          const currentPath = window.location.pathname;
           const role = data.profile?.role as string | undefined;
           if (role) {
-            const isStudentPath = STUDENT_PATHS.some((p) => pathname.startsWith(p));
-            const isTeacherPath = TEACHER_PATHS.some((p) => pathname.startsWith(p));
-            const isParentPath = PARENT_PATHS.some((p) => pathname.startsWith(p));
+            const isStudentPath = STUDENT_PATHS.some((p) => currentPath.startsWith(p));
+            const isTeacherPath = TEACHER_PATHS.some((p) => currentPath.startsWith(p));
+            const isParentPath = PARENT_PATHS.some((p) => currentPath.startsWith(p));
 
             if (role === 'teacher' && isStudentPath) {
               router.replace('/teacher-dashboard');
@@ -43,8 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               router.replace('/home');
             }
 
-            // Student without grade → diagnostic
-            if (role === 'student' && !data.profile?.grade && !pathname.startsWith('/diagnostic')) {
+            if (role === 'student' && !data.profile?.grade && !currentPath.startsWith('/diagnostic')) {
               router.replace('/diagnostic');
             }
           }
@@ -52,13 +54,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setProfile(null);
         }
       } catch {
-        setProfile(null);
+        if (!cancelled) setProfile(null);
       } finally {
-        setReady(true);
+        if (!cancelled) setReady(true);
       }
     }
     checkAuth();
-  }, [setProfile, pathname, router]);
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!ready) {
     return (
