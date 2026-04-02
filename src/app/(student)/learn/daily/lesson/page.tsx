@@ -153,53 +153,73 @@ export default function DailyLessonPage() {
     const todayStats = getTodayStats();
 
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-6 py-10">
-        <div className="text-7xl mb-2 animate-bounce">{isPerfect ? '🎉' : accuracy >= 70 ? '👏' : '💪'}</div>
-        <h1 className="text-3xl font-bold">
+      <div className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-5 py-10">
+        {/* Celebration header */}
+        <div className="relative">
+          <div className="text-7xl mb-1">{isPerfect ? '🎉' : accuracy >= 70 ? '👏' : '💪'}</div>
+          {isPerfect && (
+            <div className="absolute -inset-4 animate-ping rounded-full bg-yellow-400/20" />
+          )}
+        </div>
+        <h1 className="text-3xl font-extrabold">
           {isPerfect ? '완벽해요!' : accuracy >= 80 ? '훌륭해요!' : accuracy >= 60 ? '잘했어요!' : '다음엔 더 잘할 수 있어요!'}
         </h1>
-        <p className="text-muted-foreground">오늘의 학습 완료</p>
 
-        {/* Daily goal check */}
-        {todayStats.goalMet && (
-          <div className="flex items-center gap-2 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-4 py-2">
-            <CheckCircle className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-medium text-green-700 dark:text-green-400">오늘의 목표 달성!</span>
+        {/* Skill level-up badges */}
+        {levelUpSkills.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-2">
+            {levelUpSkills.map((label, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-purple-600 px-3 py-1 text-xs font-bold text-white shadow-md"
+              >
+                <Crown className="h-3.5 w-3.5" /> 스킬 {label}!
+              </span>
+            ))}
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-6 py-4">
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 dark:bg-green-900/30">
-              <Trophy className="h-7 w-7 text-green-600" />
-            </div>
-            <p className="text-2xl font-bold">{accuracy}%</p>
-            <p className="text-xs text-muted-foreground">정답률</p>
+        {/* Daily goal check */}
+        {todayStats.goalMet && (
+          <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border border-emerald-200 dark:border-emerald-800 px-5 py-2.5 shadow-sm">
+            <CheckCircle className="h-5 w-5 text-emerald-500" />
+            <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400">오늘의 목표 달성!</span>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-100 dark:bg-purple-900/30">
-              <Star className="h-7 w-7 text-purple-600" />
+        )}
+
+        {/* Stats cards */}
+        <div className="grid grid-cols-3 gap-4 py-3 w-full max-w-sm">
+          <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-gradient-to-b from-emerald-50 to-emerald-100/50 dark:from-emerald-900/20 dark:to-emerald-900/10 p-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-emerald-900/40">
+              <Trophy className="h-6 w-6" />
             </div>
-            <p className="text-2xl font-bold text-purple-600">+{xpEarned}</p>
-            <p className="text-xs text-muted-foreground">XP 획득</p>
+            <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{accuracy}%</p>
+            <p className="text-[10px] font-medium text-muted-foreground">정답률</p>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-900/30">
-              <Zap className="h-7 w-7 text-blue-600" />
+          <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-gradient-to-b from-violet-50 to-purple-100/50 dark:from-violet-900/20 dark:to-purple-900/10 p-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500 text-white shadow-md shadow-violet-200 dark:shadow-violet-900/40">
+              <Star className="h-6 w-6" />
             </div>
-            <p className="text-2xl font-bold">{correctCount}/{correctCount + wrongCount}</p>
-            <p className="text-xs text-muted-foreground">맞은 문제</p>
+            <p className="text-2xl font-extrabold text-violet-600 dark:text-violet-400">+{xpEarned}</p>
+            <p className="text-[10px] font-medium text-muted-foreground">XP 획득</p>
+          </div>
+          <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-gradient-to-b from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-900/10 p-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/40">
+              <Zap className="h-6 w-6" />
+            </div>
+            <p className="text-2xl font-extrabold text-blue-600 dark:text-blue-400">{correctCount}/{correctCount + wrongCount}</p>
+            <p className="text-[10px] font-medium text-muted-foreground">맞은 문제</p>
           </div>
         </div>
 
         {/* XP breakdown */}
         {Object.keys(xpBreakdown).length > 0 && (
-          <div className="w-full max-w-xs bg-muted/50 rounded-xl p-4 space-y-1">
-            <p className="text-sm font-semibold mb-2">XP 상세</p>
+          <div className="w-full max-w-xs rounded-2xl bg-gradient-to-b from-muted/60 to-muted/30 border border-border p-4 space-y-1.5">
+            <p className="text-sm font-bold mb-2">XP 상세</p>
             {Object.entries(xpBreakdown).map(([key, val]) => (
               <div key={key} className="flex justify-between text-sm">
                 <span className="text-muted-foreground">{key}</span>
-                <span className="font-medium text-primary">+{val}</span>
+                <span className="font-bold text-violet-600 dark:text-violet-400">+{val}</span>
               </div>
             ))}
           </div>
@@ -207,14 +227,23 @@ export default function DailyLessonPage() {
 
         {/* Today's progress */}
         <div className="w-full max-w-xs">
-          <div className="flex justify-between text-xs mb-1">
-            <span>오늘의 진행</span>
-            <span>{todayStats.total}문제 풀음</span>
+          <div className="flex justify-between text-xs mb-1.5">
+            <span className="font-medium">오늘의 진행</span>
+            <span className="text-muted-foreground">{todayStats.total}문제 풀음</span>
           </div>
-          <Progress value={Math.min(100, (todayStats.total / 10) * 100)} className="h-2" />
+          <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-violet-400 to-purple-500 transition-all"
+              style={{ width: `${Math.min(100, (todayStats.total / 10) * 100)}%` }}
+            />
+          </div>
         </div>
 
-        <Link href="/home"><Button className="w-full max-w-xs h-12 text-base">홈으로</Button></Link>
+        <Link href="/home" className="w-full max-w-xs">
+          <Button className="w-full h-12 text-base rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 shadow-lg shadow-violet-200 dark:shadow-violet-900/40">
+            홈으로
+          </Button>
+        </Link>
       </div>
     );
   }
