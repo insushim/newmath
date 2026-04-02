@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Progress } from '@/components/ui/progress';
 import { useAuthStore } from '@/stores/auth-store';
 import { useMasteryStore } from '@/stores/mastery-store';
@@ -11,7 +9,6 @@ import {
   Flame,
   Star,
   Zap,
-  Play,
   BookOpen,
   RotateCcw,
   Crown,
@@ -47,8 +44,6 @@ function getCurrentSemester(): number {
 
 export default function StudentHomePage() {
   const profile = useAuthStore((s) => s.profile);
-  const router = useRouter();
-  const [starting, setStarting] = useState(false);
 
   const skills = useMasteryStore((s) => s.skills);
   const getTodayStats = useMasteryStore((s) => s.getTodayStats);
@@ -77,33 +72,6 @@ export default function StudentHomePage() {
   const reviewCount = gradeSkills.filter(
     (s) => skills[s.id]?.level === 'review_needed'
   ).length;
-
-  async function startDailyQuest() {
-    setStarting(true);
-    try {
-      const res = await fetch('/api/lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          grade,
-          sessionType: 'daily_quest',
-          count: 10,
-          theta: 0,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        sessionStorage.setItem('mv_lesson', JSON.stringify(data));
-        router.push('/learn/daily/lesson');
-      } else {
-        router.push('/learn');
-      }
-    } catch {
-      router.push('/learn');
-    } finally {
-      setStarting(false);
-    }
-  }
 
   const progressPct = Math.min(100, (todayStats.total / dailyGoal) * 100);
 
@@ -232,43 +200,6 @@ export default function StudentHomePage() {
           </div>
         </div>
       </div>
-
-      {/* ── Daily Quest CTA ── */}
-      <button
-        onClick={startDailyQuest}
-        disabled={starting}
-        className={cn(
-          'group relative w-full overflow-hidden rounded-2xl p-5 text-left text-white transition-all active:scale-[0.98] disabled:opacity-70',
-          'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600',
-          'shadow-lg shadow-violet-300 dark:shadow-violet-900/40',
-          'hover:shadow-xl hover:shadow-violet-300/60'
-        )}
-      >
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -left-4 -top-4 h-32 w-32 rounded-full bg-white/30" />
-          <div className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-white/20" />
-        </div>
-
-        <div className="relative flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-white/70">
-              오늘의 학습
-            </p>
-            <p className="mt-1 text-2xl font-extrabold">10문제 풀기</p>
-            <p className="mt-0.5 text-sm text-white/80">
-              실력에 맞춘 적응형 문제
-            </p>
-          </div>
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm transition-transform group-hover:scale-110">
-            {starting ? (
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            ) : (
-              <Play className="h-7 w-7 fill-current" />
-            )}
-          </div>
-        </div>
-      </button>
 
       {/* ── Quick Actions ── */}
       <div className="grid grid-cols-2 gap-3">

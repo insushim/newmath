@@ -9,13 +9,16 @@ import {
   type SkillMastery,
 } from '@/lib/adaptive/mastery-system';
 import { getCrownLevel } from '@/lib/adaptive/mastery-system';
-import { Lock, Play, RotateCcw, CheckCircle, ChevronDown } from 'lucide-react';
+import { Lock, Play, RotateCcw, CheckCircle, ChevronDown, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { SeedUnit, SeedSkill } from '@/data/curriculum-types';
 
 /* ─── Types ──────────────────────────────────── */
 
+type PathNodeType = 'skill' | 'review';
+
 interface PathStage {
+  type: PathNodeType;
   skill: SeedSkill;
   unit: SeedUnit;
   mastery: SkillMastery;
@@ -24,6 +27,17 @@ interface PathStage {
   stageIndex: number;
 }
 
+interface ReviewNode {
+  type: 'review';
+  unit: SeedUnit;
+  allMastered: boolean;
+  unitSkillCount: number;
+  unitMasteredCount: number;
+  isUnlocked: boolean;
+}
+
+type PathNode = PathStage | ReviewNode;
+
 interface LearningPathProps {
   units: SeedUnit[];
   skills: SeedSkill[];
@@ -31,8 +45,6 @@ interface LearningPathProps {
 }
 
 /* ─── Zigzag offsets for winding path effect ── */
-// Each value is a percentage of the available width (relative to center)
-// Pattern creates a smooth S-curve: center → left → center → right → repeat
 const OFFSETS = [0, -24, -36, -24, 0, 24, 36, 24];
 
 /* ─── Component ──────────────────────────────── */
@@ -42,8 +54,7 @@ export function LearningPath({ units, skills, grade }: LearningPathProps) {
   const masteryData = useMasteryStore((s) => s.skills);
   const [loadingSkill, setLoadingSkill] = useState<string | null>(null);
 
-  // Build ordered stages from units → skills
-  const stages = buildStages(units, skills, masteryData);
+  const nodes = buildPathNodes(units, skills, masteryData);
 
   async function handleStartStage(skill: SeedSkill) {
     setLoadingSkill(skill.id);
@@ -71,47 +82,98 @@ export function LearningPath({ units, skills, grade }: LearningPathProps) {
     }
   }
 
-  // Group stages by unit for rendering
-  let lastUnitId = '';
+  async function handleStartReview(unitId: string) {
+    setLoadingSkill(`review_${unitId}`);
+    try {
+      const unitSkills = skills.filter((s) => s.unitId === unitId);
+      const res = await fetch('/api/lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          grade,
+          sessionType: 'review',
+          count: 10,
+          theta: 0,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        sessionStorage.setItem('mv_lesson', JSON.stringify(data));
+        router.push('/learn/daily/lesson');
+      }
+    } catch {
+      // fallback
+    } finally {
+      setLoadingSkill(null);
+    }
+  }
+
   let globalIdx = 0;
 
   return (
-    <div className="relative mx-auto max-w-sm pb-8">
-      {stages.map((stage, idx) => {
-        const showUnitHeader = stage.unit.id !== lastUnitId;
-        lastUnitId = stage.unit.id;
+    <div className="relative mx-auto max-w-sm pb-4">
+      {nodes.map((node, idx) => {
+        const isLast = idx === nodes.length - 1;
 
-        // Get zigzag offset
+        if (node.type === 'review') {
+          const rn = node as ReviewNode;
+          const offset = OFFSETS[globalIdx % OFFSETS.length];
+          globalIdx++;
+          return (
+            <div key={`review_${rn.unit.id}`}>
+              <div className="relative flex flex-col items-center py-2">
+                {!isLast && (
+                  <div
+                    className="absolute top-[calc(100%-4px)] left-1/2 h-6 w-0.5 -translate-x-1/2 bg-border"
+                    style={{ transform: `translateX(${offset}px)` }}
+                  />
+                )}
+                <ReviewCheckpoint
+                  node={rn}
+                  offset={offset}
+                  isLoading={loadingSkill === `review_${rn.unit.id}`}
+                  onStart={() => handleStartReview(rn.unit.id)}
+                />
+              </div>
+            </div>
+          );
+        }
+
+        const stage = node as PathStage;
+        const showUnitHeader = idx === 0 || (() => {
+          // Check if previous non-review node was a different unit
+          for (let j = idx - 1; j >= 0; j--) {
+            const prev = nodes[j];
+            if (prev.type === 'skill') return (prev as PathStage).unit.id !== stage.unit.id;
+            if (prev.type === 'review') return true; // review always separates units
+          }
+          return true;
+        })();
+
         const offset = OFFSETS[globalIdx % OFFSETS.length];
         globalIdx++;
 
-        const isLast = idx === stages.length - 1;
-
         return (
           <div key={stage.skill.id}>
-            {/* Unit header separator */}
             {showUnitHeader && (
-              <div className="relative flex items-center justify-center py-4">
-                <div className="absolute inset-0 flex items-center px-8">
+              <div className="relative flex items-center justify-center py-3">
+                <div className="absolute inset-0 flex items-center px-4">
                   <div className="w-full border-t border-dashed border-border" />
                 </div>
-                <span className="relative bg-background px-3 text-xs font-semibold text-muted-foreground">
+                <span className="relative bg-background px-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                   {stage.unit.nameKo}
                 </span>
               </div>
             )}
 
-            {/* Stage node */}
             <div className="relative flex flex-col items-center py-2">
-              {/* Connector line to next node */}
               {!isLast && (
                 <div
                   className="absolute top-[calc(100%-4px)] left-1/2 h-6 w-0.5 -translate-x-1/2 bg-border"
                   style={{ transform: `translateX(${offset}px)` }}
                 />
               )}
-
-              <StageNode
+              <SkillNode
                 stage={stage}
                 offset={offset}
                 isLoading={loadingSkill === stage.skill.id}
@@ -122,7 +184,7 @@ export function LearningPath({ units, skills, grade }: LearningPathProps) {
         );
       })}
 
-      {stages.length === 0 && (
+      {nodes.length === 0 && (
         <div className="flex flex-col items-center py-12 text-muted-foreground">
           <p className="text-sm">이번 학기 학습 스킬이 없습니다.</p>
         </div>
@@ -131,9 +193,9 @@ export function LearningPath({ units, skills, grade }: LearningPathProps) {
   );
 }
 
-/* ─── Stage Node ─────────────────────────────── */
+/* ─── Skill Node ─────────────────────────────── */
 
-function StageNode({
+function SkillNode({
   stage,
   offset,
   isLoading,
@@ -152,7 +214,6 @@ function StageNode({
       ? Math.round((mastery.correctCount / mastery.totalAttempts) * 100)
       : 0;
 
-  // Node state styling
   const isMastered = level === 'mastered';
   const isReview = level === 'review_needed';
   const isLearning = level === 'learning' || level === 'practicing';
@@ -163,65 +224,51 @@ function StageNode({
       className="flex flex-col items-center gap-1"
       style={{ transform: `translateX(${offset}px)` }}
     >
-      {/* Current stage indicator arrow */}
       {isCurrent && !isMastered && (
         <div className="animate-bounce text-primary">
           <ChevronDown className="h-5 w-5" />
         </div>
       )}
 
-      {/* Main circle button */}
       <button
         onClick={onStart}
         disabled={isLocked || isLoading}
         className={cn(
           'relative flex h-16 w-16 items-center justify-center rounded-full border-4 transition-all duration-200',
-          // Mastered: gold/green
           isMastered &&
             'border-emerald-400 bg-gradient-to-br from-emerald-400 to-emerald-500 text-white shadow-lg shadow-emerald-200 dark:shadow-emerald-900/30',
-          // Review needed: orange
           isReview &&
             'border-orange-400 bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-lg shadow-orange-200 dark:shadow-orange-900/30',
-          // Current (first unlocked non-mastered): purple with glow
           isCurrent &&
             !isMastered &&
             !isReview &&
             'border-violet-400 bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg shadow-violet-300 dark:shadow-violet-900/40 ring-4 ring-violet-200 dark:ring-violet-900/40',
-          // Learning/practicing: blue
           isLearning &&
             !isCurrent &&
             'border-blue-400 bg-gradient-to-br from-blue-400 to-blue-500 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/30',
-          // Locked: gray
           isLocked &&
             'border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-600 cursor-not-allowed',
-          // Not started but unlocked (isCurrent handles this)
           !isLocked &&
             !isMastered &&
             !isReview &&
             !isLearning &&
             !isCurrent &&
             'border-slate-300 bg-slate-100 text-slate-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-400',
-          // Hover/active states
           !isLocked && 'hover:scale-110 active:scale-95'
         )}
       >
-        {/* Icon */}
         {isLocked && <Lock className="h-6 w-6" />}
         {isMastered && (
-          <div className="flex flex-col items-center">
-            <span className="text-lg">
-              {crowns >= 5 ? '👑' : crowns >= 4 ? '⭐' : '✓'}
-            </span>
-          </div>
+          <span className="text-lg">
+            {crowns >= 5 ? '👑' : crowns >= 4 ? '⭐' : '✓'}
+          </span>
         )}
         {isReview && <RotateCcw className="h-6 w-6" />}
         {isCurrent && !isMastered && !isReview && (
           <Play className="h-7 w-7 fill-current" />
         )}
         {isLearning && !isCurrent && (
-          <div className="flex flex-col items-center text-xs font-bold">
-            <span>{accuracy}%</span>
-          </div>
+          <span className="text-xs font-bold">{accuracy}%</span>
         )}
         {!isLocked &&
           !isMastered &&
@@ -229,14 +276,12 @@ function StageNode({
           !isLearning &&
           !isCurrent && <span className="text-2xl font-light">·</span>}
 
-        {/* Loading spinner overlay */}
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/20">
             <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
           </div>
         )}
 
-        {/* Progress ring for learning/practicing */}
         {isLearning && !isCurrent && (
           <svg
             className="absolute -inset-1 h-[calc(100%+8px)] w-[calc(100%+8px)]"
@@ -250,16 +295,14 @@ function StageNode({
               stroke="currentColor"
               strokeWidth="3"
               strokeDasharray={`${(accuracy / 100) * 207} 207`}
-              strokeDashoffset="0"
               strokeLinecap="round"
-              className="origin-center -rotate-90 text-white/40"
+              className="text-white/40"
               transform="rotate(-90 36 36)"
             />
           </svg>
         )}
       </button>
 
-      {/* Skill name label */}
       <div className="flex flex-col items-center">
         <span
           className={cn(
@@ -271,7 +314,6 @@ function StageNode({
           {skill.nameKo}
         </span>
 
-        {/* Status badge */}
         {isMastered && (
           <span className="mt-0.5 flex items-center gap-0.5 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
             <CheckCircle className="h-2.5 w-2.5" />
@@ -298,14 +340,67 @@ function StageNode({
   );
 }
 
-/* ─── Helpers ────────────────────────────────── */
+/* ─── Review Checkpoint ──────────────────────── */
 
-function buildStages(
+function ReviewCheckpoint({
+  node,
+  offset,
+  isLoading,
+  onStart,
+}: {
+  node: ReviewNode;
+  offset: number;
+  isLoading: boolean;
+  onStart: () => void;
+}) {
+  const allDone = node.allMastered;
+
+  return (
+    <div
+      className="flex flex-col items-center gap-1"
+      style={{ transform: `translateX(${offset}px)` }}
+    >
+      <button
+        onClick={onStart}
+        disabled={!node.isUnlocked || isLoading}
+        className={cn(
+          'relative flex h-14 w-14 items-center justify-center rounded-xl border-[3px] border-dashed transition-all duration-200',
+          allDone
+            ? 'border-amber-400 bg-gradient-to-br from-amber-100 to-yellow-100 text-amber-600 shadow-md dark:from-amber-900/30 dark:to-yellow-900/30'
+            : node.isUnlocked
+              ? 'border-slate-300 bg-slate-50 text-slate-500 hover:scale-110 active:scale-95 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400'
+              : 'border-gray-200 bg-gray-50 text-gray-300 cursor-not-allowed dark:border-gray-700 dark:bg-gray-800 dark:text-gray-600'
+        )}
+      >
+        {allDone ? (
+          <Trophy className="h-6 w-6" />
+        ) : (
+          <RotateCcw className="h-5 w-5" />
+        )}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/10">
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          </div>
+        )}
+      </button>
+      <span className="text-[10px] font-medium text-muted-foreground text-center max-w-[100px]">
+        {allDone ? `${node.unit.nameKo} 완료!` : '단원 복습'}
+      </span>
+      <span className="text-[9px] text-muted-foreground">
+        {node.unitMasteredCount}/{node.unitSkillCount} 마스터
+      </span>
+    </div>
+  );
+}
+
+/* ─── Build path nodes ───────────────────────── */
+
+function buildPathNodes(
   units: SeedUnit[],
   skills: SeedSkill[],
   masteryData: Record<string, SkillMastery>
-): PathStage[] {
-  const stages: PathStage[] = [];
+): PathNode[] {
+  const nodes: PathNode[] = [];
   let foundCurrent = false;
   let stageIndex = 0;
 
@@ -318,12 +413,15 @@ function buildStages(
       (s) => masteryData[s.id] ?? createSkillMastery(s.id)
     );
 
+    let unitMasteredCount = 0;
+
     for (let i = 0; i < unitSkills.length; i++) {
       const skill = unitSkills[i];
       const mastery = unitMasteries[i];
       const unlocked = isSkillUnlocked(i, unitMasteries);
 
-      // "Current" = first unlocked skill that isn't mastered
+      if (mastery.level === 'mastered') unitMasteredCount++;
+
       const isCurrent =
         !foundCurrent &&
         unlocked &&
@@ -331,7 +429,8 @@ function buildStages(
 
       if (isCurrent) foundCurrent = true;
 
-      stages.push({
+      nodes.push({
+        type: 'skill',
         skill,
         unit,
         mastery,
@@ -340,7 +439,20 @@ function buildStages(
         stageIndex: stageIndex++,
       });
     }
+
+    // Add review checkpoint after each unit
+    const allMastered = unitSkills.length > 0 && unitMasteredCount === unitSkills.length;
+    const lastSkillUnlocked = unitSkills.length > 0 && isSkillUnlocked(unitSkills.length - 1, unitMasteries);
+
+    nodes.push({
+      type: 'review',
+      unit,
+      allMastered,
+      unitSkillCount: unitSkills.length,
+      unitMasteredCount,
+      isUnlocked: lastSkillUnlocked,
+    });
   }
 
-  return stages;
+  return nodes;
 }
