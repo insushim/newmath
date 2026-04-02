@@ -313,7 +313,7 @@ export function QuestionDisplay({
     <div className="space-y-6">
       {/* Question text */}
       <div className="text-center">
-        <div className="text-xl font-semibold leading-relaxed whitespace-pre-line">
+        <div className="text-xl font-semibold leading-relaxed whitespace-pre-wrap">
           <RichText>{content.questionText}</RichText>
         </div>
         {content.questionLatex && (

@@ -626,7 +626,7 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: 0.3,
     difficultyLabel: '보통',
     content: {
-      questionText: '줄기와 잎 그림에서 줄기가 3이고 잎이 2, 5, 7이면 나타내는 수는?',
+      questionText: '아래 줄기와 잎 그림을 보고 나타내는 수를 모두 고르세요.\n(줄기 = 십의 자리, 잎 = 일의 자리)\n\n줄기 | 잎\n  3  | 2  5  7',
       options: [
         { id: 'a', text: '3, 2, 5, 7', isCorrect: false },
         { id: 'b', text: '32, 35, 37', isCorrect: true },
@@ -1475,7 +1475,7 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: 0.3,
     difficultyLabel: '보통',
     content: {
-      questionText: '줄기와 잎 그림에서 줄기가 4이고 잎이 0, 3, 6이면 가장 큰 수는?',
+      questionText: '아래 줄기와 잎 그림에서 가장 큰 수는?\n(줄기 = 십의 자리, 잎 = 일의 자리)\n\n줄기 | 잎\n  4  | 0  3  6',
       correctAnswer: 46,
       explanation: '줄기 4에 잎 0, 3, 6이면 40, 43, 46을 나타냅니다. 가장 큰 수는 46입니다.',
       hints: ['줄기는 십의 자리, 잎은 일의 자리입니다.', '40, 43, 46 중 가장 큰 수는?'],
@@ -1528,7 +1528,7 @@ export const G5_QUESTIONS: SeedQuestion[] = [
     difficulty: 0.6,
     difficultyLabel: '어려움',
     content: {
-      questionText: '줄기와 잎 그림에서 줄기 5에 잎이 1, 1, 4, 7이 있습니다. 51은 □번 나타납니다.',
+      questionText: '아래 줄기와 잎 그림에서 51은 □번 나타납니다.\n(줄기 = 십의 자리, 잎 = 일의 자리)\n\n줄기 | 잎\n  5  | 1  1  4  7',
       correctAnswer: '2',
       explanation: '잎에 1이 두 번 있으므로 51은 2번 나타납니다. 같은 값이 여러 번 있으면 잎도 여러 번 씁니다.',
       hints: ['잎에서 1이 몇 번 나오는지 세어 보세요.', '잎: 1, 1, 4, 7 → 1이 2번'],
