@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { QuestionDisplay } from '@/components/learning/question-display';
-import { X, Heart, ArrowRight, Trophy, Star, Zap, Crown, CheckCircle } from 'lucide-react';
+import { X, Heart, ArrowRight, Trophy, Star, Zap, Crown, CheckCircle, RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSound } from '@/hooks/use-sound';
 import { useMasteryStore } from '@/stores/mastery-store';
@@ -15,6 +15,8 @@ import { adjustDifficulty, createSessionState, type SessionState } from '@/lib/a
 import { calculateQuestionXP, calculateSessionXP } from '@/lib/gamification/xp-system';
 import { getMasteryInfo } from '@/lib/adaptive/mastery-system';
 import type { SeedQuestion } from '@/data/curriculum-types';
+
+type Phase = 'first_round' | 'retry_intro' | 'retry_round' | 'complete';
 
 export default function DailyLessonPage() {
   const router = useRouter();
@@ -33,13 +35,19 @@ export default function DailyLessonPage() {
   const [hintsUsed, setHintsUsed] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [lastCorrect, setLastCorrect] = useState<boolean | null>(null);
-  const [isComplete, setIsComplete] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
   const [streak, setStreak] = useState(0);
   const [sessionState, setSessionState] = useState<SessionState>(createSessionState(0));
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [xpBreakdown, setXpBreakdown] = useState<Record<string, number>>({});
   const [levelUpSkills, setLevelUpSkills] = useState<string[]>([]);
+
+  // Retry system
+  const [phase, setPhase] = useState<Phase>('first_round');
+  const [wrongIndices, setWrongIndices] = useState<number[]>([]);
+  const [retryQueue, setRetryQueue] = useState<SeedQuestion[]>([]);
+  const [retryIndex, setRetryIndex] = useState(0);
+  const [retryCorrectCount, setRetryCorrectCount] = useState(0);
 
   useEffect(() => {
     try {
@@ -55,22 +63,26 @@ export default function DailyLessonPage() {
 
   useEffect(() => {
     setQuestionStartTime(Date.now());
-  }, [currentIndex]);
+  }, [currentIndex, retryIndex, phase]);
 
   const totalQuestions = questions.length;
-  const currentQuestion = questions[currentIndex];
-  const progressPercent = totalQuestions > 0 ? ((currentIndex + (showResult ? 1 : 0)) / totalQuestions) * 100 : 0;
+  const isRetrying = phase === 'retry_round';
+  const currentQuestion = isRetrying
+    ? retryQueue[retryIndex]
+    : questions[currentIndex];
 
+  const progressPercent = isRetrying
+    ? retryQueue.length > 0 ? ((retryIndex + (showResult ? 1 : 0)) / retryQueue.length) * 100 : 100
+    : totalQuestions > 0 ? ((currentIndex + (showResult ? 1 : 0)) / totalQuestions) * 100 : 0;
+
+  /* ─── First round answer handler ─── */
   const handleAnswer = useCallback((answer: string, correct: boolean) => {
     const timeSpentMs = Date.now() - questionStartTime;
     setShowResult(true);
-    setLastCorrect(correct);
 
-    // Update difficulty adjuster
     const adjusted = adjustDifficulty(sessionState, correct, timeSpentMs);
     setSessionState(adjusted.state);
 
-    // Calculate XP
     const qXp = calculateQuestionXP({
       isCorrect: correct,
       isFirstTry: hintsUsed === 0,
@@ -79,7 +91,6 @@ export default function DailyLessonPage() {
       streakDays: profile?.current_streak ?? 0,
     });
 
-    // Record mastery
     const skillId = currentQuestion?.skillId;
     if (skillId) {
       const result = recordAnswer(skillId, correct);
@@ -101,35 +112,86 @@ export default function DailyLessonPage() {
       });
       addDailyXp(qXp.xp);
       sound.playCorrect();
+      setLastCorrect(true);
     } else {
       setWrongCount((c) => c + 1);
       setStreak(0);
       setHearts((h) => Math.max(0, h - 1));
       addDailyXp(qXp.xp);
       sound.playWrong();
+      setLastCorrect(false);
+      // Track wrong question for retry
+      if (!isRetrying) {
+        setWrongIndices(prev => [...prev, currentIndex]);
+      }
     }
-  }, [streak, hintsUsed, sound, sessionState, questionStartTime, currentQuestion, profile, recordAnswer, addDailyXp]);
+  }, [streak, hintsUsed, sound, sessionState, questionStartTime, currentQuestion, profile, recordAnswer, addDailyXp, currentIndex, isRetrying]);
 
+  /* ─── First round: next question ─── */
   const handleNext = useCallback(() => {
     if (hearts <= 0 || currentIndex + 1 >= totalQuestions) {
-      const sessionXp = calculateSessionXP({
-        totalQuestions,
-        correctCount,
-        streakDays: profile?.current_streak ?? 0,
-        sessionType: 'daily_quest',
-      });
-      setXpEarned(x => x + sessionXp.xp);
-      setXpBreakdown(prev => ({ ...prev, ...sessionXp.breakdown }));
-      addDailyXp(sessionXp.xp);
-      setIsComplete(true);
-      sound.playSessionComplete();
+      // First round done — check for wrong answers
+      const newWrong = [...wrongIndices];
+      // Include current if it was wrong
+      if (lastCorrect === false && !newWrong.includes(currentIndex)) {
+        newWrong.push(currentIndex);
+      }
+
+      if (newWrong.length > 0) {
+        // Go to retry intro
+        const retryQs = newWrong.map(i => questions[i]);
+        setRetryQueue(retryQs);
+        setPhase('retry_intro');
+      } else {
+        // Perfect! Go to completion
+        finishSession();
+      }
       return;
     }
     setCurrentIndex((i) => i + 1);
     setShowResult(false);
     setLastCorrect(null);
     setHintsUsed(0);
-  }, [currentIndex, totalQuestions, hearts, sound, correctCount, profile, addDailyXp]);
+  }, [currentIndex, totalQuestions, hearts, wrongIndices, lastCorrect, questions]);
+
+  /* ─── Retry round: next question ─── */
+  const handleRetryNext = useCallback(() => {
+    if (lastCorrect) {
+      setRetryCorrectCount(c => c + 1);
+    }
+    if (retryIndex + 1 >= retryQueue.length) {
+      finishSession();
+      return;
+    }
+    setRetryIndex(i => i + 1);
+    setShowResult(false);
+    setLastCorrect(null);
+    setHintsUsed(0);
+  }, [retryIndex, retryQueue.length, lastCorrect]);
+
+  /* ─── Start retry round ─── */
+  const startRetry = useCallback(() => {
+    setPhase('retry_round');
+    setRetryIndex(0);
+    setShowResult(false);
+    setLastCorrect(null);
+    setHintsUsed(0);
+  }, []);
+
+  /* ─── Finish session ─── */
+  function finishSession() {
+    const sessionXp = calculateSessionXP({
+      totalQuestions,
+      correctCount,
+      streakDays: profile?.current_streak ?? 0,
+      sessionType: 'daily_quest',
+    });
+    setXpEarned(x => x + sessionXp.xp);
+    setXpBreakdown(prev => ({ ...prev, ...sessionXp.breakdown }));
+    addDailyXp(sessionXp.xp);
+    setPhase('complete');
+    sound.playSessionComplete();
+  }
 
   const handleUseHint = useCallback(() => {
     setHintsUsed((h) => h + 1);
@@ -147,39 +209,67 @@ export default function DailyLessonPage() {
     );
   }
 
-  if (isComplete) {
-    const accuracy = (correctCount + wrongCount) > 0 ? Math.round((correctCount / (correctCount + wrongCount)) * 100) : 0;
+  /* ─── Retry intro screen ─── */
+  if (phase === 'retry_intro') {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center space-y-6 py-10">
+        <div className="text-6xl">🔄</div>
+        <h1 className="text-2xl font-extrabold">틀린 문제를 다시 풀어봐요!</h1>
+        <p className="text-muted-foreground">
+          {retryQueue.length}개 문제를 맞출 때까지 도전!
+        </p>
+        <div className="flex items-center gap-4 text-sm">
+          <span className="flex items-center gap-1 text-emerald-600">
+            <CheckCircle className="h-4 w-4" /> 맞음 {correctCount}
+          </span>
+          <span className="flex items-center gap-1 text-red-500">
+            <X className="h-4 w-4" /> 틀림 {retryQueue.length}
+          </span>
+        </div>
+        <Button
+          onClick={startRetry}
+          className="h-12 px-8 text-base rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-lg gap-2"
+        >
+          <RotateCcw className="h-5 w-5" /> 다시 풀기
+        </Button>
+      </div>
+    );
+  }
+
+  /* ─── Completion screen ─── */
+  if (phase === 'complete') {
+    const totalAnswered = correctCount + wrongCount;
+    const accuracy = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
     const isPerfect = wrongCount === 0;
     const todayStats = getTodayStats();
 
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center text-center space-y-5 py-10">
-        {/* Celebration header */}
         <div className="relative">
           <div className="text-7xl mb-1">{isPerfect ? '🎉' : accuracy >= 70 ? '👏' : '💪'}</div>
-          {isPerfect && (
-            <div className="absolute -inset-4 animate-ping rounded-full bg-yellow-400/20" />
-          )}
+          {isPerfect && <div className="absolute -inset-4 animate-ping rounded-full bg-yellow-400/20" />}
         </div>
         <h1 className="text-3xl font-extrabold">
           {isPerfect ? '완벽해요!' : accuracy >= 80 ? '훌륭해요!' : accuracy >= 60 ? '잘했어요!' : '다음엔 더 잘할 수 있어요!'}
         </h1>
 
-        {/* Skill level-up badges */}
+        {retryQueue.length > 0 && retryCorrectCount > 0 && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-3 py-1 text-sm font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-400">
+            <RotateCcw className="h-3.5 w-3.5" />
+            재풀기 {retryCorrectCount}/{retryQueue.length} 성공
+          </span>
+        )}
+
         {levelUpSkills.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2">
             {levelUpSkills.map((label, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-purple-600 px-3 py-1 text-xs font-bold text-white shadow-md"
-              >
+              <span key={i} className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-purple-600 px-3 py-1 text-xs font-bold text-white shadow-md">
                 <Crown className="h-3.5 w-3.5" /> 스킬 {label}!
               </span>
             ))}
           </div>
         )}
 
-        {/* Daily goal check */}
         {todayStats.goalMet && (
           <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border border-emerald-200 dark:border-emerald-800 px-5 py-2.5 shadow-sm">
             <CheckCircle className="h-5 w-5 text-emerald-500" />
@@ -187,7 +277,6 @@ export default function DailyLessonPage() {
           </div>
         )}
 
-        {/* Stats cards */}
         <div className="grid grid-cols-3 gap-4 py-3 w-full max-w-sm">
           <div className="flex flex-col items-center gap-1.5 rounded-2xl bg-gradient-to-b from-emerald-50 to-emerald-100/50 dark:from-emerald-900/20 dark:to-emerald-900/10 p-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-emerald-900/40">
@@ -207,12 +296,11 @@ export default function DailyLessonPage() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/40">
               <Zap className="h-6 w-6" />
             </div>
-            <p className="text-2xl font-extrabold text-blue-600 dark:text-blue-400">{correctCount}/{correctCount + wrongCount}</p>
+            <p className="text-2xl font-extrabold text-blue-600 dark:text-blue-400">{correctCount}/{totalAnswered}</p>
             <p className="text-[10px] font-medium text-muted-foreground">맞은 문제</p>
           </div>
         </div>
 
-        {/* XP breakdown */}
         {Object.keys(xpBreakdown).length > 0 && (
           <div className="w-full max-w-xs rounded-2xl bg-gradient-to-b from-muted/60 to-muted/30 border border-border p-4 space-y-1.5">
             <p className="text-sm font-bold mb-2">XP 상세</p>
@@ -225,17 +313,13 @@ export default function DailyLessonPage() {
           </div>
         )}
 
-        {/* Today's progress */}
         <div className="w-full max-w-xs">
           <div className="flex justify-between text-xs mb-1.5">
             <span className="font-medium">오늘의 진행</span>
             <span className="text-muted-foreground">{todayStats.total}문제 풀음</span>
           </div>
           <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-violet-400 to-purple-500 transition-all"
-              style={{ width: `${Math.min(100, (todayStats.total / 10) * 100)}%` }}
-            />
+            <div className="h-full rounded-full bg-gradient-to-r from-violet-400 to-purple-500 transition-all" style={{ width: `${Math.min(100, (todayStats.total / 10) * 100)}%` }} />
           </div>
         </div>
 
@@ -248,31 +332,53 @@ export default function DailyLessonPage() {
     );
   }
 
+  /* ─── Question view (first round + retry round) ─── */
+  // In first round: wrong answer → don't show explanation, just "틀렸어요"
+  // In retry round: show full explanation (they already tried once)
+  const hideExplanationOnWrong = !isRetrying && lastCorrect === false;
+
   return (
     <div className="mx-auto max-w-lg space-y-6">
+      {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/home"><Button variant="ghost" size="icon"><X className="h-5 w-5" /></Button></Link>
         <Progress value={progressPercent} className="flex-1 h-3" />
-        <span className="text-sm font-medium text-muted-foreground">{currentIndex + 1}/{totalQuestions}</span>
-      </div>
-      <div className="flex items-center justify-center gap-1">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Heart key={i} className={cn('h-5 w-5 transition-all', i < hearts ? 'text-red-500 fill-red-500' : 'text-muted-foreground/20')} />
-        ))}
+        <span className="text-sm font-medium text-muted-foreground">
+          {isRetrying ? `${retryIndex + 1}/${retryQueue.length}` : `${currentIndex + 1}/${totalQuestions}`}
+        </span>
       </div>
 
+      {/* Retry indicator */}
+      {isRetrying && (
+        <div className="flex items-center justify-center gap-2">
+          <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-3 py-1 text-sm font-bold text-orange-700 dark:bg-orange-900/30 dark:text-orange-400">
+            <RotateCcw className="h-3.5 w-3.5" /> 오답 재풀기
+          </span>
+        </div>
+      )}
+
+      {/* Hearts (first round only) */}
+      {!isRetrying && (
+        <div className="flex items-center justify-center gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Heart key={i} className={cn('h-5 w-5 transition-all', i < hearts ? 'text-red-500 fill-red-500' : 'text-muted-foreground/20')} />
+          ))}
+        </div>
+      )}
+
+      {/* Streak */}
       {streak >= 2 && (
         <div className="text-center">
           <span className={cn(
             'inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-bold',
-            streak >= 5 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30' :
-            'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30'
+            streak >= 5 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30'
           )}>
             🔥 {streak}연속 정답!{streak >= 5 && ' 불꽃!'}
           </span>
         </div>
       )}
 
+      {/* Difficulty */}
       <div className="flex justify-center">
         <span className={cn(
           'text-[10px] px-2 py-0.5 rounded-full',
@@ -282,16 +388,42 @@ export default function DailyLessonPage() {
         </span>
       </div>
 
+      {/* Question */}
       {currentQuestion && (
-        <QuestionDisplay question={currentQuestion} onAnswer={handleAnswer} hintsUsed={hintsUsed} onUseHint={handleUseHint} showResult={showResult} isCorrect={lastCorrect} />
+        <QuestionDisplay
+          question={currentQuestion}
+          onAnswer={handleAnswer}
+          hintsUsed={hintsUsed}
+          onUseHint={handleUseHint}
+          showResult={showResult}
+          isCorrect={lastCorrect}
+          hideExplanation={hideExplanationOnWrong}
+        />
       )}
+
+      {/* Result actions */}
       {showResult && (
         <div className="space-y-2">
+          {/* Wrong in first round: encourage retry */}
+          {hideExplanationOnWrong && (
+            <p className="text-center text-sm font-medium text-orange-600">
+              아쉬워요! 나중에 다시 풀어볼게요 💪
+            </p>
+          )}
           {sessionState.consecutiveCorrect >= 3 && lastCorrect && (
             <p className="text-center text-sm font-medium text-green-600">🔥 연속 정답! 잘하고 있어요!</p>
           )}
-          <Button onClick={handleNext} className="w-full h-12 text-base gap-2">
-            {currentIndex + 1 >= totalQuestions ? '결과 보기' : '다음 문제'} <ArrowRight className="h-5 w-5" />
+          <Button
+            onClick={isRetrying ? handleRetryNext : handleNext}
+            className="w-full h-12 text-base gap-2"
+          >
+            {isRetrying
+              ? retryIndex + 1 >= retryQueue.length ? '결과 보기' : '다음 문제'
+              : currentIndex + 1 >= totalQuestions
+                ? wrongIndices.length > 0 || lastCorrect === false ? '오답 재풀기' : '결과 보기'
+                : '다음 문제'
+            }
+            <ArrowRight className="h-5 w-5" />
           </Button>
         </div>
       )}

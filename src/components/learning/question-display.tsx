@@ -162,6 +162,8 @@ interface QuestionDisplayProps {
   onUseHint: () => void;
   showResult: boolean;
   isCorrect: boolean | null;
+  /** Hide explanation when wrong (for retry system) */
+  hideExplanation?: boolean;
 }
 
 export function QuestionDisplay({
@@ -171,6 +173,7 @@ export function QuestionDisplay({
   onUseHint,
   showResult,
   isCorrect,
+  hideExplanation = false,
 }: QuestionDisplayProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [textInput, setTextInput] = useState('');
@@ -649,9 +652,12 @@ export function QuestionDisplay({
             <p className={cn('text-lg font-bold mb-2', isCorrect ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400')}>
               {isCorrect ? '정답이에요! 🎉' : '아쉬워요 😢'}
             </p>
-            <p className="text-sm whitespace-pre-line text-foreground/80">
-              {content.explanation}
-            </p>
+            {/* Hide explanation on wrong if hideExplanation is true (retry system) */}
+            {!(hideExplanation && !isCorrect) && (
+              <p className="text-sm whitespace-pre-line text-foreground/80">
+                {content.explanation}
+              </p>
+            )}
           </CardContent>
         </Card>
       )}
